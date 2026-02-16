@@ -1,0 +1,174 @@
+
+#include "minishell.h"
+
+char	*ft_strdup(const char *s)
+{
+	int		i;
+	char	*new_string;
+
+	i = 0;
+	while (s[i])
+		i++;
+	new_string = malloc(sizeof(char) * (i + 1));
+	if (new_string == NULL)
+		return (NULL);
+	i = 0;
+	while (*s)
+	{
+		new_string[i++] = *s;
+		s++;
+	}
+	new_string[i] = '\0';
+	return (new_string);
+}
+
+size_t	ft_strlen(const char *str)
+{
+	int	i;
+
+	i = 0;
+	while (*(str + i) != '\0')
+	{
+		i++;
+	}
+	return (i);
+}
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void	*ptr;
+	size_t	i;
+
+	i = 0;
+	if (nmemb == 0 || size == 0)
+		return (malloc(0));
+	if (nmemb > ((size_t)-1) / size)
+		return (NULL);
+	ptr = malloc(nmemb * size);
+	if (ptr == NULL)
+		return (NULL);
+	while (i < nmemb * size)
+		((unsigned char *)ptr)[i++] = 0;
+	return (ptr);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*substr;
+	size_t	i;
+
+	i = 0;
+	if (!s || (unsigned int)ft_strlen(s) <= start)
+		return (ft_calloc(1, 1));
+	while (s[start + i] != '\0' && i < len)
+		i++;
+	substr = malloc(sizeof(char) * i + 1);
+	if (!substr)
+		return (NULL);
+	i = 0;
+	while (s[start + i] != '\0' && i < len)
+	{
+		substr[i] = s[start + i];
+		i++;
+	}
+	substr[i] = '\0';
+	if ((unsigned int)ft_strlen(s) <= start)
+		substr[0] = '\0';
+	return (substr);
+}
+
+int	add_token_node(t_token **list, char *content, t_type type)
+{
+	t_token	*new_node;
+	t_token	*temp;
+
+	new_node = malloc(sizeof(t_token));
+	if (!new_node)
+		return (0);
+	new_node->content = ft_strdup(content);
+	new_node->type = type;
+	new_node->next = NULL;
+	if (!*list)
+	{
+		new_node->prev = NULL;
+		*list = new_node;
+	}
+	else
+	{
+		temp = *list;
+		while (temp->next != NULL)
+			temp = temp->next;
+		temp->next = new_node;
+		new_node->prev = temp;
+	}
+	return (ft_strlen(content));
+}
+
+int	handle_words(char *input, t_token **list)
+{
+	int		i;
+	char	quotingmark;
+	char	*word;
+
+	i = 0;
+	quotingmark = 0;
+	while (input[i])
+	{
+		if (input[i] == '\'' || input[i] == '\"' && quotingmark == 0)
+			quotingmark = input[i];
+		else if (input[i] == quotingmark)
+			quotingmark = 0;
+		if (quotingmark == 0 && (input[i] == ' ' || input[i] == '|'
+				|| input[i] == '<' || input[i] == '>'))
+			break ;
+		i++;
+	}
+	word = ft_substr(input, 0, i);
+	add_token_node(list, word, tk_WORD);
+	free(word);
+	return (i);
+}
+
+void	create_tokens(char *input, t_token **list)
+{
+	int	i;
+
+	i = 0;
+	while (input[i])
+	{
+		while (input[i] && (input[i] == ' ' || input[i] >= 0 && input[i] <= 13))
+			i++;
+		if (!input[i])
+			break ;
+		if (input[i] == '|')
+			i += add_token_node(list, "|", tk_PIPE);
+        else if (input[i] == '<' && input[i + 1] == '<')
+			i += add_token_node(list, "<<", tk_HERE_DOC);
+		else if (input[i] == '>' && input[i + 1] == '>')
+			i += add_token_node(list, ">>", tk_APPEND);
+		else if (input[i] == '<')
+			i += add_token_node(list, "<", tk_REDIR_IN);
+		else if (input[i] == '>')
+			i += add_token_node(list, ">", tk_REDIR_OUT);
+		else
+			i += handle_words(&input[i], list);
+	}
+}
+
+void print_tokens(t_token *list)
+{
+    while (list)
+    {
+        printf("Type: %d | Content: [%s]\n", list->type, list->content);
+        list = list->next;
+    }
+}
+
+int	main(int ac, char **av, char **envp)
+{
+    t_token *list = NULL;
+    printf("Input %s\n\n", av[1]);
+	create_tokens(av[1], &list);
+    print_tokens(list);
+    return (0);
+}
