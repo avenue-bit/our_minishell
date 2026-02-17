@@ -77,23 +77,23 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (substr);
 }
 
-void	clear_tokens(t_token **list)
+void	clear_tokens(t_token **tokens)
 {
 	t_token	*tmp;
 
-	if (!list || !*list)
+	if (!tokens || !*tokens)
 		return ;
-	while (*list)
+	while (*tokens)
 	{
-		tmp = (*list)->next;
-		if ((*list)->content)
-			free((*list)->content);
-		free(*list);
-		*list = tmp;
+		tmp = (*tokens)->next;
+		if ((*tokens)->content)
+			free((*tokens)->content);
+		free(*tokens);
+		*tokens = tmp;
 	}
 }
 
-int	add_token_node(t_token **list, char *content, t_type type)
+int	add_token_node(t_token **tokens, char *content, t_type type)
 {
 	t_token	*new_node;
 	t_token	*temp;
@@ -106,14 +106,14 @@ int	add_token_node(t_token **list, char *content, t_type type)
 		return (free(new_node), -1);
 	new_node->type = type;
 	new_node->next = NULL;
-	if (!*list)
+	if (!*tokens)
 	{
 		new_node->prev = NULL;
-		*list = new_node;
+		*tokens = new_node;
 	}
 	else
 	{
-		temp = *list;
+		temp = *tokens;
 		while (temp->next != NULL)
 			temp = temp->next;
 		temp->next = new_node;
@@ -122,7 +122,7 @@ int	add_token_node(t_token **list, char *content, t_type type)
 	return (ft_strlen(content));
 }
 
-int	handle_words(char *input, t_token **list)
+int	handle_words(char *input, t_token **tokens)
 {
 	int		i;
 	char	quotingmark;
@@ -146,12 +146,12 @@ int	handle_words(char *input, t_token **list)
 	word = ft_substr(input, 0, i);
 	if (!word)
 		return (-1);
-	if (add_token_node(list, word, tk_WORD) == -1)
+	if (add_token_node(tokens, word, tk_WORD) == -1)
 		return (free(word), -1);
 	return (free(word), i);
 }
 
-void	create_tokens(char *input, t_token **list, int check)
+void	create_tokens(char *input, t_token **tokens, int check)
 {
 	int	i;
 
@@ -163,39 +163,39 @@ void	create_tokens(char *input, t_token **list, int check)
 		if (!input[i])
 			break ;
 		if (input[i] == '|')
-			check = add_token_node(list, "|", tk_PIPE);
+			check = add_token_node(tokens, "|", tk_PIPE);
 		else if (input[i] == '<' && input[i + 1] == '<')
-			check = add_token_node(list, "<<", tk_HERE_DOC);
+			check = add_token_node(tokens, "<<", tk_HERE_DOC);
 		else if (input[i] == '>' && input[i + 1] == '>')
-			check = add_token_node(list, ">>", tk_APPEND);
+			check = add_token_node(tokens, ">>", tk_APPEND);
 		else if (input[i] == '<')
-			check = add_token_node(list, "<", tk_REDIR_IN);
+			check = add_token_node(tokens, "<", tk_REDIR_IN);
 		else if (input[i] == '>')
-			check = add_token_node(list, ">", tk_REDIR_OUT);
+			check = add_token_node(tokens, ">", tk_REDIR_OUT);
 		else
-			check = handle_words(&input[i], list);
+			check = handle_words(&input[i], tokens);
 		if (check == -1)
-			return (clear_tokens(list));
+			return (clear_tokens(tokens));
 		i += check;
 	}
 }
 
-void	print_tokens(t_token *list)
+void	print_tokens(t_token *tokens)
 {
-	while (list)
+	while (tokens)
 	{
-		printf("Type: %d | Content: [%s]\n", list->type, list->content);
-		list = list->next;
+		printf("Type: %d | Content: [%s]\n", tokens->type, tokens->content);
+		tokens = tokens->next;
 	}
 }
 
-int	count_list_words(t_token *list)
+int	count_tokens_words(t_token *tokens)
 {
 	t_token	*tmp;
 	int		counter;
 
 	counter = 0;
-	tmp = list;
+	tmp = tokens;
 	while (tmp)
 	{
 		if (tmp->type == tk_PIPE)
@@ -207,36 +207,46 @@ int	count_list_words(t_token *list)
 	return (counter);
 }
 
-void	create_cmd_list(t_cmd **cmd, t_token *list)
-{
-	t_token	*tmp;
-	int		word_num;
+// void	create_cmd_list(t_cmd **cmd, t_token *tokens)
+// {
+// 	t_token	*tmp;
+// 	int		word_count;
+// 	t_cmd	*new_cmd;
 
-	if (!list)
-		return ;
-	word_num = count_list_words(list);
-	printf("NB: %d", word_num);
-	tmp = list;
-	// while (tmp->next)
-	// {
-	// 	if (tmp->content)
-	// 		{
-	// 			add_cmd_node(cmd, tmp->content, tmp->type);
-	// 		}
-	// }
-}
+// 	if (!tokens)
+// 		return ;
+// 	tmp = tokens;
+// 	word_count = count_tokens_words(tokens);
+// 	printf("NB: %d\n\n", word_count);
+// 	while (tmp)
+// 	{
+// 		new_cmd = malloc(sizeof(t_cmd) * 1);
+// 		if (!new_cmd)
+// 			return (perror("Malloc fail"), NULL);
+// 		word_count = count_tokens_words(tokens);
+// 		new_cmd->cmd_flags = malloc(sizeof(char *) * (word_count + 1));
+// 		if (!new_cmd->cmd_flags)
+// 			return (free(new_cmd), perror("Malloc fail"), NULL);
+		
+// 		if (tmp->content)
+// 		{
+// 			add_cmd_node(cmd, tmp->content, tmp->type);
+// 		}
+// 		tmp = tmp->next;
+// 	}
+// }
 
 int	main(int ac, char **av, char **envp)
 {
-	t_token	*list;
+	t_token	*tokens;
 	t_cmd	*cmd;
 
-	list = NULL;
+	tokens = NULL;
 	cmd = NULL;
 	printf("Input %s\n\n", av[1]);
-	create_tokens(av[1], &list, 0);
-	create_cmd_list(&cmd, list);
-	print_tokens(list);
-	clear_tokens(&list);
+	create_tokens(av[1], &tokens, 0);
+	create_cmd_list(&cmd, tokens);
+	print_tokens(tokens);
+	clear_tokens(&tokens);
 	return (0);
 }
