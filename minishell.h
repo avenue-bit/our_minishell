@@ -17,14 +17,24 @@ typedef enum e_type
 	tk_REDIR_OUT,
 	tk_HERE_DOC,
 	tk_APPEND
-}	t_type;
+}					t_type;
 
 typedef struct s_token
 {
-    char *content;
-    t_type type;
-    struct s_token *next;
-    struct s_token *prev;
-} t_token;
+	char			*content;
+	t_type			type;
+	struct s_token	*next;
+	struct s_token	*prev;
+}					t_token;
+
+typedef struct s_cmd
+{
+	char			**cmd_flags;
+	char			*infile;
+	char			*outfile;
+	char			append;
+	struct s_cmd	*next;
+
+}					t_cmd;
 
 #endif

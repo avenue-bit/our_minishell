@@ -141,13 +141,14 @@ int	handle_words(char *input, t_token **list)
 			break ;
 		i++;
 	}
+	if (quotingmark)
+		return (errno = 1, perror("Error: \" / \' missing"), exit(errno), 0);
 	word = ft_substr(input, 0, i);
 	if (!word)
 		return (-1);
 	if (add_token_node(list, word, tk_WORD) == -1)
 		return (free(word), -1);
-	free(word);
-	return (i);
+	return (free(word), i);
 }
 
 void	create_tokens(char *input, t_token **list, int check)
@@ -159,8 +160,8 @@ void	create_tokens(char *input, t_token **list, int check)
 	{
 		while (input[i] && (input[i] == ' ' || input[i] >= 0 && input[i] <= 13))
 			i++;
-        if (!input[i])
-            break ;
+		if (!input[i])
+			break ;
 		if (input[i] == '|')
 			check = add_token_node(list, "|", tk_PIPE);
 		else if (input[i] == '<' && input[i + 1] == '<')
@@ -188,13 +189,53 @@ void	print_tokens(t_token *list)
 	}
 }
 
+int	count_list_words(t_token *list)
+{
+	t_token	*tmp;
+	int		counter;
+
+	counter = 0;
+	tmp = list;
+	while (tmp)
+	{
+		if (tmp->type == tk_PIPE)
+			break ;
+		if (tmp->type == tk_WORD)
+			counter++;
+		tmp = tmp->next;
+	}
+	return (counter);
+}
+
+void	create_cmd_list(t_cmd **cmd, t_token *list)
+{
+	t_token	*tmp;
+	int		word_num;
+
+	if (!list)
+		return ;
+	word_num = count_list_words(list);
+	printf("NB: %d", word_num);
+	tmp = list;
+	// while (tmp->next)
+	// {
+	// 	if (tmp->content)
+	// 		{
+	// 			add_cmd_node(cmd, tmp->content, tmp->type);
+	// 		}
+	// }
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_token	*list;
+	t_cmd	*cmd;
 
 	list = NULL;
+	cmd = NULL;
 	printf("Input %s\n\n", av[1]);
 	create_tokens(av[1], &list, 0);
+	create_cmd_list(&cmd, list);
 	print_tokens(list);
 	clear_tokens(&list);
 	return (0);
