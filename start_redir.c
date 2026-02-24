@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 17:20:11 by esezalor          #+#    #+#             */
-/*   Updated: 2026/02/23 20:24:16 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/02/24 18:00:39 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,23 @@ int	cmd_init(t_cmd *commands)
 	return (0);
 }
 
+int childsplay(t_cmd *commands, char **environment)
+{
+	
+	if (commands->fd_in != -1)
+	{
+		dup2(commands->fd_in, STDIN_FILENO);
+		close(commands->fd_in);
+	}
+	if (commands->fd_out != -1)
+	{
+		dup2(commands->fd_out, STDOUT_FILENO);
+		close(commands->fd_out); // inefficient will change this
+	}
+	execve(commands->cmnd_flags[0], commands->cmnd_flags, environ);
+	return(perror("execve"), -1);
+}
+
 int	redirecting(t_cmd *commands, char **environ)
 {
 	pid_t	pid;
@@ -66,20 +83,12 @@ int	redirecting(t_cmd *commands, char **environ)
 		return (-1);
 	if (pid == 0)
 	{
-		if (commands->fd_in != -1)
-		{
-			dup2(commands->fd_in, STDIN_FILENO);
-			close(commands->fd_in);
-		}
-		if (commands->fd_out != -1)
-		{
-			dup2(commands->fd_out, STDOUT_FILENO);
-			close(commands->fd_out); // inefficient will change this
-		}
-		execve(commands->cmnd_flags[0], commands->cmnd_flags, environ);
+		if(childsplay(commands, environ) == -1)
+			exit(127);
 	}
 	else
 	{
+		child_pid = waitpid(pid, &status, WNOHANG);
 	}
 	return (0);
 }

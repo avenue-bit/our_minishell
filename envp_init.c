@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:32:38 by esezalor          #+#    #+#             */
-/*   Updated: 2026/02/24 13:00:38 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/02/24 18:16:37 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,49 +56,17 @@ char	*fetch_content(char *environment)
 	return (content);
 }
 
-void	env_clearnode(t_env **env_lst)
+void envnodes_init(char **envp)
 {
-	t_env	*current_node;
-	t_env	*next_node;
-
-	if (!*env_lst)
-		return ;
-	current_node = *env_lst;
-	while (current_node)
-	{
-		next_node = current_node->next;
-		free(current_node->key);
-		free(current_node->content);
-		free(current_node);
-		current_node = next_node;
-	}
-	*env_lst = NULL;
-}
-
-t_env	*env_newnode(char *environment)
-{
-	t_env	*new_env;
-
-	new_env = malloc(sizeof(t_env));
-	if (!new_env)
-		return (NULL);
-	new_env->key = fetch_key(environment);
-	new_env->content = fetch_content(environment);
-	new_env->next = NULL;
-	return (new_env);
-}
-
-int	main(int argc, char **argv, char **envp)
-{
-	t_env	*env_head;
+    t_env	*env_head;
 	t_env	*env_tail;
-	int		i;
-
-	env_head = NULL;
+    int		i;
+    
+    env_head = NULL;
 	env_tail = NULL;
-	env_head = env_newnode(envp[0]);
+    env_head = env_newnode(envp[0]);
 	if (!env_head)
-		return (env_clearnode(env_head), 0);
+		return (env_clearnode(&env_head), 0);
 	env_tail = env_head;
 	env_tail->next = NULL;
 	i = 1;
@@ -110,5 +78,4 @@ int	main(int argc, char **argv, char **envp)
 		env_tail = env_tail->next;
 		i++;
 	}
-	return (0);
 }

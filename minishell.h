@@ -32,24 +32,33 @@ typedef struct s_env
 {
 	char			*key;
 	char			*content;
-	struct s_env			*next;
+	struct s_env	*next;
 }					t_env;
 
-// typedef struct s_redir
-// {
-// 	char			*filename;
-// 	enum e_type		*type;
-// 	struct s_redir	*next;
-// }					t_redir;
+typedef struct s_redir
+{
+	char			*filename;
+	enum e_type		*type;
+	struct s_redir	*next;
+}					t_redir;
 
-// typedef struct s_cmd
-// {
-// 	char			**cmnd_flags;
-// 	int				fd_in;
-// 	int				fd_out;
-// 	t_redir			*redirect;
-// 	struct s_cmd	*next;
+typedef struct s_cmd
+{
+	char			**cmnd_flags;
+	int				fd_in;
+	int				fd_out;
+	t_redir			*redirect;
+	struct s_cmd	*next;
 
-// }					t_cmd;
+}					t_cmd;
+
+// Environment Utils
+void				env_clearnode(t_env **env_lst);
+t_env				*env_newnode(char *environment);
+
+// Environment Initialisation
+char				*fetch_key(char *environment);
+char				*fetch_content(char *environment);
+void				envnodes_init(char **envp);
 
 #endif
