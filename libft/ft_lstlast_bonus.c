@@ -6,13 +6,13 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 15:54:24 by esezalor          #+#    #+#             */
-/*   Updated: 2025/10/15 09:58:39 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/02/24 12:14:56 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstlast(t_list *lst)
+t_env	*ft_lstlast(t_env *lst)
 {
 	if (!lst)
 		return (NULL);

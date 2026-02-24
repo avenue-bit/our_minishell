@@ -28,21 +28,28 @@ typedef struct s_token
 	struct s_token	*prev;
 }					t_token;
 
-typedef struct s_redir
+typedef struct s_env
 {
-	char			*filename;
-	enum t_type		*type;
-	struct s_redir	*next;
-}					t_redir;
+	char			*key;
+	char			*content;
+	struct s_env			*next;
+}					t_env;
 
-typedef struct s_cmd
-{
-	char			**cmnd_flags;
-	int				fd_in;
-	int				fd_out;
-	t_redir			*redirect;
-	struct s_cmd	*next;
+// typedef struct s_redir
+// {
+// 	char			*filename;
+// 	enum e_type		*type;
+// 	struct s_redir	*next;
+// }					t_redir;
 
-}					t_cmd;
+// typedef struct s_cmd
+// {
+// 	char			**cmnd_flags;
+// 	int				fd_in;
+// 	int				fd_out;
+// 	t_redir			*redirect;
+// 	struct s_cmd	*next;
+
+// }					t_cmd;
 
 #endif

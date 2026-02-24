@@ -6,13 +6,13 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 15:42:12 by esezalor          #+#    #+#             */
-/*   Updated: 2025/10/15 09:59:12 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/02/24 12:14:56 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_lstsize(t_list *lst)
+int	ft_lstsize(t_env *lst)
 {
 	int	size;
 

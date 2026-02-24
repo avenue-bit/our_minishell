@@ -6,17 +6,17 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 14:58:55 by esezalor          #+#    #+#             */
-/*   Updated: 2025/10/15 10:21:04 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/02/24 12:14:56 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
+t_env	*ft_lstmap(t_env *lst, void *(*f)(void *), void (*del)(void *))
 {
-	t_list	*new_lst;
-	t_list	*current_node;
-	t_list	*tmp;
+	t_env	*new_lst;
+	t_env	*current_node;
+	t_env	*tmp;
 
 	if (!lst || !f || !del)
 		return (NULL);

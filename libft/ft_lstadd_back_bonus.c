@@ -6,15 +6,15 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 16:05:43 by esezalor          #+#    #+#             */
-/*   Updated: 2025/10/15 09:57:56 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/02/24 12:14:56 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+void	ft_lstadd_back(t_env **lst, t_env *new)
 {
-	t_list	*current_node;
+	t_env	*current_node;
 
 	if (!lst || !new)
 		return ;

@@ -6,16 +6,16 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 14:27:55 by esezalor          #+#    #+#             */
-/*   Updated: 2025/10/15 09:58:11 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/02/24 12:14:56 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstclear(t_list **lst, void (*del)(void *))
+void	ft_lstclear(t_env **lst, void (*del)(void *))
 {
-	t_list	*current_node;
-	t_list	*next_node;
+	t_env	*current_node;
+	t_env	*next_node;
 
 	if (!*lst || !del)
 		return ;
