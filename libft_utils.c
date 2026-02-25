@@ -1,30 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
+/*   libft_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/13 16:05:43 by esezalor          #+#    #+#             */
-/*   Updated: 2026/02/25 12:25:21 by esezalor         ###   ########.fr       */
+/*   Created: 2026/02/25 11:52:31 by esezalor          #+#    #+#             */
+/*   Updated: 2026/02/25 12:32:56 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+void	ft_arrayfree(char **str_array, int n)
 {
-	t_list	*current_node;
+	int	i;
 
-	if (!lst || !new)
-		return ;
-	if (!*lst)
+	i = 0;
+	while (i < n)
 	{
-		*lst = new;
-		return ;
+		if (str_array[i])
+			free(str_array[i]);
+		i++;
 	}
-	current_node = *lst;
-	while (current_node->next != NULL)
-		current_node = current_node->next;
-	current_node->next = new;
+	free(str_array);
+}
+
+int	ft_envsize(t_env *lst)
+{
+	int size;
+
+	if (!lst)
+		return (0);
+	size = 1;
+	while (lst->next)
+	{
+		lst = lst->next;
+		size++;
+	}
+	return (size);
 }

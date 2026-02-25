@@ -35,30 +35,44 @@ typedef struct s_env
 	struct s_env	*next;
 }					t_env;
 
-typedef struct s_redir
+typedef struct s_shell
 {
-	char			*filename;
-	enum e_type		*type;
-	struct s_redir	*next;
-}					t_redir;
+	struct s_env	*environment;
+	char			**execve_env;
+	char			**absolute_paths;
+	char			*command_path;
+}					t_shell;
 
-typedef struct s_cmd
-{
-	char			**cmnd_flags;
-	int				fd_in;
-	int				fd_out;
-	t_redir			*redirect;
-	struct s_cmd	*next;
+// typedef struct s_redir
+// {
+// 	char			*filename;
+// 	enum e_type		*type;
+// 	struct s_redir	*next;
+// }					t_redir;
 
-}					t_cmd;
+// typedef struct s_cmd
+// {
+// 	char			**cmnd_flags;
+// 	int				fd_in;
+// 	int				fd_out;
+// 	t_redir			*redirect;
+// 	struct s_cmd	*next;
 
-// Environment Utils
-void				env_clearnode(t_env **env_lst);
-t_env				*env_newnode(char *environment);
+// }					t_cmd;
 
 // Environment Initialisation
 char				*fetch_key(char *environment);
 char				*fetch_content(char *environment);
-void				envnodes_init(char **envp);
+t_env				*envnodes_init(char **envp);
+char				**envarray_init(t_env *environments);
+char				*env_fullenv(char *key, char *content);
+
+// Libft Utils
+void				ft_arrayfree(char **str_array, int n);
+int					ft_envsize(t_env *lst);
+
+// Environment Utils
+void				env_clearnode(t_env **env_lst);
+t_env				*env_newnode(char *environment);
 
 #endif
