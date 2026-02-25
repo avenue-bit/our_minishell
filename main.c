@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/02/25 18:05:54 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/02/25 18:26:27 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ int	main(int argc, char **argv, char **envp)
 	storage.environment = envnodes_init(envp);
 	storage.execve_env = envarray_init(storage.environment);
 	if (!storage.execve_env)
-		return (env_clearnode(&storage.environment), 0);
+		return (env_clearnode(&storage.environment), 0); // Error handling needed
 	if (path_ramp(&storage, argv) == -1)
-		return (env_clearnode(&storage.environment), 0); // Error
+		return (env_clearnode(&storage.environment), 0); // Error handling needed
 	execve(storage.command_path, &argv[1], storage.execve_env);
 	return (0);
 }

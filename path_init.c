@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 17:48:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/02/25 18:06:52 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/02/25 18:25:38 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ int	path_ramp(t_shell *storage, char **argv)
 		return (-1);
 	}
 	storage->command_path = pathfinder(storage, argv[1]);
+	n_paths = 0;
+	while (storage->all_paths && storage->all_paths[n_paths])
+		n_paths++;
+	ft_arrayfree(storage->all_paths, n_paths);
 	if (!storage->command_path)
 	{
-		n_paths = 0;
-		while (storage->all_paths && storage->all_paths[n_paths])
-			n_paths++;
-		ft_arrayfree(storage->all_paths, n_paths);
 		ft_arrayfree(storage->execve_env, ft_envsize(storage->environment));
 		return (-1);
 	}
@@ -56,7 +56,6 @@ int	extract_path(t_shell *shell_storage)
 char	*pathfinder(t_shell *storage, char *command)
 {
 	int		i;
-	int		path_len;
 	char	*is_valid;
 	char	**path;
 
@@ -64,22 +63,22 @@ char	*pathfinder(t_shell *storage, char *command)
 		return (ft_strdup(command));
 	path = storage->all_paths;
 	i = 0;
-	while (storage->all_paths[i])
+	while (path && path[i])
 	{
-		path_len = ft_strlen(storage->all_paths[i]);
-		is_valid = calloc(path_len + ft_strlen(command) + 2, sizeof(char));
+		is_valid = calloc(ft_strlen(path[i]) + ft_strlen(command) + 2,
+				sizeof(char));
 		if (!is_valid)
 			return (NULL);
-		ft_memcpy(is_valid, storage->all_paths[i], path_len);
-		is_valid[path_len] = '/';
-		ft_memcpy(is_valid + path_len + 1, command, ft_strlen(command));
+		ft_memcpy(is_valid, path[i], ft_strlen(path[i]));
+		is_valid[ft_strlen(path[i])] = '/';
+		ft_memcpy(is_valid + ft_strlen(path[i]) + 1, command,
+			ft_strlen(command));
 		if (access(is_valid, X_OK) == 0)
-			break ;
+			return(is_valid);
 		free(is_valid);
-		is_valid = NULL;
 		i++;
 	}
-	return (is_valid);
+	return (NULL);
 }
 
 int	check_absolute(char *command)
