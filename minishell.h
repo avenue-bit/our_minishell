@@ -9,9 +9,20 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+# ifndef BOOL
+#  define BOOL _Bool
+# endif
+# ifndef FALSE
+#  define FALSE 0
+# endif
+# ifndef TRUE
+#  define TRUE 1
+# endif
+
 typedef enum e_type
 {
 	tk_WORD,
+	tk_VAR,
 	tk_PIPE,
 	tk_REDIR_IN,
 	tk_REDIR_OUT,
@@ -32,8 +43,9 @@ typedef struct s_cmd
 	char			**cmd_flags;
 	char			*infile;
 	char			*outfile;
-	char			append;
+	BOOL			append;
 	struct s_cmd	*next;
+	struct s_cmd	*prev;
 
 }					t_cmd;
 

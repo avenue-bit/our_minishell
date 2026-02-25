@@ -207,34 +207,34 @@ int	count_tokens_words(t_token *tokens)
 	return (counter);
 }
 
-// void	create_cmd_list(t_cmd **cmd, t_token *tokens)
-// {
-// 	t_token	*tmp;
-// 	int		word_count;
-// 	t_cmd	*new_cmd;
+void	create_cmd_list(t_cmd **cmd, t_token *tokens)
+{
+	t_token	*tmp;
+	int		word_count;
+	t_cmd	*new_cmd;
 
-// 	if (!tokens)
-// 		return ;
-// 	tmp = tokens;
-// 	word_count = count_tokens_words(tokens);
-// 	printf("NB: %d\n\n", word_count);
-// 	while (tmp)
-// 	{
-// 		new_cmd = malloc(sizeof(t_cmd) * 1);
-// 		if (!new_cmd)
-// 			return (perror("Malloc fail"), NULL);
-// 		word_count = count_tokens_words(tokens);
-// 		new_cmd->cmd_flags = malloc(sizeof(char *) * (word_count + 1));
-// 		if (!new_cmd->cmd_flags)
-// 			return (free(new_cmd), perror("Malloc fail"), NULL);
+	if (!tokens)
+		return ;
+	tmp = tokens;
+	word_count = count_tokens_words(tokens);
+	printf("NB: %d\n\n", word_count);
+	while (tmp)
+	{
+		new_cmd = malloc(sizeof(t_cmd) * 1);
+		if (!new_cmd)
+			return (perror("Malloc fail"));
+		word_count = count_tokens_words(tokens);
+		new_cmd->cmd_flags = malloc(sizeof(char *) * (word_count + 1));
+		if (!new_cmd->cmd_flags)
+			return (free(new_cmd), perror("Malloc fail"));
 		
-// 		if (tmp->content)
-// 		{
-// 			add_cmd_node(cmd, tmp->content, tmp->type);
-// 		}
-// 		tmp = tmp->next;
-// 	}
-// }
+		if (tmp->content)
+		{
+			//add_cmd_node(cmd, tmp->content, tmp->type);
+		}
+		tmp = tmp->next;
+	}
+}
 
 int	main(int ac, char **av, char **envp)
 {
@@ -250,3 +250,5 @@ int	main(int ac, char **av, char **envp)
 	clear_tokens(&tokens);
 	return (0);
 }
+
+
