@@ -2,7 +2,6 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "libft/libft.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <stdio.h>
@@ -10,9 +9,20 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+# ifndef BOOL
+#  define BOOL _Bool
+# endif
+# ifndef FALSE
+#  define FALSE 0
+# endif
+# ifndef TRUE
+#  define TRUE 1
+# endif
+
 typedef enum e_type
 {
 	tk_WORD,
+	tk_VAR,
 	tk_PIPE,
 	tk_REDIR_IN,
 	tk_REDIR_OUT,
@@ -27,6 +37,17 @@ typedef struct s_token
 	struct s_token	*next;
 	struct s_token	*prev;
 }					t_token;
+
+typedef struct s_cmd
+{
+	char			**cmd_flags;
+	char			*infile;
+	char			*outfile;
+	BOOL			append;
+	struct s_cmd	*next;
+	struct s_cmd	*prev;
+
+}					t_cmd;
 
 typedef struct s_env
 {
@@ -43,23 +64,6 @@ typedef struct s_shell
 	char			*command_path;
 }					t_shell;
 
-// typedef struct s_redir
-// {
-// 	char			*filename;
-// 	enum e_type		*type;
-// 	struct s_redir	*next;
-// }					t_redir;
-
-// typedef struct s_cmd
-// {
-// 	char			**cmnd_flags;
-// 	int				fd_in;
-// 	int				fd_out;
-// 	t_redir			*redirect;
-// 	struct s_cmd	*next;
-
-// }					t_cmd;
-
 // Environment Initialisation
 char				*fetch_key(char *environment);
 char				*fetch_content(char *environment);
@@ -71,7 +75,7 @@ char				*env_fullenv(char *key, char *content);
 int					extract_path(t_shell *shell_storage);
 int					check_absolute(char *command);
 char				*pathfinder(t_shell *storage, char *command);
-int	path_ramp(t_shell *storage, char **argv);
+int					path_ramp(t_shell *storage, char **argv);
 
 // Libft Utils
 void				ft_arrayfree(char **str_array, int n);
