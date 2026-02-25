@@ -39,7 +39,7 @@ typedef struct s_shell
 {
 	struct s_env	*environment;
 	char			**execve_env;
-	char			**absolute_paths;
+	char			**all_paths;
 	char			*command_path;
 }					t_shell;
 
@@ -66,6 +66,12 @@ char				*fetch_content(char *environment);
 t_env				*envnodes_init(char **envp);
 char				**envarray_init(t_env *environments);
 char				*env_fullenv(char *key, char *content);
+
+// Path Initialisation
+int					extract_path(t_shell *shell_storage);
+int					check_absolute(char *command);
+char				*pathfinder(t_shell *storage, char *command);
+int	path_ramp(t_shell *storage, char **argv);
 
 // Libft Utils
 void				ft_arrayfree(char **str_array, int n);
