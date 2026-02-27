@@ -33,23 +33,17 @@ typedef enum e_type
 	tk_APPEND
 }					t_type;
 
-typedef struct s_token
+typedef struct s_redir
 {
-	char			*content;
-	t_type			type;
-	struct s_token	*next;
-	struct s_token	*prev;
-}					t_token;
+	char			*filename;
+	enum e_type		type;
+	struct s_redir	*next;
+}					t_redir;
 
 typedef struct s_cmd
 {
 	char			**cmd_flags;
-	char			*infile;
-	char			*outfile;
-	BOOL			append;
-	struct s_cmd	*next;
-	struct s_cmd	*prev;
-
+	struct s_redir	*redirections;
 }					t_cmd;
 
 typedef struct s_env
