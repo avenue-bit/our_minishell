@@ -13,9 +13,11 @@
 # ifndef BOOL
 #  define BOOL _Bool
 # endif
+
 # ifndef FALSE
 #  define FALSE 0
 # endif
+
 # ifndef TRUE
 #  define TRUE 1
 # endif
@@ -61,7 +63,9 @@ typedef struct s_shell
 {
 	struct s_env	*environment;
 	char			**execve_env;
+	int				n_env_variables;
 	char			**all_paths;
+	int				n_paths;
 	char			*command_path;
 }					t_shell;
 
@@ -69,8 +73,8 @@ typedef struct s_shell
 char				*fetch_key(char *environment);
 char				*fetch_content(char *environment);
 t_env				*envnodes_init(char **envp);
-char				**envarray_init(t_env *environments);
-char				*env_fullenv(char *key, char *content);
+char				**envarray_init(t_shell *storage, t_env *environments);
+char				*env_join(char *key, char *content);
 
 // Path Initialisation
 int					extract_path(t_shell *shell_storage);

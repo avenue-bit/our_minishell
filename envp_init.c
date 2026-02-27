@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:32:38 by esezalor          #+#    #+#             */
-/*   Updated: 2026/02/27 11:50:21 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/02/27 15:07:31 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_env	*envnodes_init(char **envp)
 	env_current = NULL;
 	env_head = env_newnode(envp[0]);
 	if (!env_head)
-		return (env_clearnode(&env_head), NULL);
+		return (NULL);
 	env_current = env_head;
 	env_current->next = NULL;
 	i = 1;
@@ -81,7 +81,7 @@ t_env	*envnodes_init(char **envp)
 	return (env_head);
 }
 
-char	*env_fullenv(char *key, char *content)
+char	*env_join(char *key, char *content)
 {
 	char	*variable;
 	int		key_len;
@@ -98,7 +98,7 @@ char	*env_fullenv(char *key, char *content)
 	return (variable);
 }
 
-char	**envarray_init(t_env *environments)
+char	**envarray_init(t_shell *storage, t_env *environments)
 {
 	int env_amount;
 	int j;
@@ -111,11 +111,12 @@ char	**envarray_init(t_env *environments)
 	j = 0;
 	while (environments && j < env_amount)
 	{
-		array[j] = env_fullenv(environments->key, environments->content);
+		array[j] = env_join(environments->key, environments->content);
 		if (!array[j])
 			return ((ft_arrayfree(array, j)), NULL);
 		j++;
 		environments = environments->next;
 	}
+	storage->n_env_variables = j;
 	return (array);
 }
