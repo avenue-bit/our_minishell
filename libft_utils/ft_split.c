@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 19:50:26 by jille             #+#    #+#             */
-/*   Updated: 2026/02/27 11:25:11 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/02/27 14:04:50 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static char	**create_array(char **strarr, char *begw, char c, int wc)
 	return (strarr);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(const char *s, char c)
 {
 	int		wc;
 	char	**strarr;

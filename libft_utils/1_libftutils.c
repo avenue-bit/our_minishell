@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 11:29:21 by esezalor          #+#    #+#             */
-/*   Updated: 2026/02/27 11:32:25 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/02/27 14:20:30 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,21 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strdup(const char *s)
+{
+	char	*dest;
+	size_t	size;
+
+	size = ft_strlen(s);
+	dest = (char *)malloc(size + 1);
+	if (!dest)
+		return (NULL);
+	ft_memcpy(dest, s, size);
+	dest[size] = '\0';
+	return (dest);
+}
+
+char	*ft_strjoin(const char *s1, const char *s2)
 {
 	char	*joinstr;
 	int		i;
@@ -49,11 +63,13 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (joinstr);
 }
 
-size_t ft_strlen(char *str)
+size_t ft_strlen(const char *str)
 {
     int i;
 
     i = 0;
+	if(!str)
+		return(0);
     while(str[i])
         i++;
     return(i);
@@ -61,6 +77,8 @@ size_t ft_strlen(char *str)
 
 int	ft_strncmp(char *s1, char *s2, size_t n)
 {
+	if(!s1 || !s2)
+		return(0);
 	if (n == 0)
 		return (0);
 	while (--n > 0 && (*s1 && *s2))
