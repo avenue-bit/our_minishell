@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:32:38 by esezalor          #+#    #+#             */
-/*   Updated: 2026/02/25 14:52:03 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/02/27 11:50:21 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*fetch_key(char *environment)
 	len = ft_strlen(environment);
 	post_len = ft_strlen(ft_strchr(environment, 61));
 	trim_len = len - post_len;
-	key = calloc(trim_len + 1, sizeof(char));
+	key = ft_calloc(trim_len + 1, sizeof(char));
 	if (!key)
 		return (NULL);
 	i = 0;
@@ -44,7 +44,7 @@ char	*fetch_content(char *environment)
 
 	post_key = ft_strchr(environment, 61);
 	post_len = ft_strlen(post_key);
-	content = calloc(post_len + 1, sizeof(char));
+	content = ft_calloc(post_len + 1, sizeof(char));
 	if (!content)
 		return (NULL);
 	i = 0;
@@ -89,7 +89,7 @@ char	*env_fullenv(char *key, char *content)
 
 	key_len = ft_strlen(key);
 	content_len = ft_strlen(content);
-	variable = calloc(ft_strlen(key) + ft_strlen(content) + 2, sizeof(char));
+	variable = ft_calloc(ft_strlen(key) + ft_strlen(content) + 2, sizeof(char));
 	if (!variable)
 		return (NULL);
 	ft_memcpy(variable, key, key_len);
@@ -105,7 +105,7 @@ char	**envarray_init(t_env *environments)
 	char **array;
 
 	env_amount = ft_envsize(environments);
-	array = calloc(env_amount + 1, sizeof(char *));
+	array = ft_calloc(env_amount + 1, sizeof(char *));
 	if (!array)
 		return (NULL);
 	j = 0;

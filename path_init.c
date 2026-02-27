@@ -6,21 +6,26 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 17:48:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/02/25 18:38:18 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/02/27 12:24:51 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+
 int	path_ramp(t_shell *storage, char **argv)
 {
 	int	n_paths;
 
+	// 1. Look for the Key "PATH" inside the environment list, 
+	// extract, split and store each path in a string array stored in shell storage
 	if (extract_path(storage) == -1)
 	{
 		ft_arrayfree(storage->execve_env, ft_envsize(storage->environment));
 		return (-1);
 	}
+	// 2. Based on given command argv[1] append to each path and check if executable
+	// return fully appended '/ + cmd' string of path 
 	storage->command_path = pathfinder(storage, argv[1]);
 	n_paths = 0;
 	while (storage->all_paths && storage->all_paths[n_paths])
@@ -65,7 +70,7 @@ char	*pathfinder(t_shell *storage, char *command)
 	i = 0;
 	while (path && path[i])
 	{
-		is_valid = calloc(ft_strlen(path[i]) + ft_strlen(command) + 2,
+		is_valid = ft_calloc(ft_strlen(path[i]) + ft_strlen(command) + 2,
 				sizeof(char));
 		if (!is_valid)
 			return (NULL);
