@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sezalory <sezalory@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:32:38 by esezalor          #+#    #+#             */
-/*   Updated: 2026/02/27 15:07:31 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/02 17:44:58 by sezalory         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,18 @@
 
 char	*fetch_key(char *environment)
 {
-	int		len;
-	int		post_len;
-	int		trim_len;
+	int		key_len;
 	int		i;
 	char	*key;
 
-	len = ft_strlen(environment);
-	post_len = ft_strlen(ft_strchr(environment, 61));
-	trim_len = len - post_len;
-	key = ft_calloc(trim_len + 1, sizeof(char));
+	key_len = 0;
+	while (environment[key_len] && environment[key_len] != '=')
+		key_len++;
+	key = ft_calloc(key_len + 1, sizeof(char));
 	if (!key)
 		return (NULL);
 	i = 0;
-	while (i < trim_len)
+	while (i < key_len)
 	{
 		key[i] = environment[i];
 		i++;
@@ -40,19 +38,17 @@ char	*fetch_content(char *environment)
 	int		post_len;
 	char	*post_key;
 	char	*content;
-	int		i;
 
-	post_key = ft_strchr(environment, 61);
+	post_key = ft_strchr(environment, '=');
+	if (!post_key)
+		return (NULL);
 	post_len = ft_strlen(post_key);
-	content = ft_calloc(post_len + 1, sizeof(char));
+	content = ft_calloc(post_len, sizeof(char));
 	if (!content)
 		return (NULL);
-	i = 0;
-	while (i < post_len)
-	{
-		content[i] = post_key[i + 1];
-		i++;
-	}
+	content = ft_strdup(post_key + 1);
+	if (!content)
+		return (NULL);
 	return (content);
 }
 
@@ -98,11 +94,11 @@ char	*env_join(char *key, char *content)
 	return (variable);
 }
 
-char	**envarray_init(t_shell *storage, t_env *environments)
+char	**envarray_init(t_exec *storage, t_env *environments)
 {
-	int env_amount;
-	int j;
-	char **array;
+	int		env_amount;
+	int		j;
+	char	**array;
 
 	env_amount = ft_envsize(environments);
 	array = ft_calloc(env_amount + 1, sizeof(char *));

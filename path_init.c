@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sezalory <sezalory@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 17:48:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/02/27 15:52:36 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/02 17:45:02 by sezalory         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 // 2. pathfinder: Based on given command argv[1] append to each path and check if executable
 // return fully appended '/ + cmd' string of path
 
-int	path_ramp(t_shell *storage, char **argv)
+int	path_ramp(t_exec *storage, char **argv)
 {
 	int	n_paths;
 
@@ -36,7 +36,7 @@ int	path_ramp(t_shell *storage, char **argv)
 	return (0);
 }
 
-int	extract_path(t_shell *shell_storage)
+int	extract_path(t_exec *shell_storage)
 {
 	t_env	*environment;
 	int		i;
@@ -63,7 +63,7 @@ int	extract_path(t_shell *shell_storage)
 	return (0);
 }
 
-char	*pathfinder(t_shell *storage, char *command)
+char	*pathfinder(t_exec *storage, char *command)
 {
 	int		i;
 	char	*is_valid;
@@ -85,9 +85,11 @@ char	*pathfinder(t_shell *storage, char *command)
 			ft_strlen(command));
 		if (access(is_valid, X_OK) == 0)
 			return (is_valid);
+		free(is_valid);
+		is_valid = NULL;
 		i++;
 	}
-	return (free(is_valid), is_valid = NULL, NULL);
+	return (NULL);
 }
 
 int	check_absolute(char *command)

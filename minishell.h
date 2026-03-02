@@ -54,28 +54,33 @@ typedef struct s_env
 	struct s_env	*next;
 }					t_env;
 
-typedef struct s_shell
+typedef struct s_exec
 {
 	struct s_env	*environment;
+	struct s_cmd	*commands;
 	char			**execve_env;
 	int				n_env_variables;
 	char			**all_paths;
 	int				n_paths;
 	char			*command_path;
-}					t_shell;
+	size_t				n_children;
+	int				status;
+	int				*pids;
+	int				pipe[2][2];
+}					t_exec;
 
 // Environment Initialisation
 char				*fetch_key(char *environment);
 char				*fetch_content(char *environment);
 t_env				*envnodes_init(char **envp);
-char				**envarray_init(t_shell *storage, t_env *environments);
+char				**envarray_init(t_exec *storage, t_env *environments);
 char				*env_join(char *key, char *content);
 
 // Path Initialisation
-int					extract_path(t_shell *shell_storage);
+int					extract_path(t_exec *shell_storage);
 int					check_absolute(char *command);
-char				*pathfinder(t_shell *storage, char *command);
-int					path_ramp(t_shell *storage, char **argv);
+char				*pathfinder(t_exec *storage, char *command);
+int					path_ramp(t_exec *storage, char **argv);
 
 // Libft Utils
 void				ft_arrayfree(char **str_array, int n);
