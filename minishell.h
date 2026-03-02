@@ -44,6 +44,7 @@ typedef struct s_cmd
 {
 	char			**cmd_flags;
 	struct s_redir	*redirections;
+	struct s_cmd	*next;
 }					t_cmd;
 
 typedef struct s_env

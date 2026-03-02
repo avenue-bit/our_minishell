@@ -3,23 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sezalory <sezalory@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/02/27 18:07:11 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/02 12:50:41 by sezalory         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_ramp(t_shell *storage, t_cmd *commands)
+/*int	exec_ramp(t_shell *storage)
 {
 	int i;
 	pid_t pid;
+	t_cmd *commands;
 	int status;
 	
 	i = 0;
-	while(commands->cmd_flags[i])
+	while(commands)
 	{
 		if (path_ramp(&storage, commands->cmd_flags[i]) != 0) // parser for start of path finding functions
 			return(-1);
@@ -35,10 +36,10 @@ int	exec_ramp(t_shell *storage, t_cmd *commands)
 		{
 			waitpid(pid, &status, 0);
 		}
-		i++;
+		commands = commands->next;
 	}
 	return (0);
-}
+}*/
 
 
 // 1. envnodes_init: Initialise the environment found in envp into a linked list,
@@ -50,28 +51,24 @@ int	exec_ramp(t_shell *storage, t_cmd *commands)
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell storage; // RENAME LATER
-	t_cmd	commands; //Can be replaced by argv for testing purposes
 	
 	if (argc < 2)
 		return (0);
 	ft_bzero(&storage, sizeof(t_shell));
-	ft_bzero(&commands, sizeof(t_cmd));
 	storage.environment = envnodes_init(envp);
 	if (!storage.environment)
 		return (0);
 	storage.execve_env = envarray_init(&storage, storage.environment);
 	if (!storage.execve_env)
 		return (env_clearnode(&storage.environment), 0); // Error handling needed
-	while(1)
+	if (path_ramp(&storage, argv) != 0)
 	{
-		if(exec_ramp(&storage, &commands) == -1)
-		{
 			free(storage.command_path);
 			ft_arrayfree(storage.all_paths, storage.n_paths + 1);
 			ft_arrayfree(storage.execve_env, storage.n_env_variables);
 			env_clearnode(&storage.environment);
 			return (-1); // Error handling needed
-		}
-	}	
+	}
+	execve(storage.command_path, &argv[1], storage.execve_env);
 	return (0);
 }
