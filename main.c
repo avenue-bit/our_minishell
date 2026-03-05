@@ -6,7 +6,7 @@
 /*   By: sezalory <sezalory@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/02 18:34:10 by sezalory         ###   ########.fr       */
+/*   Updated: 2026/03/05 15:48:09 by sezalory         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,24 +62,19 @@ int	main(int argc, char **argv, char **envp)
 		return (env_clearnode(&storage.environment), 0);
 	// Error handling needed
 	storage.n_children = ft_envsize(storage.commands);
-	i = 0;
-	while (i < storage.n_children)
+	if (is_builtin(argv[1]) == 0) // storage.commands->cmd_flags
 	{
-		if (is_builtin(argv[1]) == 0) // storage.commands->cmd_flags
+		if (path_ramp(&storage, argv) != 0)
 		{
-			if (path_ramp(&storage, argv) != 0)
-			{
-				free(storage.command_path);
-				ft_arrayfree(storage.all_paths, storage.n_paths + 1);
-				ft_arrayfree(storage.execve_env, storage.n_env_variables);
-				env_clearnode(&storage.environment);
-				return (-1); // Error handling needed
-			}
-			execve(storage.command_path, &argv[1], storage.execve_env);
+			free(storage.command_path);
+			ft_arrayfree(storage.all_paths, storage.n_paths + 1);
+			ft_arrayfree(storage.execve_env, storage.n_env_variables);
+			env_clearnode(&storage.environment);
+			return (-1); // Error handling needed
 		}
-		else
-			printf("is builtin and must be executed in parent");
-		i++;
+		execve(storage.command_path, &argv[1], storage.execve_env);
 	}
+	else
+		printf("is builtin and must be executed in parent");
 	return (0);
 }

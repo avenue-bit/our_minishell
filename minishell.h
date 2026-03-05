@@ -63,7 +63,7 @@ typedef struct s_exec
 	char			**all_paths;
 	int				n_paths;
 	char			*command_path;
-	size_t				n_children;
+	size_t			n_children;
 	int				status;
 	int				*pids;
 	int				pipe[2][2];
