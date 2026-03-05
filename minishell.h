@@ -65,8 +65,8 @@ typedef struct s_exec
 	char			*command_path;
 	size_t			n_children;
 	int				status;
-	int				*pids;
-	int				pipe[2][2];
+	pid_t			*pids;
+	int				pipes[2][2];
 }					t_exec;
 
 // Environment Initialisation
@@ -82,9 +82,10 @@ int					check_absolute(char *command);
 char				*pathfinder(t_exec *storage, char *command);
 int					path_ramp(t_exec *storage, char **argv);
 
-// Libft Utils
+// AdHoc Utils
 void				ft_arrayfree(char **str_array, int n);
 int					ft_envsize(t_env *lst);
+size_t				n_commands(t_cmd *cmd);
 
 // Environment Utils
 void				env_clearnode(t_env **env_lst);

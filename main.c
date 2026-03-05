@@ -6,7 +6,7 @@
 /*   By: sezalory <sezalory@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/05 15:48:09 by sezalory         ###   ########.fr       */
+/*   Updated: 2026/03/05 17:37:27 by sezalory         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,40 @@ int	main(int argc, char **argv, char **envp)
 	else
 		printf("is builtin and must be executed in parent");
 	return (0);
+}
+
+int	plumber(t_exec *storage)
+{
+	
+	if(cmd_iter != 1 && storage->commands->next)
+	{
+		dup2(previous pipe read in to STDIN)
+		close (previous pipe read in)
+		dup2(current pipe read out to STDOUT)
+		close(current pipe read out)
+	}
+}
+
+int exec_main(t_exec *storage)
+{
+	t_cmd	*current;
+	size_t i;
+	
+	current = storage->commands;
+	i = 0;
+	storage->n_children = n_commands(&current);
+	storage->pids = malloc(storage->n_children * sizeof(pid_t));
+	if(!storage->pids)
+		return (-1);
+	while(i < storage->n_children)
+	{
+		if(storage->commands->next)
+		{
+			if(pipe(storage->pipes[i % 2]) < 0)
+				return (-1);
+			plumber(storage, i);
+			current = storage->commands->cmd_flags;
+			i++;
+		}
+	}
 }

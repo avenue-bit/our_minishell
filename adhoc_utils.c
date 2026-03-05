@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   adhoc_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sezalory <sezalory@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 11:52:31 by esezalor          #+#    #+#             */
-/*   Updated: 2026/02/27 15:13:35 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/05 16:24:10 by sezalory         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_arrayfree(char **str_array, int n)
 {
 	int	i;
 
-	if(!str_array)
+	if (!str_array)
 		return ;
 	i = 0;
 	while (i < n)
@@ -42,6 +42,21 @@ int	ft_envsize(t_env *lst)
 	while (lst->next)
 	{
 		lst = lst->next;
+		size++;
+	}
+	return (size);
+}
+
+size_t	n_commands(t_cmd *cmd)
+{
+	int size;
+
+	if (!cmd)
+		return (0);
+	size = 1;
+	while (cmd->next)
+	{
+		cmd = cmd->next;
 		size++;
 	}
 	return (size);
