@@ -57,17 +57,23 @@ typedef struct s_env
 typedef struct s_exec
 {
 	struct s_env	*environment;
-	struct s_cmd	*commands;
 	char			**execve_env;
 	int				n_env_variables;
 	char			**all_paths;
 	int				n_paths;
 	char			*command_path;
-	size_t			n_children;
-	int				status;
-	pid_t			*pids;
-	int				pipes[2][2];
+	int				exit_code;
 }					t_exec;
+
+//********************************************************//
+// THIS IS FOR TESTING PURPOSES WHILE JOSH FINISHES WORK
+//********************************************************//
+t_cmd				*cmdnodes_init(char **argv);
+t_cmd				*cmd_newnode(char *command);
+void				cmd_clearnode(t_cmd **cmd_lst);
+//********************************************************//
+// THIS IS FOR TESTING PURPOSES WHILE JOSH FINISHES WORK
+//********************************************************//
 
 // Environment Initialisation
 char				*fetch_key(char *environment);
@@ -82,13 +88,25 @@ int					check_absolute(char *command);
 char				*pathfinder(t_exec *storage, char *command);
 int					path_ramp(t_exec *storage, char **argv);
 
-// AdHoc Utils
-void				ft_arrayfree(char **str_array, int n);
-int					ft_envsize(t_env *lst);
-size_t				n_commands(t_cmd *cmd);
+// Exec Functions
+void				wait_for_child(t_exec *storage, pid_t pid);
+int					exec_fork(t_exec *storage, t_cmd *cmd_node);
+int					exec_main(t_exec *storage, t_cmd *cmd_node);
+
+// Free Functions
+void				path_env_free(t_exec *storage);
+
 
 // Environment Utils
 void				env_clearnode(t_env **env_lst);
 t_env				*env_newnode(char *environment);
+
+// Exec Utils
+int	is_builtin(char *command);
+
+// AdHoc Utils
+void				ft_arrayfree(char **str_array, int n);
+int					ft_envsize(t_env *lst);
+size_t				n_commands(t_cmd *cmd);
 
 #endif

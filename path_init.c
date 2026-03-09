@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sezalory <sezalory@student.42.fr>          +#+  +:+       +#+        */
+/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 17:48:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/02 17:45:02 by sezalory         ###   ########.fr       */
+/*   Updated: 2026/03/09 11:34:54 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 // 1. extract_path: Look for the Key "PATH" inside the environment list,
 // extract, split and store each path in a string array stored in shell storage
 
-// 2. pathfinder: Based on given command argv[1] append to each path and check if executable
+// 2. pathfinder: Based on given command[1] append to each path and check if executable
 // return fully appended '/ + cmd' string of path
 
-int	path_ramp(t_exec *storage, char **argv)
+int	path_ramp(t_exec *storage, char **command)
 {
 	int	n_paths;
 
 	if (extract_path(storage) == -1)
 		return (-1);
-	storage->command_path = pathfinder(storage, argv[1]);
+	storage->command_path = pathfinder(storage, command[0]);
 	if (!storage->command_path)
 		return (-1);
 	n_paths = 0;
