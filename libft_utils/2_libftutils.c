@@ -19,18 +19,20 @@ void	ft_bzero(void *s, size_t n)
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
-	void	*dest;
+	void	*ptr;
+	size_t	i;
 
-	if (size > 0 && nmemb > 0)
-	{
-		if (nmemb > SIZE_MAX / size)
-			return (NULL);
-	}
-	dest = malloc(nmemb * size);
-	if (!dest)
+	i = 0;
+	if (nmemb == 0 || size == 0)
+		return (malloc(0));
+	if (nmemb > ((size_t)-1) / size)
 		return (NULL);
-	ft_bzero(dest, nmemb * size);
-	return (dest);
+	ptr = malloc(nmemb * size);
+	if (ptr == NULL)
+		return (NULL);
+	while (i < nmemb * size)
+		((unsigned char *)ptr)[i++] = 0;
+	return (ptr);
 }
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
@@ -53,4 +55,29 @@ void	*ft_memset(void *s, int c, size_t n)
 	while (n--)
 		*p++ = (unsigned char)c;
 	return (s);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*substr;
+	size_t	i;
+
+	i = 0;
+	if (!s || (unsigned int)ft_strlen(s) <= start)
+		return (ft_calloc(1, 1));
+	while (s[start + i] != '\0' && i < len)
+		i++;
+	substr = malloc(sizeof(char) * (i + 1));
+	if (!substr)
+		return (NULL);
+	i = 0;
+	while (s[start + i] != '\0' && i < len)
+	{
+		substr[i] = s[start + i];
+		i++;
+	}
+	substr[i] = '\0';
+	if ((unsigned int)ft_strlen(s) <= start)
+		substr[0] = '\0';
+	return (substr);
 }
