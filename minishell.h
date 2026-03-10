@@ -62,7 +62,10 @@ typedef struct s_exec
 	char			**all_paths;
 	int				n_paths;
 	char			*command_path;
+	int				pre_read_fd;
+	int				pipe_fd[2];
 	int				exit_code;
+	int				last_pid;
 }					t_exec;
 
 //********************************************************//
@@ -89,20 +92,18 @@ char				*pathfinder(t_exec *storage, char *command);
 int					path_ramp(t_exec *storage, char **argv);
 
 // Exec Functions
-void				wait_for_child(t_exec *storage, pid_t pid);
-int					exec_fork(t_exec *storage, t_cmd *cmd_node);
-int					exec_main(t_exec *storage, t_cmd *cmd_node);
+void				wait_for_child(t_exec *storage);
+void				exec_fork(t_exec *storage, t_cmd *cmd_node);
 
 // Free Functions
 void				path_env_free(t_exec *storage);
-
 
 // Environment Utils
 void				env_clearnode(t_env **env_lst);
 t_env				*env_newnode(char *environment);
 
 // Exec Utils
-int	is_builtin(char *command);
+int					is_builtin(char *command);
 
 // AdHoc Utils
 void				ft_arrayfree(char **str_array, int n);

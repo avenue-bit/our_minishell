@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/09 15:09:13 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/10 20:06:27 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,14 @@ int	is_builtin(char *command)
 // 2. envarray_init: Converts the linked list of environment into a modifiable array of strings,
 //	must do this as it is more tedious to handle the stack version of envp rather than use a linked list
 
-// 3. exec_main: Initially identifies if the "command" found in the array is a built-in or not,
-//	if it isn't it forks, validats the path and then executes, parent then waits for the child to end
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_cmd	*current;
+	pid_t	pid;
+
 	t_exec storage; // RENAME LATER
-	
-	(void) argc;
+	(void)argc;
 	ft_bzero(&storage, sizeof(t_exec));
 	current = cmdnodes_init(argv);
 	storage.environment = envnodes_init(envp);
@@ -63,7 +62,45 @@ int	main(int argc, char **argv, char **envp)
 	if (!storage.execve_env)
 		return (env_clearnode(&storage.environment), 0);
 	// Error handling needed
-	if (exec_main(&storage, current) == -1)
-		return (path_env_free(&storage), -1);
+	storage.pre_read_fd = -1;
+	while (current)
+	{
+		if (current->next)
+		{
+			if (pipe(storage.pipe_fd) == -1)
+				return (perror("pipe"), -1);
+		}
+		pid = fork();
+		if (pid < 0)
+			return (-1);
+		if (pid == 0)
+		{
+			if (storage.pre_read_fd != -1)
+			{
+				dup2(storage.pre_read_fd, 0);
+				close(storage.pre_read_fd);
+			}
+			if (current->next)
+			{
+				dup2(storage.pipe_fd[1], 1);
+				close(storage.pipe_fd[1]);
+				close(storage.pipe_fd[0]);
+			}
+			exec_fork(&storage, current);
+		}
+		else
+		{
+			if (storage.pre_read_fd != -1)
+				close(storage.pre_read_fd);
+			if (current->next)
+			{
+				close(storage.pipe_fd[1]);
+				storage.pre_read_fd = storage.pipe_fd[0];
+			}
+		}
+		storage.last_pid = pid;
+		current = current->next;
+	}
+	wait_for_child(&storage);
 	return (0);
 }
