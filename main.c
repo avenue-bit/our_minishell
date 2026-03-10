@@ -62,7 +62,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (ft_calloc(1, 1));
 	while (s[start + i] != '\0' && i < len)
 		i++;
-	substr = malloc(sizeof(char) * i + 1);
+	substr = malloc(sizeof(char) * (i + 1));
 	if (!substr)
 		return (NULL);
 	i = 0;
@@ -207,32 +207,76 @@ int	count_tokens_words(t_token *tokens)
 	return (counter);
 }
 
-void	create_cmd_list(t_cmd **cmd, t_token *tokens)
+t_cmd *add_cmd_node(t_cmd **cmd_list)
+{
+	t_cmd	*new_node;
+	t_cmd *last;
+
+	new_node = malloc(sizeof(t_cmd) * 1);
+	if (!new_node)
+		return (NULL);
+	new_node->next = NULL;
+	if (!*cmd_list)
+	{
+		new_node->prev = NULL;
+		new_node->next = NULL;
+		*cmd_list = new_node;
+		return (new_node);
+	}
+	last = *cmd_list;
+	while (last->next)
+		last = last->next;
+	last->next = new_node;
+	new_node->prev = last;
+	return (new_node);
+}
+
+void fill_cmd_data(t_token **tokens, t_cmd *cmd)
+{
+	int i = 0;
+
+	while (*tokens && (*tokens)->type != tk_PIPE)
+	{
+		if ((*tokens)->type == tk_WORD)
+			cmd->cmd_flags[i++] = ft_strdup((*tokens)->content);
+		else if ((*tokens)->type == tk_REDIR_IN)
+		{
+			*tokens = (*tokens)->next;
+			cmd->infile = ft_strdup((*tokens)->content);
+		}
+		else if ((*tokens)->type == tk_REDIR_OUT || (*tokens)->type == tk_APPEND)
+		{
+			cmd->append = FALSE;
+			if ((*tokens)->type == tk_APPEND)
+				cmd->append = TRUE;
+			*tokens = (*tokens)->next;
+			cmd->outfile = ft_strdup((*tokens)->content);
+		}
+		if (*tokens)
+			*tokens = (*tokens)->next;
+	}
+
+}
+
+void	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
 {
 	t_token	*tmp;
 	int		word_count;
-	t_cmd	*new_cmd;
+	t_cmd	*current_cmd;
 
 	if (!tokens)
 		return ;
 	tmp = tokens;
-	word_count = count_tokens_words(tokens);
-	printf("NB: %d\n\n", word_count);
 	while (tmp)
 	{
-		new_cmd = malloc(sizeof(t_cmd) * 1);
-		if (!new_cmd)
-			return (perror("Malloc fail"));
-		word_count = count_tokens_words(tokens);
-		new_cmd->cmd_flags = malloc(sizeof(char *) * (word_count + 1));
-		if (!new_cmd->cmd_flags)
-			return (free(new_cmd), perror("Malloc fail"));
-		
-		if (tmp->content)
-		{
-			//add_cmd_node(cmd, tmp->content, tmp->type);
-		}
-		tmp = tmp->next;
+		current_cmd = add_cmd_node(cmd_list);
+		if (!current_cmd)
+			return ;
+		word_count = count_tokens_words(tmp);
+		current_cmd->cmd_flags = malloc(sizeof(char *) * (word_count + 1));
+		fill_cmd_data(&tmp, current_cmd);
+		if (tmp && tmp->type == tk_PIPE)
+			tmp = tmp->next;
 	}
 }
 
@@ -250,5 +294,3 @@ int	main(int ac, char **av, char **envp)
 	clear_tokens(&tokens);
 	return (0);
 }
-
-
