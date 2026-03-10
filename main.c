@@ -93,6 +93,31 @@ void	clear_tokens(t_token **tokens)
 	}
 }
 
+void clear_cmds(t_cmd **node)
+{
+	t_cmd	*tmp;
+
+	if (!node || !*node)
+		return ;
+	while (*node)
+	{
+		tmp = (*node)->next;
+		if ((*node)->cmd_flags)
+		{
+			int i = 0;
+			while ((*node)->cmd_flags[i])
+				free((*node)->cmd_flags[i++]);
+			free((*node)->cmd_flags);	
+		}
+		if ((*node)->infile)
+			free((*node)->infile);
+		if ((*node)->outfile)
+			free((*node)->outfile);	
+		free(*node);
+		*node = tmp;
+	}
+}
+
 int	add_token_node(t_token **tokens, char *content, t_type type)
 {
 	t_token	*new_node;
@@ -187,6 +212,30 @@ void	print_tokens(t_token *tokens)
 		printf("Type: %d | Content: [%s]\n", tokens->type, tokens->content);
 		tokens = tokens->next;
 	}
+	printf("\n\n");
+}
+
+void print_cmd_list(t_cmd *cmd)
+{
+	int i;
+	int cmd_num = 0;
+
+	while(cmd)
+	{
+		printf("--- COMMAND %d ---\n", cmd_num++);
+		printf("Infile: [%s]\n", cmd->infile);
+		printf("Outfile: [%s] (Append: %d)\n", cmd->outfile, cmd->append);
+		printf("Commands & Flags:   ");
+		i = 0;
+		if (cmd->cmd_flags)
+			{
+				while (cmd->cmd_flags[i])
+					printf("[%s]", cmd->cmd_flags[i++]);
+			}
+		printf("\n\n");
+		cmd = cmd->next;
+	}
+
 }
 
 int	count_tokens_words(t_token *tokens)
@@ -212,7 +261,7 @@ t_cmd *add_cmd_node(t_cmd **cmd_list)
 	t_cmd	*new_node;
 	t_cmd *last;
 
-	new_node = malloc(sizeof(t_cmd) * 1);
+	new_node = ft_calloc(1, sizeof(t_cmd));
 	if (!new_node)
 		return (NULL);
 	new_node->next = NULL;
@@ -255,7 +304,6 @@ void fill_cmd_data(t_token **tokens, t_cmd *cmd)
 		if (*tokens)
 			*tokens = (*tokens)->next;
 	}
-
 }
 
 void	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
@@ -263,7 +311,7 @@ void	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
 	t_token	*tmp;
 	int		word_count;
 	t_cmd	*current_cmd;
-
+	
 	if (!tokens)
 		return ;
 	tmp = tokens;
@@ -273,7 +321,7 @@ void	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
 		if (!current_cmd)
 			return ;
 		word_count = count_tokens_words(tmp);
-		current_cmd->cmd_flags = malloc(sizeof(char *) * (word_count + 1));
+		current_cmd->cmd_flags = ft_calloc((word_count + 1), sizeof(char *));
 		fill_cmd_data(&tmp, current_cmd);
 		if (tmp && tmp->type == tk_PIPE)
 			tmp = tmp->next;
@@ -292,5 +340,7 @@ int	main(int ac, char **av, char **envp)
 	create_cmd_list(&cmd, tokens);
 	print_tokens(tokens);
 	clear_tokens(&tokens);
+	print_cmd_list(cmd);
+	clear_cmds(&cmd);
 	return (0);
 }
