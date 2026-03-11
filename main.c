@@ -168,7 +168,7 @@ int	handle_words(char *input, t_token **tokens)
 		i++;
 	}
 	if (quotingmark)
-		return (errno = 1, perror("Error: \" / \' missing"), exit(errno), 0);
+		return (errno = 1, perror("Error: \" / \' missing"), clear_tokens(tokens), exit(errno), 0);
 	word = ft_substr(input, 0, i);
 	if (!word)
 		return (-1);
