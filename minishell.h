@@ -98,8 +98,9 @@ void				child_wrapper(t_exec *storage, t_cmd *current);
 void				parent_wrapper(t_exec *storage, t_cmd *current);
 void				wait_for_child(t_exec *storage);
 
-// Free Functions
+// Free and Close Functions
 void				path_env_free(t_exec *storage);
+void 				failexec_close(t_exec *storage);
 
 // Environment Utils
 void				env_clearnode(t_env **env_lst);
