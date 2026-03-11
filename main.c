@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/10 20:06:27 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/11 16:08:20 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,14 @@ int	is_builtin(char *command)
 int	main(int argc, char **argv, char **envp)
 {
 	t_cmd	*current;
-	pid_t	pid;
-
 	t_exec storage; // RENAME LATER
+	
 	(void)argc;
 	ft_bzero(&storage, sizeof(t_exec));
 	current = cmdnodes_init(argv);
 	storage.environment = envnodes_init(envp);
 	if (!storage.environment)
-		return (0);
+		return (-1);
 	storage.execve_env = envarray_init(&storage, storage.environment);
 	if (!storage.execve_env)
 		return (env_clearnode(&storage.environment), 0);
@@ -65,40 +64,8 @@ int	main(int argc, char **argv, char **envp)
 	storage.pre_read_fd = -1;
 	while (current)
 	{
-		if (current->next)
-		{
-			if (pipe(storage.pipe_fd) == -1)
-				return (perror("pipe"), -1);
-		}
-		pid = fork();
-		if (pid < 0)
-			return (-1);
-		if (pid == 0)
-		{
-			if (storage.pre_read_fd != -1)
-			{
-				dup2(storage.pre_read_fd, 0);
-				close(storage.pre_read_fd);
-			}
-			if (current->next)
-			{
-				dup2(storage.pipe_fd[1], 1);
-				close(storage.pipe_fd[1]);
-				close(storage.pipe_fd[0]);
-			}
-			exec_fork(&storage, current);
-		}
-		else
-		{
-			if (storage.pre_read_fd != -1)
-				close(storage.pre_read_fd);
-			if (current->next)
-			{
-				close(storage.pipe_fd[1]);
-				storage.pre_read_fd = storage.pipe_fd[0];
-			}
-		}
-		storage.last_pid = pid;
+		if(fork_ramp(&storage, current) == -1)
+			return(-1); // clear memory of all previous parent and child process for previous commands
 		current = current->next;
 	}
 	wait_for_child(&storage);

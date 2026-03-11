@@ -6,11 +6,58 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:45:59 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/10 20:05:12 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/11 16:08:04 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	fork_ramp(t_exec *storage, t_cmd *cmd_node)
+{
+	pid_t	pid;
+
+	if (cmd_node->next)
+	{
+		if (pipe(storage->pipe_fd) == -1)
+			return (perror("pipe"), -1);
+	}
+	pid = fork();
+	if (pid < 0)
+		return (-1);
+	if (pid == 0)
+		child_wrapper(storage, cmd_node);
+	else
+		parent_wrapper(storage, cmd_node);
+	storage->last_pid = pid;
+	return (0);
+}
+
+void	child_wrapper(t_exec *storage, t_cmd *current)
+{
+	if (storage->pre_read_fd != -1)
+	{
+		dup2(storage->pre_read_fd, 0);
+		close(storage->pre_read_fd);
+	}
+	if (current->next)
+	{
+		dup2(storage->pipe_fd[1], 1);
+		close(storage->pipe_fd[1]);
+		close(storage->pipe_fd[0]);
+	}
+	exec_fork(storage, current);
+}
+
+void	parent_wrapper(t_exec *storage, t_cmd *current)
+{
+	if (storage->pre_read_fd != -1)
+		close(storage->pre_read_fd);
+	if (current->next)
+	{
+		close(storage->pipe_fd[1]);
+		storage->pre_read_fd = storage->pipe_fd[0];
+	}
+}
 
 void	exec_fork(t_exec *storage, t_cmd *cmd_node)
 {

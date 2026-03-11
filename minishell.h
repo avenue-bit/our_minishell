@@ -92,8 +92,11 @@ char				*pathfinder(t_exec *storage, char *command);
 int					path_ramp(t_exec *storage, char **argv);
 
 // Exec Functions
-void				wait_for_child(t_exec *storage);
+int					fork_ramp(t_exec *storage, t_cmd *cmd_node);
 void				exec_fork(t_exec *storage, t_cmd *cmd_node);
+void				child_wrapper(t_exec *storage, t_cmd *current);
+void				parent_wrapper(t_exec *storage, t_cmd *current);
+void				wait_for_child(t_exec *storage);
 
 // Free Functions
 void				path_env_free(t_exec *storage);

@@ -27,16 +27,23 @@ char	*ft_strchr(const char *s, int c)
 
 char	*ft_strdup(const char *s)
 {
-	char	*dest;
-	size_t	size;
+	int		i;
+	char	*new_string;
 
-	size = ft_strlen(s);
-	dest = (char *)malloc(size + 1);
-	if (!dest)
+	i = 0;
+	while (s[i])
+		i++;
+	new_string = malloc(sizeof(char) * (i + 1));
+	if (new_string == NULL)
 		return (NULL);
-	ft_memcpy(dest, s, size);
-	dest[size] = '\0';
-	return (dest);
+	i = 0;
+	while (*s)
+	{
+		new_string[i++] = *s;
+		s++;
+	}
+	new_string[i] = '\0';
+	return (new_string);
 }
 
 char	*ft_strjoin(const char *s1, const char *s2)
