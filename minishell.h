@@ -72,7 +72,7 @@ typedef struct s_exec
 // THIS IS FOR TESTING PURPOSES WHILE JOSH FINISHES WORK
 //********************************************************//
 t_cmd				*cmdnodes_init(char **argv);
-t_cmd				*cmd_newnode(char *command);
+t_cmd				*cmd_newnode(char **command);
 void				cmd_clearnode(t_cmd **cmd_lst);
 //********************************************************//
 // THIS IS FOR TESTING PURPOSES WHILE JOSH FINISHES WORK
