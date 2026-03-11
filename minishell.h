@@ -5,6 +5,7 @@
 //# include "libft_utils/libft_utils.h"
 # include <errno.h>
 # include <fcntl.h>
+# include <readline/history.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
