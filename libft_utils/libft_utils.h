@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 11:25:25 by esezalor          #+#    #+#             */
-/*   Updated: 2026/02/27 14:07:53 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/11 15:20:21 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ char	*ft_strdup(const char *s);
 char	*ft_strjoin(const char *s1, const char *s2);
 size_t	ft_strlen(const char *str);
 int		ft_strncmp(char *s1, char *s2, size_t n);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
 
 
 #endif

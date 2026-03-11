@@ -1,4 +1,3 @@
 # our_minishell
 
-
-hmm
+File that contains all the libt functions we need..
