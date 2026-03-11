@@ -124,7 +124,7 @@ int	add_token_node(t_token **tokens, char *content, t_type type)
 	t_token	*new_node;
 	t_token	*temp;
 
-	new_node = malloc(sizeof(t_token));
+	new_node = ft_calloc(1 ,sizeof(t_token));
 	if (!new_node)
 		return (-1);
 	new_node->content = ft_strdup(content);
@@ -201,7 +201,7 @@ void	create_tokens(char *input, t_token **tokens, int check)
 		else
 			check = handle_words(&input[i], tokens);
 		if (check == -1)
-			return (clear_tokens(tokens));
+			return (clear_tokens(tokens), errno = ENOMEM, perror("Error"), exit(errno));
 		i += check;
 	}
 }
@@ -345,13 +345,13 @@ void	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
 	{
 		current_cmd = add_cmd_node(cmd_list);
 		if (!current_cmd)
-			return (clear_cmds(cmd_list));
+			return (clear_tokens(&tokens), clear_cmds(cmd_list), errno = ENOMEM, perror("Error"), exit(errno));
 		word_count = count_tokens_words(tmp);
 		current_cmd->cmd_flags = ft_calloc((word_count + 1), sizeof(char *));
 		if (!current_cmd->cmd_flags)
-			return (clear_cmds(cmd_list));
-		if (fill_cmd_data(&tmp, current_cmd) == NULL)
-			return (clear_cmds(cmd_list));
+			return (clear_tokens(&tokens), clear_cmds(cmd_list), errno = ENOMEM, perror("Error"), exit(errno));
+		if (!fill_cmd_data(&tmp, current_cmd))
+			return (clear_tokens(&tokens), clear_cmds(cmd_list), errno = ENOMEM, perror("Error"), exit(errno));
 		if (tmp && tmp->type == tk_PIPE)
 			tmp = tmp->next;
 	}
