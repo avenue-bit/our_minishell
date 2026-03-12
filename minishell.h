@@ -5,6 +5,7 @@
 # include "libft_utils/libft_utils.h"
 # include <errno.h>
 # include <fcntl.h>
+# include <readline/history.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
@@ -33,18 +34,23 @@ typedef enum e_type
 	tk_APPEND
 }					t_type;
 
-typedef struct s_redir
+typedef struct s_token
 {
-	char			*filename;
-	enum e_type		type;
-	struct s_redir	*next;
-}					t_redir;
+	char			*content;
+	t_type			type;
+	struct s_token	*next;
+	struct s_token	*prev;
+}					t_token;
 
 typedef struct s_cmd
 {
 	char			**cmd_flags;
-	struct s_redir	*redirections;
+	char			*infile;
+	char			*outfile;
+	BOOL			append;
 	struct s_cmd	*next;
+	struct s_cmd	*prev;
+
 }					t_cmd;
 
 typedef struct s_env
@@ -64,6 +70,8 @@ typedef struct s_exec
 	char			*command_path;
 	int				pre_read_fd;
 	int				pipe_fd[2];
+	int				infile_fd;
+	int				outfile_fd;
 	int				exit_code;
 	int				last_pid;
 }					t_exec;
@@ -91,16 +99,19 @@ int					check_absolute(char *command);
 char				*pathfinder(t_exec *storage, char *command);
 int					path_ramp(t_exec *storage, char **argv);
 
-// Exec Functions
+// Pipe and Fork Functions
 int					fork_ramp(t_exec *storage, t_cmd *cmd_node);
 void				exec_fork(t_exec *storage, t_cmd *cmd_node);
 void				child_wrapper(t_exec *storage, t_cmd *current);
 void				parent_wrapper(t_exec *storage, t_cmd *current);
 void				wait_for_child(t_exec *storage);
 
+// Redirection Functions
+void				infile_outfile_check(t_exec *storage, t_cmd *cmd_node);
+
 // Free and Close Functions
 void				path_env_free(t_exec *storage);
-void 				failexec_close(t_exec *storage);
+void				failexec_close(t_exec *storage);
 
 // Environment Utils
 void				env_clearnode(t_env **env_lst);

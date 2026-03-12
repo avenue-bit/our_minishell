@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_main.c                                        :+:      :+:    :+:   */
+/*   exec_pnf.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:45:59 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/11 17:12:06 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/12 15:38:25 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	child_wrapper(t_exec *storage, t_cmd *current)
 		close(storage->pipe_fd[1]);
 		close(storage->pipe_fd[0]);
 	}
+	infile_outfile_check(storage, current);
 	exec_fork(storage, current);
 }
 
