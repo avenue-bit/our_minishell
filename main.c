@@ -185,7 +185,7 @@ void	create_tokens(char *input, t_token **tokens, int check)
 	i = 0;
 	while (input[i])
 	{
-		while (input[i] && (input[i] == ' ' || input[i] >= 0 && input[i] <= 13))
+		while (input[i] && (input[i] == ' ' || input[i] >= 9 && input[i] <= 13))
 			i++;
 		if (!input[i])
 			break ;
@@ -202,8 +202,7 @@ void	create_tokens(char *input, t_token **tokens, int check)
 		else
 			check = handle_words(&input[i], tokens);
 		if (check == -1)
-			return (clear_tokens(tokens), perror("malloc failed"),
-				exit(errno));
+			return (clear_tokens(tokens), perror("Error"), exit(errno));
 		i += check;
 	}
 }
@@ -323,7 +322,7 @@ int	fill_cmd_data(t_token **tokens, t_cmd *cmd)
 		{
 			cmd->cmd_flags[i] = ft_strdup((*tokens)->content);
 			if (!cmd->cmd_flags[i++])
-				return (perror("malloc failed"), ENOMEM);
+				return (perror("Error"), ENOMEM);
 		}
 		else if ((*tokens)->type >= tk_REDIR_IN && (*tokens)->type <= tk_APPEND)
 		{
@@ -331,7 +330,7 @@ int	fill_cmd_data(t_token **tokens, t_cmd *cmd)
 			if (reint == ENOENT)
 				return (ENOENT);
 			else if (reint == ENOMEM)
-				return (perror("malloc failed"), ENOMEM);
+				return (perror("Error"), ENOMEM);
 		}
 		if (*tokens)
 			*tokens = (*tokens)->next;
@@ -353,12 +352,12 @@ void	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
 		current_cmd = add_cmd_node(cmd_list);
 		if (!current_cmd)
 			return (clear_tokens(&tokens), clear_cmds(cmd_list),
-				perror("malloc failed"), exit(errno));
+				perror("Error"), exit(errno));
 		word_count = count_tokens_words(tmp);
 		current_cmd->cmd_flags = ft_calloc((word_count + 1), sizeof(char *));
 		if (!current_cmd->cmd_flags)
 			return (clear_tokens(&tokens), clear_cmds(cmd_list),
-				perror("malloc failed"), exit(errno));
+				perror("Error"), exit(errno));
 		if (!!fill_cmd_data(&tmp, current_cmd))
 			return (clear_tokens(&tokens), clear_cmds(cmd_list), exit(errno));
 		if (tmp && tmp->type == tk_PIPE)
