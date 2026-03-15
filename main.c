@@ -202,7 +202,7 @@ void	create_tokens(char *input, t_token **tokens, int check)
 		else
 			check = handle_words(&input[i], tokens);
 		if (check == -1)
-			return (clear_tokens(tokens), errno = ENOMEM, perror("Error"),
+			return (clear_tokens(tokens), perror("malloc failed"),
 				exit(errno));
 		i += check;
 	}
@@ -283,7 +283,7 @@ t_cmd	*add_cmd_node(t_cmd **cmd_list)
 	return (new_node);
 }
 
-int fill_cmd_data_redir(t_token **tokens, t_cmd *cmd)
+int	fill_cmd_data_redir(t_token **tokens, t_cmd *cmd)
 {
 	t_type	type;
 	int		fd;
@@ -303,17 +303,18 @@ int fill_cmd_data_redir(t_token **tokens, t_cmd *cmd)
 	close(fd);
 	errno = 0;
 	if (type == tk_REDIR_IN)
-		return (free(cmd->infile), cmd->infile = ft_strdup((*tokens)->content), errno);
+		return (free(cmd->infile), cmd->infile = ft_strdup((*tokens)->content),
+			errno);
 	else
 		return (free(cmd->outfile), cmd->append = (type == tk_APPEND),
 			cmd->outfile = ft_strdup((*tokens)->content), errno);
 	return (0);
 }
 
-int fill_cmd_data(t_token **tokens, t_cmd *cmd)
+int	fill_cmd_data(t_token **tokens, t_cmd *cmd)
 {
 	int	i;
-	int reint;
+	int	reint;
 
 	i = 0;
 	while (*tokens && (*tokens)->type != tk_PIPE)
@@ -322,7 +323,7 @@ int fill_cmd_data(t_token **tokens, t_cmd *cmd)
 		{
 			cmd->cmd_flags[i] = ft_strdup((*tokens)->content);
 			if (!cmd->cmd_flags[i++])
-				return (perror("Error"), ENOMEM);
+				return (perror("malloc failed"), ENOMEM);
 		}
 		else if ((*tokens)->type >= tk_REDIR_IN && (*tokens)->type <= tk_APPEND)
 		{
@@ -330,7 +331,7 @@ int fill_cmd_data(t_token **tokens, t_cmd *cmd)
 			if (reint == ENOENT)
 				return (ENOENT);
 			else if (reint == ENOMEM)
-				return (perror("Error"), ENOMEM);
+				return (perror("malloc failed"), ENOMEM);
 		}
 		if (*tokens)
 			*tokens = (*tokens)->next;
@@ -351,13 +352,13 @@ void	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
 	{
 		current_cmd = add_cmd_node(cmd_list);
 		if (!current_cmd)
-			return (clear_tokens(&tokens), clear_cmds(cmd_list), errno = ENOMEM,
-				perror("Error"), exit(errno));
+			return (clear_tokens(&tokens), clear_cmds(cmd_list),
+				perror("malloc failed"), exit(errno));
 		word_count = count_tokens_words(tmp);
 		current_cmd->cmd_flags = ft_calloc((word_count + 1), sizeof(char *));
 		if (!current_cmd->cmd_flags)
-			return (clear_tokens(&tokens), clear_cmds(cmd_list), errno = ENOMEM,
-				perror("Error"), exit(errno));
+			return (clear_tokens(&tokens), clear_cmds(cmd_list),
+				perror("malloc failed"), exit(errno));
 		if (!!fill_cmd_data(&tmp, current_cmd))
 			return (clear_tokens(&tokens), clear_cmds(cmd_list), exit(errno));
 		if (tmp && tmp->type == tk_PIPE)
