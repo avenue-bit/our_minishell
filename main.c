@@ -124,7 +124,7 @@ int	add_token_node(t_token **tokens, char *content, t_type type)
 	t_token	*new_node;
 	t_token	*temp;
 
-	new_node = ft_calloc(1 ,sizeof(t_token));
+	new_node = ft_calloc(1, sizeof(t_token));
 	if (!new_node)
 		return (-1);
 	new_node->content = ft_strdup(content);
@@ -168,7 +168,8 @@ int	handle_words(char *input, t_token **tokens)
 		i++;
 	}
 	if (quotingmark)
-		return (errno = 1, perror("Error: \" / \' missing"), clear_tokens(tokens), exit(errno), 0);
+		return (errno = 1, perror("Error: \" / \' missing"),
+				clear_tokens(tokens), exit(errno), 0);
 	word = ft_substr(input, 0, i);
 	if (!word)
 		return (-1);
@@ -201,7 +202,8 @@ void	create_tokens(char *input, t_token **tokens, int check)
 		else
 			check = handle_words(&input[i], tokens);
 		if (check == -1)
-			return (clear_tokens(tokens), errno = ENOMEM, perror("Error"), exit(errno));
+			return (clear_tokens(tokens), errno = ENOMEM, perror("Error"),
+				exit(errno));
 		i += check;
 	}
 }
@@ -284,28 +286,27 @@ t_cmd	*add_cmd_node(t_cmd **cmd_list)
 char	*fill_cmd_data_redir(t_token **tokens, t_cmd *cmd)
 {
 	t_type	type;
+	int		fd;
 
 	type = (*tokens)->type;
 	*tokens = (*tokens)->next;
 	if (!*tokens)
 		return (NULL);
 	if (type == tk_REDIR_IN)
-	{
-		if (cmd->infile)
-			free(cmd->infile);
-		cmd->infile = ft_strdup((*tokens)->content);
-	}
+		fd = open((*tokens)->content, O_RDONLY);
+	else if (type == tk_APPEND)
+		fd = open((*tokens)->content, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
-	{
-		if (cmd->outfile)
-			free(cmd->outfile);
-		cmd->append = (type = tk_APPEND);
-		cmd->outfile = ft_strdup((*tokens)->content);
-	}
-	if ((type == tk_REDIR_IN && !cmd->infile) || (type != tk_REDIR_IN
-			&& !cmd->outfile))
-		return (NULL);
-	return ("");
+		fd = open((*tokens)->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd == -1)
+		return (perror((*tokens)->content), NULL);
+	close(fd);
+	if (type == tk_REDIR_IN)
+		return (free(cmd->infile), cmd->infile = ft_strdup((*tokens)->content));
+	else
+		return (free(cmd->outfile), cmd->append = (type == tk_APPEND),
+			cmd->outfile = ft_strdup((*tokens)->content));
+	return ("OK");
 }
 
 char	*fill_cmd_data(t_token **tokens, t_cmd *cmd)
@@ -345,13 +346,16 @@ void	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
 	{
 		current_cmd = add_cmd_node(cmd_list);
 		if (!current_cmd)
-			return (clear_tokens(&tokens), clear_cmds(cmd_list), errno = ENOMEM, perror("Error"), exit(errno));
+			return (clear_tokens(&tokens), clear_cmds(cmd_list), errno = ENOMEM,
+				perror("Error"), exit(errno));
 		word_count = count_tokens_words(tmp);
 		current_cmd->cmd_flags = ft_calloc((word_count + 1), sizeof(char *));
 		if (!current_cmd->cmd_flags)
-			return (clear_tokens(&tokens), clear_cmds(cmd_list), errno = ENOMEM, perror("Error"), exit(errno));
+			return (clear_tokens(&tokens), clear_cmds(cmd_list), errno = ENOMEM,
+				perror("Error"), exit(errno));
 		if (!fill_cmd_data(&tmp, current_cmd))
-			return (clear_tokens(&tokens), clear_cmds(cmd_list), errno = ENOMEM, perror("Error"), exit(errno));
+			return (clear_tokens(&tokens), clear_cmds(cmd_list), errno = ENOMEM,
+				perror("Error"), exit(errno));
 		if (tmp && tmp->type == tk_PIPE)
 			tmp = tmp->next;
 	}
@@ -362,6 +366,7 @@ int	main(int ac, char **av, char **envp)
 	t_token	*tokens;
 	t_cmd	*cmd;
 
+	/*  ----Check without readline---- */
 	tokens = NULL;
 	cmd = NULL;
 	printf("Input %s\n\n", av[1]);
@@ -372,4 +377,36 @@ int	main(int ac, char **av, char **envp)
 	print_cmd_list(cmd);
 	clear_cmds(&cmd);
 	return (0);
+	/*  ----END--- */
+	/* ----Check with readline----*/
+	/* 	char *input;
+		(void)ac;
+		(void)av;
+		(void)envp;
+		while (1)
+		{
+			tokens = NULL;
+			cmd = NULL;
+			input = readline("#jeis$");
+			if (!input)
+			{
+				write(1, "exiting...\n", 1);
+				break ;
+			}
+			if (*input == 'e')
+				{
+					clear_tokens(&tokens);
+					clear_cmds(&cmd);
+					exit(errno);
+				}
+			if (*input)
+				add_history(input);
+			create_tokens(input, &tokens, 0);
+			create_cmd_list(&cmd, tokens);
+			print_tokens(tokens);
+			print_cmd_list(cmd);
+			clear_tokens(&tokens);
+			clear_cmds(&cmd);
+			//free(input);
+		} */
 }
