@@ -283,7 +283,7 @@ t_cmd	*add_cmd_node(t_cmd **cmd_list)
 	return (new_node);
 }
 
-char	*fill_cmd_data_redir(t_token **tokens, t_cmd *cmd)
+int fill_cmd_data_redir(t_token **tokens, t_cmd *cmd)
 {
 	t_type	type;
 	int		fd;
@@ -291,7 +291,7 @@ char	*fill_cmd_data_redir(t_token **tokens, t_cmd *cmd)
 	type = (*tokens)->type;
 	*tokens = (*tokens)->next;
 	if (!*tokens)
-		return (NULL);
+		return (ENOMEM);
 	if (type == tk_REDIR_IN)
 		fd = open((*tokens)->content, O_RDONLY);
 	else if (type == tk_APPEND)
@@ -299,19 +299,21 @@ char	*fill_cmd_data_redir(t_token **tokens, t_cmd *cmd)
 	else
 		fd = open((*tokens)->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
-		return (perror((*tokens)->content), NULL);
+		return (perror((*tokens)->content), ENOENT);
 	close(fd);
+	errno = 0;
 	if (type == tk_REDIR_IN)
-		return (free(cmd->infile), cmd->infile = ft_strdup((*tokens)->content));
+		return (free(cmd->infile), cmd->infile = ft_strdup((*tokens)->content), errno);
 	else
 		return (free(cmd->outfile), cmd->append = (type == tk_APPEND),
-			cmd->outfile = ft_strdup((*tokens)->content));
-	return ("OK");
+			cmd->outfile = ft_strdup((*tokens)->content), errno);
+	return (0);
 }
 
-char	*fill_cmd_data(t_token **tokens, t_cmd *cmd)
+int fill_cmd_data(t_token **tokens, t_cmd *cmd)
 {
 	int	i;
+	int reint;
 
 	i = 0;
 	while (*tokens && (*tokens)->type != tk_PIPE)
@@ -320,17 +322,20 @@ char	*fill_cmd_data(t_token **tokens, t_cmd *cmd)
 		{
 			cmd->cmd_flags[i] = ft_strdup((*tokens)->content);
 			if (!cmd->cmd_flags[i++])
-				return (NULL);
+				return (perror("Error"), ENOMEM);
 		}
 		else if ((*tokens)->type >= tk_REDIR_IN && (*tokens)->type <= tk_APPEND)
 		{
-			if (fill_cmd_data_redir(tokens, cmd) == NULL)
-				return (NULL);
+			reint = fill_cmd_data_redir(tokens, cmd);
+			if (reint == ENOENT)
+				return (ENOENT);
+			else if (reint == ENOMEM)
+				return (perror("Error"), ENOMEM);
 		}
 		if (*tokens)
 			*tokens = (*tokens)->next;
 	}
-	return ("");
+	return (0);
 }
 
 void	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
@@ -353,9 +358,8 @@ void	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
 		if (!current_cmd->cmd_flags)
 			return (clear_tokens(&tokens), clear_cmds(cmd_list), errno = ENOMEM,
 				perror("Error"), exit(errno));
-		if (!fill_cmd_data(&tmp, current_cmd))
-			return (clear_tokens(&tokens), clear_cmds(cmd_list), errno = ENOMEM,
-				perror("Error"), exit(errno));
+		if (!!fill_cmd_data(&tmp, current_cmd))
+			return (clear_tokens(&tokens), clear_cmds(cmd_list), exit(errno));
 		if (tmp && tmp->type == tk_PIPE)
 			tmp = tmp->next;
 	}
