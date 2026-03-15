@@ -42,15 +42,6 @@ typedef struct s_token
 	struct s_token	*prev;
 }					t_token;
 
-typedef struct s_redir
-{
-	char *filename;
-	t_type 	type;
-	struct t_redir *next;
-	struct t_redir *prev;
-
-}	t_redir;
-
 typedef struct s_cmd
 {
 	char			**cmd_flags;
