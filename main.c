@@ -168,8 +168,7 @@ int	handle_words(char *input, t_token **tokens)
 		i++;
 	}
 	if (quotingmark)
-		return (errno = 1, perror("Error: \" / \' missing"),
-				clear_tokens(tokens), exit(errno), 0);
+		return (write(2, "Error: \" / \' missing\n", 22), -2);
 	word = ft_substr(input, 0, i);
 	if (!word)
 		return (-1);
@@ -178,11 +177,8 @@ int	handle_words(char *input, t_token **tokens)
 	return (free(word), i);
 }
 
-void	create_tokens(char *input, t_token **tokens, int check)
+int	create_tokens(char *input, t_token **tokens, int check, int i)
 {
-	int	i;
-
-	i = 0;
 	while (input[i])
 	{
 		while (input[i] && (input[i] == ' ' || input[i] >= 9 && input[i] <= 13))
@@ -202,9 +198,12 @@ void	create_tokens(char *input, t_token **tokens, int check)
 		else
 			check = handle_words(&input[i], tokens);
 		if (check == -1)
-			return (clear_tokens(tokens), perror("Error"), exit(errno));
+			return (clear_tokens(tokens), perror("Error"), exit(errno), 1);
+		if (check == -2)
+			return (clear_tokens(tokens), 2);
 		i += check;
 	}
+	return (0);
 }
 
 void	print_tokens(t_token *tokens)
@@ -327,10 +326,10 @@ int	fill_cmd_data(t_token **tokens, t_cmd *cmd)
 		else if ((*tokens)->type >= tk_REDIR_IN && (*tokens)->type <= tk_APPEND)
 		{
 			reint = fill_cmd_data_redir(tokens, cmd);
+			if (reint == ENOMEM)
+				return (perror("Error"), ENOMEM);
 			if (reint == ENOENT)
 				return (ENOENT);
-			else if (reint == ENOMEM)
-				return (perror("Error"), ENOMEM);
 		}
 		if (*tokens)
 			*tokens = (*tokens)->next;
@@ -341,7 +340,7 @@ int	fill_cmd_data(t_token **tokens, t_cmd *cmd)
 void	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
 {
 	t_token	*tmp;
-	int		word_count;
+	int		reint;
 	t_cmd	*current_cmd;
 
 	if (!tokens)
@@ -353,64 +352,123 @@ void	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
 		if (!current_cmd)
 			return (clear_tokens(&tokens), clear_cmds(cmd_list),
 				perror("Error"), exit(errno));
-		word_count = count_tokens_words(tmp);
-		current_cmd->cmd_flags = ft_calloc((word_count + 1), sizeof(char *));
+		current_cmd->cmd_flags = ft_calloc((count_tokens_words(tmp) + 1),
+				sizeof(char *));
 		if (!current_cmd->cmd_flags)
 			return (clear_tokens(&tokens), clear_cmds(cmd_list),
 				perror("Error"), exit(errno));
-		if (!!fill_cmd_data(&tmp, current_cmd))
+		if (fill_cmd_data(&tmp, current_cmd) != 0)
 			return (clear_tokens(&tokens), clear_cmds(cmd_list), exit(errno));
 		if (tmp && tmp->type == tk_PIPE)
 			tmp = tmp->next;
 	}
 }
 
+int	check_redirection(t_type type)
+{
+	return (type == tk_REDIR_IN || type == tk_REDIR_OUT || type == tk_HERE_DOC
+		|| type == tk_APPEND);
+}
+
+int	print_syntax_error(char *token)
+{
+	if (!token)
+		write(2, "jeis: syntax error unexpected token 'newline'\n", 47);
+	else
+	{
+		write(2, "jeis: syntax error unexpected token ", 37);
+		write(2, token, ft_strlen(token));
+		write (2, "\n", 2);
+	}
+	return (1);
+}
+
+int	check_syntax(t_token *tokens)
+{
+	if (!tokens)
+		return (0);
+	if (tokens->type == tk_PIPE)
+		return (print_syntax_error("|"));
+	while (tokens)
+	{
+		if (tokens->type == tk_PIPE)
+		{
+			if (!tokens->next)
+				return (print_syntax_error(NULL));
+			if (tokens->next->type == tk_PIPE)
+				return (print_syntax_error("|"));
+		}
+		else if (check_redirection(tokens->type))
+		{
+			if (!tokens->next)
+				return (print_syntax_error(NULL));
+			if (tokens->next->type != tk_WORD)
+				return (print_syntax_error(tokens->next->content));
+		}
+		tokens = tokens->next;
+	}
+	return (0);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_token	*tokens;
 	t_cmd	*cmd;
+	char	*input;
 
 	/*  ----Check without readline---- */
-	tokens = NULL;
-	cmd = NULL;
-	printf("Input %s\n\n", av[1]);
-	create_tokens(av[1], &tokens, 0);
-	create_cmd_list(&cmd, tokens);
-	print_tokens(tokens);
-	clear_tokens(&tokens);
-	print_cmd_list(cmd);
-	clear_cmds(&cmd);
-	return (0);
+	// tokens = NULL;
+	// cmd = NULL;
+	// printf("Input %s\n\n", av[1]);
+	// create_tokens(av[1], &tokens, 0, 0);
+	// check_syntax(tokens);
+	// create_cmd_list(&cmd, tokens);
+	// print_tokens(tokens);
+	// clear_tokens(&tokens);
+	// print_cmd_list(cmd);
+	// clear_cmds(&cmd);
+	// return (0);
 	/*  ----END--- */
 	/* ----Check with readline----*/
-	/* 	char *input;
-		(void)ac;
-		(void)av;
-		(void)envp;
-		while (1)
+	(void)ac;
+	(void)av;
+	(void)envp;
+	while (1)
+	{
+		tokens = NULL;
+		cmd = NULL;
+		input = readline("#jeis$ ");
+		if (!input)
 		{
-			tokens = NULL;
-			cmd = NULL;
-			input = readline("#jeis$");
-			if (!input)
-			{
-				write(1, "exiting...\n", 1);
-				break ;
-			}
-			if (*input == 'e')
-				{
-					clear_tokens(&tokens);
-					clear_cmds(&cmd);
-					exit(errno);
-				}
-			if (*input)
-				add_history(input);
-			create_tokens(input, &tokens, 0);
-			create_cmd_list(&cmd, tokens);
-			print_tokens(tokens);
-			print_cmd_list(cmd);
+			write(1, "exiting...\n", 12);
+			break ;
+		}
+		if (*input == 'e')
+		{
 			clear_tokens(&tokens);
 			clear_cmds(&cmd);
-			//free(input);
-		} */
+			exit(errno);
+		}
+		if (*input)
+			add_history(input);
+		if (create_tokens(input, &tokens, 0, 0) != 0)
+		{
+			free(input);
+			continue ;
+		}
+		if (check_syntax(tokens))
+		{
+			clear_tokens(&tokens);
+			free(input);
+			continue ;
+		}
+		create_cmd_list(&cmd, tokens);
+		print_tokens(tokens);
+		print_cmd_list(cmd);
+		if (tokens)
+			clear_tokens(&tokens);
+		if (cmd)
+			clear_cmds(&cmd);
+		free(input);
+	}
 }
