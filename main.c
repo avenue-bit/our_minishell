@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/11 17:14:52 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/16 14:07:19 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	main(int argc, char **argv, char **envp)
 		return (env_clearnode(&storage.environment), 0);
 	// Error handling needed
 	storage.pre_read_fd = -1;
+	is_doc_here(storage, current);
 	while (current)
 	{
 		if (fork_ramp(&storage, current) == -1)

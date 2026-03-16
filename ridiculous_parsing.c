@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:35:30 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/11 16:19:14 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/13 17:50:21 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ t_cmd	*cmd_newnode(char **command)
 	new_cmd->cmd_flags = malloc(sizeof(char *) * 3);
 	if (!new_cmd->cmd_flags)
 		return (NULL);
+	new_cmd->infile = "test_in.txt";
+	new_cmd->outfile = "test_out.txt";
 	new_cmd->cmd_flags[0] = command[1];
 	new_cmd->cmd_flags[1] = command[2];
 	new_cmd->cmd_flags[2] = NULL;
