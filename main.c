@@ -357,7 +357,7 @@ void	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
 		if (!current_cmd->cmd_flags)
 			return (clear_tokens(&tokens), clear_cmds(cmd_list),
 				perror("Error"), exit(errno));
-		if (fill_cmd_data(&tmp, current_cmd) != 0)
+		if (fill_cmd_data(&tmp, current_cmd) == ENOMEM)
 			return (clear_tokens(&tokens), clear_cmds(cmd_list), exit(errno));
 		if (tmp && tmp->type == tk_PIPE)
 			tmp = tmp->next;
@@ -417,20 +417,22 @@ int	main(int ac, char **av, char **envp)
 	char	*input;
 
 	/*  ----Check without readline---- */
-	// tokens = NULL;
-	// cmd = NULL;
-	// printf("Input %s\n\n", av[1]);
-	// create_tokens(av[1], &tokens, 0, 0);
-	// check_syntax(tokens);
-	// create_cmd_list(&cmd, tokens);
-	// print_tokens(tokens);
-	// clear_tokens(&tokens);
-	// print_cmd_list(cmd);
-	// clear_cmds(&cmd);
-	// return (0);
+	tokens = NULL;
+	cmd = NULL;
+	printf("Input %s\n\n", av[1]);
+	create_tokens(av[1], &tokens, 0, 0);
+	check_syntax(tokens);
+	create_cmd_list(&cmd, tokens);
+	print_tokens(tokens);
+	print_cmd_list(cmd);
+	if (tokens)
+		clear_tokens(&tokens);
+	if (cmd)
+		clear_cmds(&cmd);
+	return (0);
 	/*  ----END--- */
 	/* ----Check with readline----*/
-	(void)ac;
+/* 	(void)ac;
 	(void)av;
 	(void)envp;
 	while (1)
@@ -463,12 +465,12 @@ int	main(int ac, char **av, char **envp)
 			continue ;
 		}
 		create_cmd_list(&cmd, tokens);
-		print_tokens(tokens);
-		print_cmd_list(cmd);
+		//print_tokens(tokens);
+		//print_cmd_list(cmd);
 		if (tokens)
 			clear_tokens(&tokens);
 		if (cmd)
 			clear_cmds(&cmd);
 		free(input);
-	}
+	} */
 }
