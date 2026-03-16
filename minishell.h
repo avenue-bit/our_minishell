@@ -59,7 +59,8 @@ typedef struct s_env
 	char			*content;
 	struct s_env	*next;
 }					t_env;
-typedef int			(*builtin_ptr)(t_exec *, t_cmd *);
+
+//typedef int			(*builtin_ptr)(t_exec *, t_cmd *);
 
 typedef struct s_exec
 {
@@ -70,7 +71,7 @@ typedef struct s_exec
 	int				n_paths;
 	char			*command_path;
 	char			*builtins[8];
-	builtin_ptr		*builtin_func[8];
+	//builtin_ptr		*builtin_func[8];
 	int				pre_read_fd;
 	int				pipe_fd[2];
 	int				infile_fd;
