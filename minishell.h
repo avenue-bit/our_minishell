@@ -59,7 +59,8 @@ typedef struct s_env
 	char			*content;
 	struct s_env	*next;
 }					t_env;
-typedef int			(*builtin_ptr)(t_exec *, t_cmd *);
+
+//typedef int			(*builtin_ptr)(t_exec *, t_cmd *);
 
 typedef struct s_exec
 {
@@ -70,7 +71,7 @@ typedef struct s_exec
 	int				n_paths;
 	char			*command_path;
 	char			*builtins[8];
-	builtin_ptr		*builtin_func[8];
+	//builtin_ptr		*builtin_func[8];
 	int				pre_read_fd;
 	int				pipe_fd[2];
 	int				infile_fd;
@@ -95,6 +96,12 @@ char				*fetch_content(char *environment);
 t_env				*envnodes_init(char **envp);
 char				**envarray_init(t_exec *storage, t_env *environments);
 char				*env_join(char *key, char *content);
+
+// Path Initialisation
+int					extract_path(t_exec *shell_storage);
+int					check_absolute(char *command);
+char				*pathfinder(t_exec *storage, char *command);
+int					path_ramp(t_exec *storage, char **argv);
 
 // Path Initialisation
 int					extract_path(t_exec *shell_storage);
@@ -140,4 +147,3 @@ int					ft_envsize(t_env *lst);
 size_t				n_commands(t_cmd *cmd);
 
 #endif
-
