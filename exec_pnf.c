@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:45:59 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/16 17:05:17 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/16 19:13:59 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,10 @@ void	exec_fork(t_exec *storage, t_cmd *cmd_node)
 		exit(127);
 	}
 	else
-		exit(exec_builtin(storage, cmd_node));
+	{
+		printf("is a builtin function\n");	
+		exit(0);
+	}
 }
 
 void	parent_wrapper(t_exec *storage, t_cmd *current)

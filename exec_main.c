@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/16 18:59:51 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/16 19:23:51 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 // 2. envarray_init: Converts the linked list of environment into a modifiable array of strings,
 //	must do this as it is more tedious to handle the stack version of envp rather than use a linked list
 
-int	main(int argc, char **argv, char **envp)
+int	exec_main(int argc, char **argv, char **envp)
 {
 	t_cmd	*current;
 	t_cmd	*head;
@@ -26,9 +26,8 @@ int	main(int argc, char **argv, char **envp)
 	t_exec storage; // RENAME LATER
 	(void)argc;
 	ft_bzero(&storage, sizeof(t_exec));
-	built_init(&storage);
+	//built_init(&storage);
 	head = current;
-	current = cmdnodes_init(argv);
 	storage.environment = envnodes_init(envp);
 	if (!storage.environment)
 		return (-1);
@@ -39,10 +38,10 @@ int	main(int argc, char **argv, char **envp)
 	storage.pre_read_fd = -1;
 	while (current)
 	{
-		if (!current->next && !current->prev
-			&& is_builtin(&storage, current->cmd_flags[0]))
-			storage.exit_code = exec_builtin(&storage, &current);
-		else if (fork_ramp(&storage, current) == -1)
+		// if (!current->next && !current->prev
+		// 	&& is_builtin(&storage, current->cmd_flags[0]))
+		// 	storage.exit_code = exec_builtin(&storage, &current);
+		if (fork_ramp(&storage, current) == -1)
 		{
 			failexec_close(&storage);
 			break ;
@@ -50,7 +49,7 @@ int	main(int argc, char **argv, char **envp)
 		current = current->next;
 	}
 	wait_for_child(&storage);
-	heredoc_cleanup(&head);
+	//heredoc_cleanup(head);
 	path_env_free(&storage);
 	return (0);
 }

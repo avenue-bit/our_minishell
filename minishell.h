@@ -2,7 +2,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-//# include "libft_utils/libft_utils.h"
+# include "libft_utils/libft_utils.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
@@ -80,15 +80,7 @@ typedef struct s_exec
 	int				last_pid;
 }					t_exec;
 
-//********************************************************//
-// THIS IS FOR TESTING PURPOSES WHILE JOSH FINISHES WORK
-//********************************************************//
-t_cmd				*cmdnodes_init(char **argv);
-t_cmd				*cmd_newnode(char **command);
-void				cmd_clearnode(t_cmd **cmd_lst);
-//********************************************************//
-// THIS IS FOR TESTING PURPOSES WHILE JOSH FINISHES WORK
-//********************************************************//
+int	exec_main(int argc, char **argv, char **envp);
 
 // Environment Initialisation
 char				*fetch_key(char *environment);

@@ -1,82 +1,6 @@
 
 #include "minishell.h"
 
-char	*ft_strdup(const char *s)
-{
-	int		i;
-	char	*new_string;
-
-	i = 0;
-	while (s[i])
-		i++;
-	new_string = malloc(sizeof(char) * (i + 1));
-	if (new_string == NULL)
-		return (NULL);
-	i = 0;
-	while (*s)
-	{
-		new_string[i++] = *s;
-		s++;
-	}
-	new_string[i] = '\0';
-	return (new_string);
-}
-
-size_t	ft_strlen(const char *str)
-{
-	int	i;
-
-	i = 0;
-	while (*(str + i) != '\0')
-	{
-		i++;
-	}
-	return (i);
-}
-
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	void	*ptr;
-	size_t	i;
-
-	i = 0;
-	if (nmemb == 0 || size == 0)
-		return (malloc(0));
-	if (nmemb > ((size_t)-1) / size)
-		return (NULL);
-	ptr = malloc(nmemb * size);
-	if (ptr == NULL)
-		return (NULL);
-	while (i < nmemb * size)
-		((unsigned char *)ptr)[i++] = 0;
-	return (ptr);
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char	*substr;
-	size_t	i;
-
-	i = 0;
-	if (!s || (unsigned int)ft_strlen(s) <= start)
-		return (ft_calloc(1, 1));
-	while (s[start + i] != '\0' && i < len)
-		i++;
-	substr = malloc(sizeof(char) * (i + 1));
-	if (!substr)
-		return (NULL);
-	i = 0;
-	while (s[start + i] != '\0' && i < len)
-	{
-		substr[i] = s[start + i];
-		i++;
-	}
-	substr[i] = '\0';
-	if ((unsigned int)ft_strlen(s) <= start)
-		substr[0] = '\0';
-	return (substr);
-}
-
 void	clear_tokens(t_token **tokens)
 {
 	t_token	*tmp;
@@ -425,6 +349,7 @@ int	main(int ac, char **av, char **envp)
 	create_cmd_list(&cmd, tokens);
 	print_tokens(tokens);
 	print_cmd_list(cmd);
+	exec_main(ac, av, envp);
 	if (tokens)
 		clear_tokens(&tokens);
 	if (cmd)

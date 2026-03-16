@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   freenclear.c                                       :+:      :+:    :+:   */
+/*   free_n_close.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:10:43 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/16 14:50:43 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/16 19:23:39 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,15 @@ void failexec_close(t_exec *storage)
 		close(storage->pipe_fd[0]);
 }
 
-void heredoc_cleanup(t_cmd *head_node)
-{
-	t_cmd *current;
+// void heredoc_cleanup(t_cmd *head_node)
+// {
+// 	t_cmd *current;
 	
-	current = head_node;
-	while(current)
-	{
-		if(current->heredoc == TRUE)
-			unlink(current->infile);
-		current = current->next;
-	}
-}
+// 	current = head_node;
+// 	while(current)
+// 	{
+// 		if(current->heredoc == TRUE)
+// 			unlink(current->infile);
+// 		current = current->next;
+// 	}
+// }
