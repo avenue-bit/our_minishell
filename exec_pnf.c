@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:45:59 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/12 15:38:25 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/16 17:05:17 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,9 @@ void	child_wrapper(t_exec *storage, t_cmd *current)
 	exec_fork(storage, current);
 }
 
-void	parent_wrapper(t_exec *storage, t_cmd *current)
-{
-	if (storage->pre_read_fd != -1)
-		close(storage->pre_read_fd);
-	if (current->next)
-	{
-		close(storage->pipe_fd[1]);
-		storage->pre_read_fd = storage->pipe_fd[0];
-	}
-}
-
 void	exec_fork(t_exec *storage, t_cmd *cmd_node)
 {
-	if (is_builtin(cmd_node->cmd_flags[0]) == 0)
+	if (is_builtin(storage, cmd_node->cmd_flags[0]) == 0)
 	{
 		if (path_ramp(storage, cmd_node->cmd_flags) != 0)
 		{
@@ -76,9 +65,17 @@ void	exec_fork(t_exec *storage, t_cmd *cmd_node)
 		exit(127);
 	}
 	else
+		exit(exec_builtin(storage, cmd_node));
+}
+
+void	parent_wrapper(t_exec *storage, t_cmd *current)
+{
+	if (storage->pre_read_fd != -1)
+		close(storage->pre_read_fd);
+	if (current->next)
 	{
-		printf("is builtin and must be executed in parent\n");
-		exit(0);
+		close(storage->pipe_fd[1]);
+		storage->pre_read_fd = storage->pipe_fd[0];
 	}
 }
 
@@ -87,7 +84,7 @@ void	wait_for_child(t_exec *storage)
 	int	status;
 	int	reaped_pid;
 
-	while ((reaped_pid = waitpid(-1, &status, 0)) > 0)
+	while ((reaped_pid = wait(&status)) > 0)
 	{
 		if (reaped_pid == storage->last_pid)
 		{

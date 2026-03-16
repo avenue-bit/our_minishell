@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/16 14:07:19 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/16 17:05:04 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,13 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_cmd	*current;
+	t_cmd	*head;
 
 	t_exec storage; // RENAME LATER
 	(void)argc;
 	ft_bzero(&storage, sizeof(t_exec));
+	built_init(&storage);
+	head = current;
 	current = cmdnodes_init(argv);
 	storage.environment = envnodes_init(envp);
 	if (!storage.environment)
@@ -34,10 +37,12 @@ int	main(int argc, char **argv, char **envp)
 		return (env_clearnode(&storage.environment), 0);
 	// Error handling needed
 	storage.pre_read_fd = -1;
-	is_doc_here(storage, current);
 	while (current)
 	{
-		if (fork_ramp(&storage, current) == -1)
+		if (!current->next && !current->prev
+			&& is_builtin(&storage, current->cmd_flags[0]))
+			storage.exit_code = exec_builtin(&storage, &current);
+		else if (fork_ramp(&storage, current) == -1)
 		{
 			failexec_close(&storage);
 			break ;
@@ -45,6 +50,7 @@ int	main(int argc, char **argv, char **envp)
 		current = current->next;
 	}
 	wait_for_child(&storage);
+	heredoc_cleanup(&head);
 	path_env_free(&storage);
 	return (0);
 }
