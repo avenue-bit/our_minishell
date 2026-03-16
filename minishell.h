@@ -103,6 +103,12 @@ int					check_absolute(char *command);
 char				*pathfinder(t_exec *storage, char *command);
 int					path_ramp(t_exec *storage, char **argv);
 
+// Path Initialisation
+int					extract_path(t_exec *shell_storage);
+int					check_absolute(char *command);
+char				*pathfinder(t_exec *storage, char *command);
+int					path_ramp(t_exec *storage, char **argv);
+
 // Pipe and Fork Functions
 int					fork_ramp(t_exec *storage, t_cmd *cmd_node);
 void				exec_fork(t_exec *storage, t_cmd *cmd_node);
@@ -141,4 +147,3 @@ int					ft_envsize(t_env *lst);
 size_t				n_commands(t_cmd *cmd);
 
 #endif
-
