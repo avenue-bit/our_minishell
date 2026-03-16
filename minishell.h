@@ -59,8 +59,9 @@ typedef struct s_env
 	char			*content;
 	struct s_env	*next;
 }					t_env;
+typedef int			(*builtin_ptr)(t_exec *, t_cmd *);
 
-typedef struct s_shell
+typedef struct s_exec
 {
 	struct s_env	*environment;
 	char			**execve_env;
@@ -68,27 +69,75 @@ typedef struct s_shell
 	char			**all_paths;
 	int				n_paths;
 	char			*command_path;
-}					t_shell;
+	char			*builtins[8];
+	builtin_ptr		*builtin_func[8];
+	int				pre_read_fd;
+	int				pipe_fd[2];
+	int				infile_fd;
+	int				outfile_fd;
+	int				exit_code;
+	int				last_pid;
+}					t_exec;
+
+//********************************************************//
+// THIS IS FOR TESTING PURPOSES WHILE JOSH FINISHES WORK
+//********************************************************//
+t_cmd				*cmdnodes_init(char **argv);
+t_cmd				*cmd_newnode(char **command);
+void				cmd_clearnode(t_cmd **cmd_lst);
+//********************************************************//
+// THIS IS FOR TESTING PURPOSES WHILE JOSH FINISHES WORK
+//********************************************************//
 
 // Environment Initialisation
 char				*fetch_key(char *environment);
 char				*fetch_content(char *environment);
 t_env				*envnodes_init(char **envp);
-char				**envarray_init(t_shell *storage, t_env *environments);
+char				**envarray_init(t_exec *storage, t_env *environments);
 char				*env_join(char *key, char *content);
 
 // Path Initialisation
-int					extract_path(t_shell *shell_storage);
+int					extract_path(t_exec *shell_storage);
 int					check_absolute(char *command);
-char				*pathfinder(t_shell *storage, char *command);
-int					path_ramp(t_shell *storage, char **argv);
+char				*pathfinder(t_exec *storage, char *command);
+int					path_ramp(t_exec *storage, char **argv);
 
-// Libft Utils
-void				ft_arrayfree(char **str_array, int n);
-int					ft_envsize(t_env *lst);
+// Pipe and Fork Functions
+int					fork_ramp(t_exec *storage, t_cmd *cmd_node);
+void				exec_fork(t_exec *storage, t_cmd *cmd_node);
+void				child_wrapper(t_exec *storage, t_cmd *current);
+void				parent_wrapper(t_exec *storage, t_cmd *current);
+void				wait_for_child(t_exec *storage);
+
+// Redirection Functions
+void				infile_outfile_check(t_exec *storage, t_cmd *cmd_node);
+void				open_infile(t_exec *storage, t_cmd *cmd_node);
+void				open_outfile(t_exec *storage, t_cmd *cmd_node);
+
+// Built-In Functions
+int					is_builtin(t_exec *storage, char *command);
+int					exec_builtin(t_exec *storage, t_cmd *cmd_node);
+int					ft_echo(t_exec *storage, t_cmd cmd_node);
+int					ft_cd(t_exec *storage, t_cmd cmd_node);
+int					ft_pwd(t_exec *storage, t_cmd cmd_node);
+int					ft_export(t_exec *storage, t_cmd cmd_node);
+int					ft_unset(t_exec *storage, t_cmd cmd_node);
+int					ft_env(t_exec *storage, t_cmd cmd_node);
+int					ft_exit(t_exec *storage, t_cmd cmd_node);
+
+// Free and Close Functions
+void				path_env_free(t_exec *storage);
+void				failexec_close(t_exec *storage);
+void				heredoc_cleanup(t_cmd *head_node);
 
 // Environment Utils
 void				env_clearnode(t_env **env_lst);
 t_env				*env_newnode(char *environment);
 
+// AdHoc Utils
+void				ft_arrayfree(char **str_array, int n);
+int					ft_envsize(t_env *lst);
+size_t				n_commands(t_cmd *cmd);
+
 #endif
+
