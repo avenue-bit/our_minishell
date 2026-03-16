@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/16 19:23:51 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/16 19:40:32 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,33 @@
 // 2. envarray_init: Converts the linked list of environment into a modifiable array of strings,
 //	must do this as it is more tedious to handle the stack version of envp rather than use a linked list
 
-int	exec_main(int argc, char **argv, char **envp)
+int	is_builtin(t_exec *storage, char *command)
+{
+	int	cmd_len;
+	int	i;
+
+	if (!command || !*command)
+		return (0);
+	storage->builtins[0] = "echo";
+	storage->builtins[1] = "cd";
+	storage->builtins[2] = "pwd";
+	storage->builtins[3] = "export";
+	storage->builtins[4] = "unset";
+	storage->builtins[5] = "env";
+	storage->builtins[6] = "exit";
+	storage->builtins[7] = NULL;
+	cmd_len = ft_strlen(command);
+	i = 0;
+	while (storage->builtins[i])
+	{
+		if (ft_strncmp(command, storage->builtins[i], cmd_len + 1) == 0)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	exec_main(int argc, char **argv, char **envp, t_cmd *cmd_list)
 {
 	t_cmd	*current;
 	t_cmd	*head;
@@ -27,6 +53,7 @@ int	exec_main(int argc, char **argv, char **envp)
 	(void)argc;
 	ft_bzero(&storage, sizeof(t_exec));
 	//built_init(&storage);
+	current = cmd_list;
 	head = current;
 	storage.environment = envnodes_init(envp);
 	if (!storage.environment)

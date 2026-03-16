@@ -80,7 +80,7 @@ typedef struct s_exec
 	int				last_pid;
 }					t_exec;
 
-int	exec_main(int argc, char **argv, char **envp);
+int	exec_main(int argc, char **argv, char **envp, t_cmd *cmd_list);
 
 // Environment Initialisation
 char				*fetch_key(char *environment);
@@ -115,19 +115,19 @@ void				open_outfile(t_exec *storage, t_cmd *cmd_node);
 
 // Built-In Functions
 int					is_builtin(t_exec *storage, char *command);
-int					exec_builtin(t_exec *storage, t_cmd *cmd_node);
-int					ft_echo(t_exec *storage, t_cmd cmd_node);
-int					ft_cd(t_exec *storage, t_cmd cmd_node);
-int					ft_pwd(t_exec *storage, t_cmd cmd_node);
-int					ft_export(t_exec *storage, t_cmd cmd_node);
-int					ft_unset(t_exec *storage, t_cmd cmd_node);
-int					ft_env(t_exec *storage, t_cmd cmd_node);
-int					ft_exit(t_exec *storage, t_cmd cmd_node);
+// int					exec_builtin(t_exec *storage, t_cmd *cmd_node);
+// int					ft_echo(t_exec *storage, t_cmd cmd_node);
+// int					ft_cd(t_exec *storage, t_cmd cmd_node);
+// int					ft_pwd(t_exec *storage, t_cmd cmd_node);
+// int					ft_export(t_exec *storage, t_cmd cmd_node);
+// int					ft_unset(t_exec *storage, t_cmd cmd_node);
+// int					ft_env(t_exec *storage, t_cmd cmd_node);
+// int					ft_exit(t_exec *storage, t_cmd cmd_node);
 
 // Free and Close Functions
 void				path_env_free(t_exec *storage);
 void				failexec_close(t_exec *storage);
-void				heredoc_cleanup(t_cmd *head_node);
+//void				heredoc_cleanup(t_cmd *head_node);
 
 // Environment Utils
 void				env_clearnode(t_env **env_lst);
