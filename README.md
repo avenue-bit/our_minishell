@@ -1,4 +1,0 @@
-# our_minishell
-
-
-hmm
