@@ -281,6 +281,28 @@ t_cmd	*add_cmd_node(t_cmd **cmd_list)
 	return (new_node);
 }
 
+void	remove_last_cmd_node(t_cmd **cmd_list, t_cmd *node)
+{
+	int	i;
+
+	if (node->prev)
+		node->prev->next = NULL;
+	else
+		*cmd_list = NULL;
+	if (node->cmd_flags)
+	{
+		i = 0;
+		while (node->cmd_flags[i])
+			free(node->cmd_flags[i++]);
+		free(node->cmd_flags);
+	}
+	if (node->infile)
+		free(node->infile);
+	if (node->outfile)
+		free(node->outfile);
+	free(node);
+}
+
 int	fill_cmd_data_redir(t_token **tokens, t_cmd *cmd)
 {
 	t_type	type;
@@ -309,6 +331,24 @@ int	fill_cmd_data_redir(t_token **tokens, t_cmd *cmd)
 	return (0);
 }
 
+// int fill_node_data(t_token **tokens, t_cmd *cmd, int *i)
+// {
+// 	int reint;
+// 	if ((*tokens)->type == tk_WORD)
+// 		{
+// 			cmd->cmd_flags[*i] = ft_strdup((*tokens)->content);
+// 			if (!cmd->cmd_flags[(*i)++])
+// 				return (perror("Error"), ENOMEM);
+// 		}
+// 		else if ((*tokens)->type >= tk_REDIR_IN && (*tokens)->type <= tk_APPEND)
+// 		{
+// 			reint = fill_cmd_data_redir(tokens, cmd);
+// 			if (reint != 0)
+// 				return (reint);
+// 		}
+// 		return (0);
+// }
+
 int	fill_cmd_data(t_token **tokens, t_cmd *cmd)
 {
 	int	i;
@@ -329,7 +369,13 @@ int	fill_cmd_data(t_token **tokens, t_cmd *cmd)
 			if (reint == ENOMEM)
 				return (perror("Error"), ENOMEM);
 			if (reint == ENOENT)
+			{
+				if (*tokens)
+					*tokens = (*tokens)->next;
+				while (*tokens && (*tokens)->type != tk_PIPE)
+					*tokens = (*tokens)->next;
 				return (ENOENT);
+			}
 		}
 		if (*tokens)
 			*tokens = (*tokens)->next;
@@ -357,8 +403,16 @@ void	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
 		if (!current_cmd->cmd_flags)
 			return (clear_tokens(&tokens), clear_cmds(cmd_list),
 				perror("Error"), exit(errno));
-		if (fill_cmd_data(&tmp, current_cmd) == ENOMEM)
+		reint = fill_cmd_data(&tmp, current_cmd);
+		if (reint == ENOMEM)
 			return (clear_tokens(&tokens), clear_cmds(cmd_list), exit(errno));
+		if (reint == ENOENT)
+		{
+			remove_last_cmd_node(cmd_list, current_cmd);
+			if (tmp && tmp->type == tk_PIPE)
+				tmp = tmp->next;
+			continue ;
+		}
 		if (tmp && tmp->type == tk_PIPE)
 			tmp = tmp->next;
 	}
@@ -378,7 +432,7 @@ int	print_syntax_error(char *token)
 	{
 		write(2, "jeis: syntax error unexpected token ", 37);
 		write(2, token, ft_strlen(token));
-		write (2, "\n", 2);
+		write(2, "\n", 2);
 	}
 	return (1);
 }
@@ -432,45 +486,45 @@ int	main(int ac, char **av, char **envp)
 	return (0);
 	/*  ----END--- */
 	/* ----Check with readline----*/
-/* 	(void)ac;
-	(void)av;
-	(void)envp;
-	while (1)
-	{
-		tokens = NULL;
-		cmd = NULL;
-		input = readline("#jeis$ ");
-		if (!input)
+	/* 	(void)ac;
+		(void)av;
+		(void)envp;
+		while (1)
 		{
-			write(1, "exiting...\n", 12);
-			break ;
-		}
-		if (*input == 'e')
-		{
-			clear_tokens(&tokens);
-			clear_cmds(&cmd);
-			exit(errno);
-		}
-		if (*input)
-			add_history(input);
-		if (create_tokens(input, &tokens, 0, 0) != 0)
-		{
+			tokens = NULL;
+			cmd = NULL;
+			input = readline("#jeis$ ");
+			if (!input)
+			{
+				write(1, "exiting...\n", 12);
+				break ;
+			}
+			if (*input == 'e')
+			{
+				clear_tokens(&tokens);
+				clear_cmds(&cmd);
+				exit(errno);
+			}
+			if (*input)
+				add_history(input);
+			if (create_tokens(input, &tokens, 0, 0) != 0)
+			{
+				free(input);
+				continue ;
+			}
+			if (check_syntax(tokens))
+			{
+				clear_tokens(&tokens);
+				free(input);
+				continue ;
+			}
+			create_cmd_list(&cmd, tokens);
+			//print_tokens(tokens);
+			//print_cmd_list(cmd);
+			if (tokens)
+				clear_tokens(&tokens);
+			if (cmd)
+				clear_cmds(&cmd);
 			free(input);
-			continue ;
-		}
-		if (check_syntax(tokens))
-		{
-			clear_tokens(&tokens);
-			free(input);
-			continue ;
-		}
-		create_cmd_list(&cmd, tokens);
-		//print_tokens(tokens);
-		//print_cmd_list(cmd);
-		if (tokens)
-			clear_tokens(&tokens);
-		if (cmd)
-			clear_cmds(&cmd);
-		free(input);
-	} */
+		} */
 }
