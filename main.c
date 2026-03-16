@@ -471,7 +471,7 @@ int	main(int ac, char **av, char **envp)
 	create_tokens(av[1], &tokens, 0, 0);
 	check_syntax(tokens);
 	create_cmd_list(&cmd, tokens);
-	// print_tokens(tokens);
+	print_tokens(tokens);
 	print_cmd_list(cmd);
 	//exec_main(ac, av, envp, cmd);
 	if (tokens)
