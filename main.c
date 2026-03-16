@@ -331,23 +331,24 @@ int	fill_cmd_data_redir(t_token **tokens, t_cmd *cmd)
 	return (0);
 }
 
-// int fill_node_data(t_token **tokens, t_cmd *cmd, int *i)
-// {
-// 	int reint;
-// 	if ((*tokens)->type == tk_WORD)
-// 		{
-// 			cmd->cmd_flags[*i] = ft_strdup((*tokens)->content);
-// 			if (!cmd->cmd_flags[(*i)++])
-// 				return (perror("Error"), ENOMEM);
-// 		}
-// 		else if ((*tokens)->type >= tk_REDIR_IN && (*tokens)->type <= tk_APPEND)
-// 		{
-// 			reint = fill_cmd_data_redir(tokens, cmd);
-// 			if (reint != 0)
-// 				return (reint);
-// 		}
-// 		return (0);
-// }
+int	fill_node_data(t_token **tokens, t_cmd *cmd, int *i)
+{
+	int	reint;
+
+	if ((*tokens)->type == tk_WORD)
+	{
+		cmd->cmd_flags[*i] = ft_strdup((*tokens)->content);
+		if (!cmd->cmd_flags[(*i)++])
+			return (ENOMEM);
+	}
+	else if ((*tokens)->type >= tk_REDIR_IN && (*tokens)->type <= tk_APPEND)
+	{
+		reint = fill_cmd_data_redir(tokens, cmd);
+		if (reint != 0)
+			return (reint);
+	}
+	return (0);
+}
 
 int	fill_cmd_data(t_token **tokens, t_cmd *cmd)
 {
@@ -357,30 +358,33 @@ int	fill_cmd_data(t_token **tokens, t_cmd *cmd)
 	i = 0;
 	while (*tokens && (*tokens)->type != tk_PIPE)
 	{
-		if ((*tokens)->type == tk_WORD)
+		reint = fill_node_data(tokens, cmd, &i);
+		if (reint == ENOMEM)
+			return (perror("Error"), ENOMEM);
+		if (reint == ENOENT)
 		{
-			cmd->cmd_flags[i] = ft_strdup((*tokens)->content);
-			if (!cmd->cmd_flags[i++])
-				return (perror("Error"), ENOMEM);
-		}
-		else if ((*tokens)->type >= tk_REDIR_IN && (*tokens)->type <= tk_APPEND)
-		{
-			reint = fill_cmd_data_redir(tokens, cmd);
-			if (reint == ENOMEM)
-				return (perror("Error"), ENOMEM);
-			if (reint == ENOENT)
-			{
-				if (*tokens)
-					*tokens = (*tokens)->next;
-				while (*tokens && (*tokens)->type != tk_PIPE)
-					*tokens = (*tokens)->next;
-				return (ENOENT);
-			}
+			while (*tokens && (*tokens)->type != tk_PIPE)
+				*tokens = (*tokens)->next;
+			return (ENOENT);
 		}
 		if (*tokens)
 			*tokens = (*tokens)->next;
 	}
 	return (0);
+}
+
+t_cmd	*init_new_cmd(t_cmd **cmd_list, t_token *tokens)
+{
+	t_cmd	*current_cmd;
+
+	current_cmd = add_cmd_node(cmd_list);
+	if (!current_cmd)
+		return (NULL);
+	current_cmd->cmd_flags = ft_calloc((count_tokens_words(tokens) + 1),
+			sizeof(char *));
+	if (!current_cmd->cmd_flags)
+		return (NULL);
+	return (current_cmd);
 }
 
 void	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
@@ -394,25 +398,15 @@ void	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
 	tmp = tokens;
 	while (tmp)
 	{
-		current_cmd = add_cmd_node(cmd_list);
+		current_cmd = init_new_cmd(cmd_list, tmp);
 		if (!current_cmd)
-			return (clear_tokens(&tokens), clear_cmds(cmd_list),
-				perror("Error"), exit(errno));
-		current_cmd->cmd_flags = ft_calloc((count_tokens_words(tmp) + 1),
-				sizeof(char *));
-		if (!current_cmd->cmd_flags)
 			return (clear_tokens(&tokens), clear_cmds(cmd_list),
 				perror("Error"), exit(errno));
 		reint = fill_cmd_data(&tmp, current_cmd);
 		if (reint == ENOMEM)
 			return (clear_tokens(&tokens), clear_cmds(cmd_list), exit(errno));
 		if (reint == ENOENT)
-		{
 			remove_last_cmd_node(cmd_list, current_cmd);
-			if (tmp && tmp->type == tk_PIPE)
-				tmp = tmp->next;
-			continue ;
-		}
 		if (tmp && tmp->type == tk_PIPE)
 			tmp = tmp->next;
 	}
@@ -477,7 +471,7 @@ int	main(int ac, char **av, char **envp)
 	create_tokens(av[1], &tokens, 0, 0);
 	check_syntax(tokens);
 	create_cmd_list(&cmd, tokens);
-	print_tokens(tokens);
+	// print_tokens(tokens);
 	print_cmd_list(cmd);
 	if (tokens)
 		clear_tokens(&tokens);
