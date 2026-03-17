@@ -473,7 +473,7 @@ int	main(int ac, char **av, char **envp)
 	create_cmd_list(&cmd, tokens);
 	// print_tokens(tokens);
 	print_cmd_list(cmd);
-	//exec_main(ac, av, envp, cmd);
+	exec_main(ac, av, envp, cmd);
 	if (tokens)
 		clear_tokens(&tokens);
 	if (cmd)

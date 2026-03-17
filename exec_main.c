@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/16 19:40:32 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/17 15:27:26 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	exec_main(int argc, char **argv, char **envp, t_cmd *cmd_list)
 	t_exec storage; // RENAME LATER
 	(void)argc;
 	ft_bzero(&storage, sizeof(t_exec));
-	//built_init(&storage);
+	built_init(&storage);
 	current = cmd_list;
 	head = current;
 	storage.environment = envnodes_init(envp);
