@@ -23,6 +23,8 @@
 #  define TRUE 1
 # endif
 
+typedef struct s_exec t_exec;
+
 typedef enum e_type
 {
 	tk_WORD,
@@ -72,7 +74,7 @@ typedef struct s_exec
 	int				n_paths;
 	char			*command_path;
 	char			*builtins[8];
-	builtin_ptr		*builtin_func[8];
+	builtin_ptr		builtin_func[8];
 	int				pre_read_fd;
 	int				pipe_fd[2];
 	int				infile_fd;
@@ -118,13 +120,13 @@ void				open_outfile(t_exec *storage, t_cmd *cmd_node);
 void				built_init(t_exec *storage);
 int					is_builtin(t_exec *storage, char *command);
 int					exec_builtin(t_exec *storage, t_cmd *cmd_node);
-int					ft_echo(t_exec *storage, t_cmd cmd_node);
-int					ft_cd(t_exec *storage, t_cmd cmd_node);
-int					ft_pwd(t_exec *storage, t_cmd cmd_node);
-int					ft_export(t_exec *storage, t_cmd cmd_node);
-int					ft_unset(t_exec *storage, t_cmd cmd_node);
-int					ft_env(t_exec *storage, t_cmd cmd_node);
-int					ft_exit(t_exec *storage, t_cmd cmd_node);
+int					ft_echo(t_exec *storage, t_cmd *cmd_node);
+int					ft_cd(t_exec *storage, t_cmd *cmd_node);
+int					ft_pwd(t_exec *storage, t_cmd *cmd_node);
+int					ft_export(t_exec *storage, t_cmd *cmd_node);
+int					ft_unset(t_exec *storage, t_cmd *cmd_node);
+int					ft_env(t_exec *storage, t_cmd *cmd_node);
+int					ft_exit(t_exec *storage, t_cmd *cmd_node);
 
 // Free and Close Functions
 void				path_env_free(t_exec *storage);
@@ -134,6 +136,9 @@ void				failexec_close(t_exec *storage);
 // Environment Utils
 void				env_clearnode(t_env **env_lst);
 t_env				*env_newnode(char *environment);
+
+// Built-In Utils
+void echo_string(char **command, int i);
 
 // AdHoc Utils
 void				ft_arrayfree(char **str_array, int n);

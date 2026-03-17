@@ -6,35 +6,53 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/16 16:44:46 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/17 18:48:52 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_echo(t_exec *storage, t_cmd cmd_node)
+int	ft_echo(t_exec *storage, t_cmd *cmd_node)
 {
-	
+	int	i;
+	int	j;
+
+	(void)storage;
+	if (!cmd_node->cmd_flags[1])
+		return (printf("\n"), 0);
+	i = newline_flag(cmd_node->cmd_flags);
+	j = i;
+	if (cmd_node->cmd_flags[j])
+	{
+		printf("%s", cmd_node->cmd_flags[j]);
+		j++;
+	}
+	while (cmd_node->cmd_flags[j])
+	{
+		printf(" %s", cmd_node->cmd_flags[j]);
+		j++;
+	}
+	if (i == 1)
+		printf("\n");
+	return (0);
 }
 
-int ft_cd(t_exec *storage, t_cmd cmd_node)
+int	ft_cd(t_exec *storage, t_cmd *cmd_node)
 {
-
+	return (0);
 }
 
-int ft_pwd(t_exec *storage, t_cmd cmd_node)
+int	ft_pwd(t_exec *storage, t_cmd *cmd_node)
 {
-	
+	return (0);
 }
 
-int ft_export(t_exec *storage, t_cmd cmd_node)
+int	ft_export(t_exec *storage, t_cmd *cmd_node)
 {
-	
+	return (0);
 }
 
-int ft_unset(t_exec *storage, t_cmd cmd_node)
+int	ft_unset(t_exec *storage, t_cmd *cmd_node)
 {
-	
+	return (0);
 }
-
-
