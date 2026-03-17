@@ -23,7 +23,7 @@
 #  define TRUE 1
 # endif
 
-typedef struct s_exec t_exec;
+typedef struct s_exec	t_exec;
 
 typedef enum e_type
 {
@@ -34,115 +34,116 @@ typedef enum e_type
 	tk_REDIR_OUT,
 	tk_HERE_DOC,
 	tk_APPEND
-}					t_type;
+}						t_type;
 
 typedef struct s_token
 {
-	char			*content;
-	t_type			type;
-	struct s_token	*next;
-	struct s_token	*prev;
-}					t_token;
+	char				*content;
+	t_type				type;
+	struct s_token		*next;
+	struct s_token		*prev;
+}						t_token;
 
 typedef struct s_cmd
 {
-	char			**cmd_flags;
-	char			*infile;
-	char			*outfile;
-	BOOL			append;
-	BOOL			heredoc;
-	struct s_cmd	*next;
-	struct s_cmd	*prev;
+	char				**cmd_flags;
+	char				*infile;
+	char				*outfile;
+	BOOL				append;
+	BOOL				heredoc;
+	struct s_cmd		*next;
+	struct s_cmd		*prev;
 
-}					t_cmd;
+}						t_cmd;
 
 typedef struct s_env
 {
-	char			*key;
-	char			*content;
-	struct s_env	*next;
-}					t_env;
+	char				*key;
+	char				*content;
+	struct s_env		*next;
+}						t_env;
 
-typedef int			(*builtin_ptr)(t_exec *, t_cmd *);
+typedef int				(*builtin_ptr)(t_exec *, t_cmd *);
 
 typedef struct s_exec
 {
-	struct s_env	*environment;
-	char			**execve_env;
-	int				n_env_variables;
-	char			**all_paths;
-	int				n_paths;
-	char			*command_path;
-	char			*builtins[8];
-	builtin_ptr		builtin_func[8];
-	int				pre_read_fd;
-	int				pipe_fd[2];
-	int				infile_fd;
-	int				outfile_fd;
-	int				exit_code;
-	int				last_pid;
-}					t_exec;
+	struct s_env		*environment;
+	char				**execve_env;
+	int					n_env_variables;
+	char				**all_paths;
+	int					n_paths;
+	char				*command_path;
+	char				*builtins[8];
+	builtin_ptr			builtin_func[8];
+	int					pre_read_fd;
+	int					pipe_fd[2];
+	int					infile_fd;
+	int					outfile_fd;
+	int					exit_code;
+	int					last_pid;
+}						t_exec;
 
-int	exec_main(int argc, char **argv, char **envp, t_cmd *cmd_list);
+int						exec_main(int argc, char **argv, char **envp,
+							t_cmd *cmd_list);
 
 // Environment Initialisation
-char				*fetch_key(char *environment);
-char				*fetch_content(char *environment);
-t_env				*envnodes_init(char **envp);
-char				**envarray_init(t_exec *storage, t_env *environments);
-char				*env_join(char *key, char *content);
+char					*fetch_key(char *environment);
+char					*fetch_content(char *environment);
+t_env					*envnodes_init(char **envp);
+char					**envarray_init(t_exec *storage, t_env *environments);
+char					*env_join(char *key, char *content);
 
 // Path Initialisation
-int					extract_path(t_exec *shell_storage);
-int					check_absolute(char *command);
-char				*pathfinder(t_exec *storage, char *command);
-int					path_ramp(t_exec *storage, char **argv);
+int						extract_path(t_exec *shell_storage);
+int						check_absolute(char *command);
+char					*pathfinder(t_exec *storage, char *command);
+int						path_ramp(t_exec *storage, char **argv);
 
 // Path Initialisation
-int					extract_path(t_exec *shell_storage);
-int					check_absolute(char *command);
-char				*pathfinder(t_exec *storage, char *command);
-int					path_ramp(t_exec *storage, char **argv);
+int						extract_path(t_exec *shell_storage);
+int						check_absolute(char *command);
+char					*pathfinder(t_exec *storage, char *command);
+int						path_ramp(t_exec *storage, char **argv);
 
 // Pipe and Fork Functions
-int					fork_ramp(t_exec *storage, t_cmd *cmd_node);
-void				exec_fork(t_exec *storage, t_cmd *cmd_node);
-void				child_wrapper(t_exec *storage, t_cmd *current);
-void				parent_wrapper(t_exec *storage, t_cmd *current);
-void				wait_for_child(t_exec *storage);
+int						fork_ramp(t_exec *storage, t_cmd *cmd_node);
+void					exec_fork(t_exec *storage, t_cmd *cmd_node);
+void					child_wrapper(t_exec *storage, t_cmd *current);
+void					parent_wrapper(t_exec *storage, t_cmd *current);
+void					wait_for_child(t_exec *storage);
 
 // Redirection Functions
-void				infile_outfile_check(t_exec *storage, t_cmd *cmd_node);
-void				open_infile(t_exec *storage, t_cmd *cmd_node);
-void				open_outfile(t_exec *storage, t_cmd *cmd_node);
+void					infile_outfile_check(t_exec *storage, t_cmd *cmd_node);
+void					open_infile(t_exec *storage, t_cmd *cmd_node);
+void					open_outfile(t_exec *storage, t_cmd *cmd_node);
 
 // Built-In Functions
-void				built_init(t_exec *storage);
-int					is_builtin(t_exec *storage, char *command);
-int					exec_builtin(t_exec *storage, t_cmd *cmd_node);
-int					ft_echo(t_exec *storage, t_cmd *cmd_node);
-int					ft_cd(t_exec *storage, t_cmd *cmd_node);
-int					ft_pwd(t_exec *storage, t_cmd *cmd_node);
-int					ft_export(t_exec *storage, t_cmd *cmd_node);
-int					ft_unset(t_exec *storage, t_cmd *cmd_node);
-int					ft_env(t_exec *storage, t_cmd *cmd_node);
-int					ft_exit(t_exec *storage, t_cmd *cmd_node);
+void					built_init(t_exec *storage);
+int						is_builtin(t_exec *storage, char *command);
+int						exec_builtin(t_exec *storage, t_cmd *cmd_node);
+int						ft_echo(t_exec *storage, t_cmd *cmd_node);
+int						ft_cd(t_exec *storage, t_cmd *cmd_node);
+int						ft_pwd(t_exec *storage, t_cmd *cmd_node);
+int						ft_export(t_exec *storage, t_cmd *cmd_node);
+int						ft_unset(t_exec *storage, t_cmd *cmd_node);
+int						ft_env(t_exec *storage, t_cmd *cmd_node);
+int						ft_exit(t_exec *storage, t_cmd *cmd_node);
 
 // Free and Close Functions
-void				path_env_free(t_exec *storage);
-void				failexec_close(t_exec *storage);
-//void				heredoc_cleanup(t_cmd *head_node);
+void					path_env_free(t_exec *storage);
+void					failexec_close(t_exec *storage);
+// void				heredoc_cleanup(t_cmd *head_node);
 
 // Environment Utils
-void				env_clearnode(t_env **env_lst);
-t_env				*env_newnode(char *environment);
+void					env_clearnode(t_env **env_lst);
+t_env					*env_newnode(char *environment);
 
 // Built-In Utils
-void echo_string(char **command, int i);
+int						newline_flag(char **command);
 
 // AdHoc Utils
-void				ft_arrayfree(char **str_array, int n);
-int					ft_envsize(t_env *lst);
-size_t				n_commands(t_cmd *cmd);
+void					ft_arrayfree(char **str_array, int n);
+int						ft_envsize(t_env *lst);
+size_t					n_commands(t_cmd *cmd);
 
 #endif
