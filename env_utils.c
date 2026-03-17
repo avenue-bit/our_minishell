@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:10:11 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/09 14:35:44 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/17 18:55:20 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	env_clearnode(t_env **env_lst)
 
 t_env	*env_newnode(char *environment)
 {
-	t_env *new_env;
+	t_env	*new_env;
 
 	new_env = malloc(sizeof(t_env));
 	if (!new_env)
