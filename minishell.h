@@ -5,6 +5,7 @@
 //# include "libft_utils/libft_utils.h"
 # include <errno.h>
 # include <fcntl.h>
+# include <readline/readline.h>
 # include <readline/history.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -47,6 +48,8 @@ typedef struct s_cmd
 	char			**cmd_flags;
 	char			*infile;
 	char			*outfile;
+	char			*heredoc_delim;
+	int				heredoc_fd;
 	BOOL			append;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
