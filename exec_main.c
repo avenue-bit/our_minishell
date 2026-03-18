@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/17 18:55:17 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/18 12:16:04 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	exec_main(int argc, char **argv, char **envp, t_cmd *cmd_list)
 	{
 		if (!current->next && !current->prev && is_builtin(&storage,
 				current->cmd_flags[0]))
-			storage.exit_code = exec_builtin(&storage, current);
+			builtin_dup(&storage, current);
 		else if (fork_ramp(&storage, current) == -1)
 		{
 			failexec_close(&storage);

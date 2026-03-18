@@ -6,7 +6,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/a.out",
-            "args": ["echo hello | cat -e"],
+            "args": ["env > outfile2"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
+/*   Updated: 2026/03/18 19:48:15 by esezalor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -5,6 +16,7 @@
 # include "libft_utils/libft_utils.h"
 # include <errno.h>
 # include <fcntl.h>
+# include <linux/limits.h>
 # include <readline/history.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -63,7 +75,7 @@ typedef struct s_env
 	struct s_env		*next;
 }						t_env;
 
-typedef int				(*builtin_ptr)(t_exec *, t_cmd *);
+typedef int				(*t_builtin_ptr)(t_exec *, t_cmd *);
 
 typedef struct s_exec
 {
@@ -74,7 +86,7 @@ typedef struct s_exec
 	int					n_paths;
 	char				*command_path;
 	char				*builtins[8];
-	builtin_ptr			builtin_func[8];
+	t_builtin_ptr		builtin_func[8];
 	int					pre_read_fd;
 	int					pipe_fd[2];
 	int					infile_fd;
@@ -113,14 +125,15 @@ void					parent_wrapper(t_exec *storage, t_cmd *current);
 void					wait_for_child(t_exec *storage);
 
 // Redirection Functions
-void					infile_outfile_check(t_exec *storage, t_cmd *cmd_node);
-void					open_infile(t_exec *storage, t_cmd *cmd_node);
-void					open_outfile(t_exec *storage, t_cmd *cmd_node);
+int						infile_outfile_check(t_exec *storage, t_cmd *cmd_node);
+int						open_infile(t_exec *storage, t_cmd *cmd_node);
+int						open_outfile(t_exec *storage, t_cmd *cmd_node);
 
 // Built-In Functions
 void					built_init(t_exec *storage);
 int						is_builtin(t_exec *storage, char *command);
 int						exec_builtin(t_exec *storage, t_cmd *cmd_node);
+void					builtin_dup(t_exec *storage, t_cmd *cmd_node);
 int						ft_echo(t_exec *storage, t_cmd *cmd_node);
 int						ft_cd(t_exec *storage, t_cmd *cmd_node);
 int						ft_pwd(t_exec *storage, t_cmd *cmd_node);
@@ -137,9 +150,13 @@ void					failexec_close(t_exec *storage);
 // Environment Utils
 void					env_clearnode(t_env **env_lst);
 t_env					*env_newnode(char *environment);
+t_env					*get_envnode(t_exec *storage, char *key, int size);
 
 // Built-In Utils
 int						newline_flag(char **command);
+char					*get_target_path(t_exec *storage, char *command);
+char					*cd_path(t_exec *storage, char *key, int size);
+int						replace_pwd(t_exec *storage, char *old_pwd);
 
 // AdHoc Utils
 void					ft_arrayfree(char **str_array, int n);

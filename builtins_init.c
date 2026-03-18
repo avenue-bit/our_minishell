@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/17 15:51:09 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/18 12:55:31 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,21 @@ int	exec_builtin(t_exec *storage, t_cmd *cmd_node)
 		i++;
 	}
 	return (0);
+}
+
+void	builtin_dup(t_exec *storage, t_cmd *cmd_node)
+{
+	int	built_in;
+	int	built_out;
+
+	built_in = dup(0);
+	built_out = dup(1);
+	if (infile_outfile_check(storage, cmd_node))
+		storage->exit_code = exec_builtin(storage, cmd_node);
+	else
+		storage->exit_code = 1;
+	dup2(built_in, 0);
+	dup2(built_out, 1);
+	close(built_in);
+	close(built_out);
 }

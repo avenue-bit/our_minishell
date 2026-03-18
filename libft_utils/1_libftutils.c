@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 11:29:21 by esezalor          #+#    #+#             */
-/*   Updated: 2026/02/27 14:20:30 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/18 19:44:06 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,22 +70,22 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	return (joinstr);
 }
 
-size_t ft_strlen(const char *str)
+size_t	ft_strlen(const char *str)
 {
-    int i;
+	int	i;
 
-    i = 0;
-	if(!str)
-		return(0);
-    while(str[i])
-        i++;
-    return(i);
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i])
+		i++;
+	return (i);
 }
 
 int	ft_strncmp(char *s1, char *s2, size_t n)
 {
-	if(!s1 || !s2)
-		return(0);
+	if (!s1 || !s2)
+		return (0);
 	if (n == 0)
 		return (0);
 	while (--n > 0 && (*s1 && *s2))

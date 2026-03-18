@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:10:11 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/17 18:55:20 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/18 19:11:09 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,18 @@ t_env	*env_newnode(char *environment)
 	new_env->content = fetch_content(environment);
 	new_env->next = NULL;
 	return (new_env);
+}
+
+t_env	*get_envnode(t_exec *storage, char *key, int size)
+{
+	t_env *current;
+
+	current = storage->environment;
+	while (current)
+	{
+		if (ft_strncmp(current->key, key, size) == 0)
+			return (current);
+		current = current->next;
+	}
+	return (NULL);
 }

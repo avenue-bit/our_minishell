@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:10:43 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/16 19:23:39 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/18 19:45:35 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	path_env_free(t_exec *storage)
 	env_clearnode(&storage->environment);
 }
 
-void failexec_close(t_exec *storage)
+void	failexec_close(t_exec *storage)
 {
 	if (storage->pre_read_fd >= 0)
 		close(storage->pre_read_fd);
@@ -33,7 +33,7 @@ void failexec_close(t_exec *storage)
 // void heredoc_cleanup(t_cmd *head_node)
 // {
 // 	t_cmd *current;
-	
+
 // 	current = head_node;
 // 	while(current)
 // 	{
