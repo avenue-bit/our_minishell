@@ -48,8 +48,8 @@ typedef struct s_cmd
 	char			**cmd_flags;
 	char			*infile;
 	char			*outfile;
-	char			*heredoc_delim;
-	int				heredoc_fd;
+	char			*hd_delim;
+	int				hd_fd;
 	BOOL			append;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
