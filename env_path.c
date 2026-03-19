@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   path_init.c                                        :+:      :+:    :+:   */
+/*   env_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 17:48:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/09 11:34:54 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/19 16:11:10 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,11 @@
 
 int	path_ramp(t_exec *storage, char **command)
 {
-	int	n_paths;
-
 	if (extract_path(storage) == -1)
 		return (-1);
 	storage->command_path = pathfinder(storage, command[0]);
-	if (!storage->command_path)
-		return (-1);
-	n_paths = 0;
-	while (storage->all_paths && storage->all_paths[n_paths])
-		n_paths++;
-	ft_arrayfree(storage->all_paths, n_paths);
+	ft_arrayfree(storage->all_paths, storage->n_paths);
+	storage->all_paths = NULL;
 	if (!storage->command_path)
 		return (-1);
 	return (0);
@@ -39,9 +33,8 @@ int	path_ramp(t_exec *storage, char **command)
 int	extract_path(t_exec *shell_storage)
 {
 	t_env	*environment;
-	int		i;
 
-	i = 0;
+	shell_storage->n_paths = 0;
 	environment = shell_storage->environment;
 	while (environment)
 	{
@@ -49,17 +42,13 @@ int	extract_path(t_exec *shell_storage)
 			break ;
 		environment = environment->next;
 	}
-	while (environment->content[i])
-	{
-		if (environment->content[i] == ':')
-			shell_storage->n_paths++;
-		i++;
-	}
-	if (environment == NULL)
-		return (-1); // Path Not found
+	if (environment == NULL && !environment->content)
+		return (-1);
 	shell_storage->all_paths = ft_split(environment->content, ':');
 	if (!shell_storage->all_paths)
 		return (-1);
+	while (shell_storage->all_paths[shell_storage->n_paths])
+		shell_storage->n_paths++;
 	return (0);
 }
 

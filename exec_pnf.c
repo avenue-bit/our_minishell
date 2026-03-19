@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:45:59 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/18 19:47:01 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/19 16:14:23 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,16 +61,23 @@ void	exec_fork(t_exec *storage, t_cmd *cmd_node)
 		if (path_ramp(storage, cmd_node->cmd_flags) != 0)
 		{
 			write(2, "Command not found\n", 19);
+			failexec_close(storage);
 			path_env_free(storage);
 			exit(127);
 		}
 		execve(storage->command_path, cmd_node->cmd_flags, storage->execve_env);
 		perror("exec failed");
+		failexec_close(storage);
 		path_env_free(storage);
 		exit(127);
 	}
 	else
-		exit(exec_builtin(storage, cmd_node));
+	{
+		storage->exit_code = exec_builtin(storage, cmd_node);
+		failexec_close(storage);
+		path_env_free(storage);
+		exit(storage->exit_code);
+	}
 }
 
 void	parent_wrapper(t_exec *storage, t_cmd *current)
