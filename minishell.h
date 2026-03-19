@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/18 19:58:02 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/19 16:57:12 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ typedef int				(*t_builtin_ptr)(t_exec *, t_cmd *);
 typedef struct s_exec
 {
 	struct s_env		*environment;
+	struct s_cmd		*command_nodes;
+	struct s_token		*token_nodes;
 	char				**execve_env;
 	int					n_env_variables;
 	char				**all_paths;
@@ -96,7 +98,7 @@ typedef struct s_exec
 }						t_exec;
 
 int						exec_main(int argc, char **argv, char **envp,
-							t_cmd *cmd_list);
+							t_cmd *cmd_list, t_token *token_lst);
 
 // Environment Initialisation
 char					*fetch_key(char *environment);
@@ -143,8 +145,11 @@ int						ft_env(t_exec *storage, t_cmd *cmd_node);
 int						ft_exit(t_exec *storage, t_cmd *cmd_node);
 
 // Free and Close Functions
+void					freeing_ramp(t_exec *storage);
 void					path_env_free(t_exec *storage);
 void					failexec_close(t_exec *storage);
+void					clear_cmds(t_cmd **node);
+void					clear_tokens(t_token **tokens);
 // void				heredoc_cleanup(t_cmd *head_node);
 
 // Environment Utils

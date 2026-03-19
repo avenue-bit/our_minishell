@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/18 12:16:04 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/19 16:51:15 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,17 @@
 // 2. envarray_init: Converts the linked list of environment into a modifiable array of strings,
 //	must do this as it is more tedious to handle the stack version of envp rather than use a linked list
 
-int	exec_main(int argc, char **argv, char **envp, t_cmd *cmd_list)
+int	exec_main(int argc, char **argv, char **envp, t_cmd *cmd_list, t_token *token_lst)
 {
 	t_cmd	*current;
 	t_cmd	*head;
-
 	t_exec storage; // RENAME LATER
+
+	
 	(void)argc;
 	ft_bzero(&storage, sizeof(t_exec));
+	storage.command_nodes = cmd_list;
+	storage.token_nodes = token_lst;
 	built_init(&storage);
 	current = cmd_list;
 	head = current;

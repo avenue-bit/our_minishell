@@ -473,11 +473,11 @@ int	main(int ac, char **av, char **envp)
 	create_cmd_list(&cmd, tokens);
 	// print_tokens(tokens);
 	print_cmd_list(cmd);
-	exec_main(ac, av, envp, cmd);
-	if (tokens)
-		clear_tokens(&tokens);
-	if (cmd)
-		clear_cmds(&cmd);
+	exec_main(ac, av, envp, cmd, tokens);
+	// if (tokens)
+	// 	clear_tokens(&tokens);
+	// if (cmd)
+	// 	clear_cmds(&cmd);
 	return (0);
 	/*  ----END--- */
 	/* ----Check with readline----*/

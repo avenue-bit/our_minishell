@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sezalory <sezalory@student.42.fr>          +#+  +:+       +#+        */
+/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:32:38 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/05 16:15:44 by sezalory         ###   ########.fr       */
+/*   Updated: 2026/03/19 16:39:39 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,11 @@ char	*fetch_key(char *environment)
 
 char	*fetch_content(char *environment)
 {
-	int		post_len;
 	char	*post_key;
 	char	*content;
 
 	post_key = ft_strchr(environment, '=');
 	if (!post_key)
-		return (NULL);
-	post_len = ft_strlen(post_key);
-	content = ft_calloc(post_len, sizeof(char));
-	if (!content)
 		return (NULL);
 	content = ft_strdup(post_key + 1);
 	if (!content)

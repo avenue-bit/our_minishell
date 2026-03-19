@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:45:59 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/19 16:14:23 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/19 17:00:58 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,19 @@ void	child_wrapper(t_exec *storage, t_cmd *current)
 {
 	if (storage->pre_read_fd != -1)
 	{
-		dup2(storage->pre_read_fd, 0);
+		if(dup2(storage->pre_read_fd, 0) == -1)
+			freeing_ramp(storage);
 		close(storage->pre_read_fd);
 	}
 	if (current->next)
 	{
-		dup2(storage->pipe_fd[1], 1);
+		if(dup2(storage->pipe_fd[1], 1) == -1)
+			freeing_ramp(storage);
 		close(storage->pipe_fd[1]);
 		close(storage->pipe_fd[0]);
 	}
 	if (!infile_outfile_check(storage, current))
-	{
-		failexec_close(storage);
-		path_env_free(storage);
-		exit(1);
-	}
+		freeing_ramp(storage);
 	exec_fork(storage, current);
 }
 
