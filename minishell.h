@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/19 17:22:28 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/19 18:22:01 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,7 @@ typedef struct s_exec
 	int					last_pid;
 }						t_exec;
 
-int						exec_main(int argc, char **argv, char **envp,
-							t_cmd *cmd_list, t_token *token_lst);
+int						exec_main(char **envp, t_cmd *cmd_list, t_token *token_lst);
 
 // Environment Initialisation
 char					*fetch_key(char *environment);
@@ -166,7 +165,7 @@ char					*cd_path(t_exec *storage, char *key, int size);
 int						replace_pwd(t_exec *storage, char *old_pwd);
 
 // AdHoc Utils
-void					ft_arrayfree(char **str_array, int n);
+void					ft_arrayfree(char **str_array);
 int						ft_envsize(t_env *lst);
 size_t					n_commands(t_cmd *cmd);
 

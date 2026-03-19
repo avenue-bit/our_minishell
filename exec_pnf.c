@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:45:59 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/19 17:00:58 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/19 18:40:08 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,31 @@ void	child_wrapper(t_exec *storage, t_cmd *current)
 {
 	if (storage->pre_read_fd != -1)
 	{
-		if(dup2(storage->pre_read_fd, 0) == -1)
+		if (dup2(storage->pre_read_fd, 0) == -1)
+		{
 			freeing_ramp(storage);
+			exit(1);
+		}
 		close(storage->pre_read_fd);
+		storage->pre_read_fd = -1;
 	}
 	if (current->next)
 	{
-		if(dup2(storage->pipe_fd[1], 1) == -1)
+		if (dup2(storage->pipe_fd[1], 1) == -1)
+		{
 			freeing_ramp(storage);
+			exit(1);
+		}
 		close(storage->pipe_fd[1]);
 		close(storage->pipe_fd[0]);
+		storage->pipe_fd[1] = -1;
+		storage->pipe_fd[0] = -1;
 	}
 	if (!infile_outfile_check(storage, current))
+	{
 		freeing_ramp(storage);
+		exit(1);
+	}
 	exec_fork(storage, current);
 }
 
@@ -59,21 +71,18 @@ void	exec_fork(t_exec *storage, t_cmd *cmd_node)
 		if (path_ramp(storage, cmd_node->cmd_flags) != 0)
 		{
 			write(2, "Command not found\n", 19);
-			failexec_close(storage);
-			path_env_free(storage);
+			freeing_ramp(storage);
 			exit(127);
 		}
 		execve(storage->command_path, cmd_node->cmd_flags, storage->execve_env);
 		perror("exec failed");
-		failexec_close(storage);
-		path_env_free(storage);
+		freeing_ramp(storage);
 		exit(127);
 	}
 	else
 	{
 		storage->exit_code = exec_builtin(storage, cmd_node);
-		failexec_close(storage);
-		path_env_free(storage);
+		freeing_ramp(storage);
 		exit(storage->exit_code);
 	}
 }
@@ -81,11 +90,16 @@ void	exec_fork(t_exec *storage, t_cmd *cmd_node)
 void	parent_wrapper(t_exec *storage, t_cmd *current)
 {
 	if (storage->pre_read_fd != -1)
+	{
 		close(storage->pre_read_fd);
+		storage->pre_read_fd = -1;
+	}
 	if (current->next)
 	{
 		close(storage->pipe_fd[1]);
+		storage->pipe_fd[1] = -1;
 		storage->pre_read_fd = storage->pipe_fd[0];
+		storage->pipe_fd[0] = -1;
 	}
 }
 

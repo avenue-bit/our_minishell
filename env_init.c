@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:32:38 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/19 16:39:39 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/19 18:22:44 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ char	**envarray_init(t_exec *storage, t_env *environments)
 	{
 		array[j] = env_join(environments->key, environments->content);
 		if (!array[j])
-			return ((ft_arrayfree(array, j)), NULL);
+			return ((ft_arrayfree(array)), NULL);
 		j++;
 		environments = environments->next;
 	}

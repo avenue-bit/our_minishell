@@ -6,20 +6,20 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 11:52:31 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/17 18:55:40 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/19 18:21:29 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_arrayfree(char **str_array, int n)
+void	ft_arrayfree(char **str_array)
 {
 	int	i;
 
 	if (!str_array)
 		return ;
 	i = 0;
-	while (i < n)
+	while (str_array[i])
 	{
 		if (str_array[i])
 		{

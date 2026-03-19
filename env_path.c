@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 17:48:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/19 16:11:10 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/19 18:22:29 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	path_ramp(t_exec *storage, char **command)
 	if (extract_path(storage) == -1)
 		return (-1);
 	storage->command_path = pathfinder(storage, command[0]);
-	ft_arrayfree(storage->all_paths, storage->n_paths);
+	ft_arrayfree(storage->all_paths);
 	storage->all_paths = NULL;
 	if (!storage->command_path)
 		return (-1);

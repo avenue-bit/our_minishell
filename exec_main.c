@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/19 17:34:25 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/19 18:49:32 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 int	exec_main(char **envp, t_cmd *cmd_list, t_token *token_lst)
 {
 	t_cmd	*current;
-	t_cmd	*head;
 	t_exec storage; // RENAME LATER
 
 	
@@ -31,9 +30,10 @@ int	exec_main(char **envp, t_cmd *cmd_list, t_token *token_lst)
 	storage.pre_read_fd = -1;
 	storage.pipe_fd[0] = -1;
 	storage.pipe_fd[1] = -1;
+	storage.built_in = -1;
+	storage.built_out = -1;
 	built_init(&storage);
 	current = cmd_list;
-	head = current;
 	storage.environment = envnodes_init(envp);
 	if (!storage.environment)
 		return (path_env_free(&storage), -1);
@@ -47,14 +47,10 @@ int	exec_main(char **envp, t_cmd *cmd_list, t_token *token_lst)
 				current->cmd_flags[0]))
 			builtin_dup(&storage, current);
 		else if (fork_ramp(&storage, current) == -1)
-		{
-			failexec_close(&storage);
 			break ;
-		}
 		current = current->next;
 	}
 	wait_for_child(&storage);
-	// heredoc_cleanup(head);
-	path_env_free(&storage);
+	freeing_ramp(&storage);
 	return (0);
 }
