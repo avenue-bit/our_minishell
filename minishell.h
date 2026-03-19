@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/19 16:57:12 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/19 17:22:28 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ typedef struct s_exec
 	int					pipe_fd[2];
 	int					infile_fd;
 	int					outfile_fd;
+	int					built_in;
+	int					built_out;
 	int					exit_code;
 	int					last_pid;
 }						t_exec;

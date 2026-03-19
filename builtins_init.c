@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/19 17:00:41 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/19 17:23:55 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,23 +69,20 @@ int	exec_builtin(t_exec *storage, t_cmd *cmd_node)
 
 void	builtin_dup(t_exec *storage, t_cmd *cmd_node)
 {
-	int	built_in;
-	int	built_out;
-
-	built_in = dup(0);
-	if(built_in == -1)
+	storage->built_in = dup(0);
+	if(storage->built_in == -1)
 		freeing_ramp(storage);
-	built_out = dup(1);
-	if(built_out == -1)
+	storage->built_out = dup(1);
+	if(storage->built_out == -1)
 		freeing_ramp(storage);
 	if (infile_outfile_check(storage, cmd_node))
 		storage->exit_code = exec_builtin(storage, cmd_node);
 	else
 		storage->exit_code = 1;
-	if(dup2(built_in, 0) == -1)
+	if(dup2(storage->built_in, 0) == -1)
 		freeing_ramp(storage);
-	if(dup2(built_out, 1) == -1)
+	if(dup2(storage->built_out, 1) == -1)
 		freeing_ramp(storage);
-	close(built_in);
-	close(built_out);
+	close(storage->built_in);
+	close(storage->built_out);
 }
