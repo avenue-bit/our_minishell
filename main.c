@@ -594,7 +594,7 @@ int	main(int ac, char **av, char **envp)
 	return (0);
 	/*  ----END--- */
 	/* ----Check with readline----*/
-	/* 	(void)ac;
+ /* 		(void)ac;
 		(void)av;
 		(void)envp;
 		while (1)
@@ -607,7 +607,7 @@ int	main(int ac, char **av, char **envp)
 				write(1, "exiting...\n", 12);
 				break ;
 			}
-			if (*input == 'e')
+			if (ft_strncmp(input, "exit", 4) == 0 || ft_strncmp(input, "quit", 4) == 0 )
 			{
 				clear_tokens(&tokens);
 				clear_cmds(&cmd);
@@ -627,13 +627,14 @@ int	main(int ac, char **av, char **envp)
 				continue ;
 			}
 			create_cmd_list(&cmd, tokens);
-			exec_main(ac, av, envp, cmd);
-			//print_tokens(tokens);
-			//print_cmd_list(cmd);
+			//exec_main(ac, av, envp, cmd);
+			print_tokens(tokens);
+			print_cmd_list(cmd);
 			if (tokens)
 				clear_tokens(&tokens);
 			if (cmd)
 				clear_cmds(&cmd);
+			rl_clear_history();
 			free(input);
-		} */
+		}  */
 }
