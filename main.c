@@ -462,22 +462,21 @@ int	main(int ac, char **av, char **envp)
 {
 	t_token	*tokens;
 	t_cmd	*cmd;
+	t_exec storage;
 	char	*input;
 
 	/*  ----Check without readline---- */
 	tokens = NULL;
 	cmd = NULL;
+	ft_bzero(&storage, sizeof(t_exec));
 	printf("Input %s\n\n", av[1]);
 	create_tokens(av[1], &tokens, 0, 0);
 	check_syntax(tokens);
 	create_cmd_list(&cmd, tokens);
 	// print_tokens(tokens);
 	print_cmd_list(cmd);
-	exec_main(envp, cmd, tokens);
-	// if (tokens)
-	// 	clear_tokens(&tokens);
-	// if (cmd)
-	// 	clear_cmds(&cmd);
+	exec_main(&storage, envp, cmd, tokens);
+	freeing_ramp(&storage);
 	return (0);
 	/*  ----END--- */
 	/* ----Check with readline----*/

@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:45:59 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/19 19:09:35 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/20 12:48:42 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,9 @@ void	wait_for_child(t_exec *storage)
 		reaped_pid = wait(&status);
 		if (reaped_pid < 0)
 		{
-			if (errno == ECHILD)
+			if(errno == EINTR)
+				continue ;
+			if(errno == ECHILD)
 				break ;
 		}
 		if (reaped_pid == storage->last_pid)
