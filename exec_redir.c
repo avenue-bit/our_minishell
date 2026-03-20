@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:15:54 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/18 14:13:22 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/20 14:52:34 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int	open_infile(t_exec *storage, t_cmd *cmd_node)
 	storage->infile_fd = open(cmd_node->infile, O_RDONLY);
 	if (storage->infile_fd == -1)
 		return (0); // Error handling needed
-	dup2(storage->infile_fd, 0);
+	if (dup2(storage->infile_fd, 0) == -1)
+		return (close(storage->infile_fd), 0);
 	close(storage->infile_fd);
 	return (1);
 }
@@ -49,7 +50,8 @@ int	open_outfile(t_exec *storage, t_cmd *cmd_node)
 				O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (storage->outfile_fd == -1)
 		return (0);
-	dup2(storage->outfile_fd, 1);
+	if (dup2(storage->outfile_fd, 1) == -1)
+		return (close(storage->outfile_fd), 0);
 	close(storage->outfile_fd);
 	return (1);
 }

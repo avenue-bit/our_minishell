@@ -1,48 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins_utils.c                                   :+:      :+:    :+:   */
+/*   builtins_cd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/17 16:48:53 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/18 19:46:27 by esezalor         ###   ########.fr       */
+/*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
+/*   Updated: 2026/03/20 20:31:42 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-int	newline_flag(char **command)
+int	ft_cd(t_exec *storage, t_cmd *cmd_node)
 {
-	int	i;
-	int	j;
+	char	*pwd_path;
+	char	*target_path;
+	char	*old_pwd;
 
-	i = 1;
-	while (command[i])
-	{
-		if (command[i][0] == '-' && command[i][1] == 'n')
-		{
-			j = 2;
-			while (command[i][j])
-			{
-				if (command[i][j] != 'n')
-					return (i);
-				j++;
-			}
-			i++;
-		}
-		else
-			return (i);
-	}
-	return (i);
-}
-
-char	*get_target_path(t_exec *storage, char *command)
-{
-	if (!command)
-		return (cd_path(storage, "HOME", 5));
+	if (cmd_node->cmd_flags[1] && cmd_node->cmd_flags[2])
+		return (ft_printf("Too many arguments for cd\n"), 1);
+	// Error Handling Needed
+	pwd_path = cd_path(storage, "PWD", 4);
+	if (!pwd_path)
+		old_pwd = ft_strdup("");
 	else
-		return (command);
+		old_pwd = ft_strdup(pwd_path);
+	if (!old_pwd)
+		return (1);
+	target_path = get_target_path(storage, cmd_node->cmd_flags[1]);
+	if (!target_path)
+		return (free(old_pwd), ft_printf("home not set\n"), 1);
+	// Error Handling Needed
+	if (chdir(target_path) == -1)
+		return (free(old_pwd), ft_printf("could not change directory\n"), 1);
+	// Error Handling Needed
+	if (replace_pwd(storage, old_pwd) == -1)
+		return (free(old_pwd), 1);
+	return (0);
 }
 
 char	*cd_path(t_exec *storage, char *key, int size)
@@ -57,6 +52,14 @@ char	*cd_path(t_exec *storage, char *key, int size)
 		current = current->next;
 	}
 	return (NULL);
+}
+
+char	*get_target_path(t_exec *storage, char *command)
+{
+	if (!command)
+		return (cd_path(storage, "HOME", 5));
+	else
+		return (command);
 }
 
 int	replace_pwd(t_exec *storage, char *old_pwd)
@@ -85,4 +88,18 @@ int	replace_pwd(t_exec *storage, char *old_pwd)
 	else
 		return (free(old_pwd), 0);
 	return (0);
+}
+
+t_env	*get_envnode(t_exec *storage, char *key, int size)
+{
+	t_env	*current;
+
+	current = storage->environment;
+	while (current)
+	{
+		if (ft_strncmp(current->key, key, size) == 0)
+			return (current);
+		current = current->next;
+	}
+	return (NULL);
 }

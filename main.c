@@ -476,7 +476,7 @@ int	main(int ac, char **av, char **envp)
 	// print_tokens(tokens);
 	print_cmd_list(cmd);
 	exec_main(&storage, envp, cmd, tokens);
-	freeing_ramp(&storage);
+	freeing_ramp(&storage, 1); // Proper exit code needed
 	return (0);
 	/*  ----END--- */
 	/* ----Check with readline----*/

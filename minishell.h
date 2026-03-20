@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/20 12:36:29 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/20 17:55:32 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_env
 {
 	char				*key;
 	char				*content;
+	BOOL				export;
 	struct s_env		*next;
 }						t_env;
 
@@ -99,7 +100,8 @@ typedef struct s_exec
 	int					last_pid;
 }						t_exec;
 
-int						exec_main(t_exec *storage, char **envp, t_cmd *cmd_list, t_token *token_lst);
+int						exec_main(t_exec *storage, char **envp, t_cmd *cmd_list,
+							t_token *token_lst);
 
 // Environment Initialisation
 char					*fetch_key(char *environment);
@@ -132,37 +134,41 @@ int						infile_outfile_check(t_exec *storage, t_cmd *cmd_node);
 int						open_infile(t_exec *storage, t_cmd *cmd_node);
 int						open_outfile(t_exec *storage, t_cmd *cmd_node);
 
-// Built-In Functions
+// Built-In Initialisation and Basic Built-In Functions
 void					built_init(t_exec *storage);
 int						is_builtin(t_exec *storage, char *command);
 int						exec_builtin(t_exec *storage, t_cmd *cmd_node);
 void					builtin_dup(t_exec *storage, t_cmd *cmd_node);
 int						ft_echo(t_exec *storage, t_cmd *cmd_node);
-int						ft_cd(t_exec *storage, t_cmd *cmd_node);
 int						ft_pwd(t_exec *storage, t_cmd *cmd_node);
-int						ft_export(t_exec *storage, t_cmd *cmd_node);
 int						ft_unset(t_exec *storage, t_cmd *cmd_node);
 int						ft_env(t_exec *storage, t_cmd *cmd_node);
 int						ft_exit(t_exec *storage, t_cmd *cmd_node);
 
+// Ft_cd and helpers
+int						ft_cd(t_exec *storage, t_cmd *cmd_node);
+char					*get_target_path(t_exec *storage, char *command);
+char					*cd_path(t_exec *storage, char *key, int size);
+int						replace_pwd(t_exec *storage, char *old_pwd);
+t_env					*get_envnode(t_exec *storage, char *key, int size);
+
+// FT_export and helpers
+int						ft_export(t_exec *storage, t_cmd *cmd_node);
+int 					declare_x(t_exec *storage, t_cmd *cmd_node);
+
 // Free and Close Functions
-void					freeing_ramp(t_exec *storage);
+void					freeing_ramp(t_exec *storage, int exit_code);
 void					path_env_free(t_exec *storage);
 void					failexec_close(t_exec *storage);
 void					clear_cmds(t_cmd **node);
 void					clear_tokens(t_token **tokens);
-// void				heredoc_cleanup(t_cmd *head_node);
 
 // Environment Utils
 void					env_clearnode(t_env **env_lst);
 t_env					*env_newnode(char *environment);
-t_env					*get_envnode(t_exec *storage, char *key, int size);
 
 // Built-In Utils
 int						newline_flag(char **command);
-char					*get_target_path(t_exec *storage, char *command);
-char					*cd_path(t_exec *storage, char *key, int size);
-int						replace_pwd(t_exec *storage, char *old_pwd);
 
 // AdHoc Utils
 void					ft_arrayfree(char **str_array);

@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:10:11 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/18 19:11:09 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/20 17:30:14 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,29 +31,19 @@ void	env_clearnode(t_env **env_lst)
 	*env_lst = NULL;
 }
 
-t_env	*env_newnode(char *environment)
+char	*env_join(char *key, char *content)
 {
-	t_env	*new_env;
+	char *variable;
+	int key_len;
+	int content_len;
 
-	new_env = malloc(sizeof(t_env));
-	if (!new_env)
+	key_len = ft_strlen(key);
+	content_len = ft_strlen(content);
+	variable = ft_calloc(ft_strlen(key) + ft_strlen(content) + 2, sizeof(char));
+	if (!variable)
 		return (NULL);
-	new_env->key = fetch_key(environment);
-	new_env->content = fetch_content(environment);
-	new_env->next = NULL;
-	return (new_env);
-}
-
-t_env	*get_envnode(t_exec *storage, char *key, int size)
-{
-	t_env *current;
-
-	current = storage->environment;
-	while (current)
-	{
-		if (ft_strncmp(current->key, key, size) == 0)
-			return (current);
-		current = current->next;
-	}
-	return (NULL);
+	ft_memcpy(variable, key, key_len);
+	variable[key_len] = 61;
+	ft_memcpy(variable + key_len + 1, content, content_len);
+	return (variable);
 }

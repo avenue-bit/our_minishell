@@ -6,11 +6,53 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:32:38 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/20 11:45:02 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/20 17:38:39 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_env	*envnodes_init(char **envp)
+{
+	t_env	*env_head;
+	t_env	*env_current;
+	int		i;
+
+	env_head = NULL;
+	env_current = NULL;
+	env_head = env_newnode(envp[0]);
+	if (!env_head)
+		return (NULL);
+	env_current = env_head;
+	env_current->next = NULL;
+	i = 1;
+	while (envp[i])
+	{
+		env_current->next = env_newnode(envp[i]);
+		if (!env_current->next)
+			return (env_clearnode(&env_head), NULL);
+		env_current = env_current->next;
+		i++;
+	}
+	return (env_head);
+}
+
+t_env	*env_newnode(char *environment)
+{
+	t_env	*new_env;
+
+	new_env = malloc(sizeof(t_env));
+	if (!new_env)
+		return (NULL);
+	new_env->key = fetch_key(environment);
+	new_env->content = fetch_content(environment);
+	if(!new_env->content)
+		new_env->export = 0;
+	else
+		new_env->export = 1;
+	new_env->next = NULL;
+	return (new_env);
+}
 
 char	*fetch_key(char *environment)
 {
@@ -45,48 +87,6 @@ char	*fetch_content(char *environment)
 	if (!content)
 		return (NULL);
 	return (content);
-}
-
-t_env	*envnodes_init(char **envp)
-{
-	t_env	*env_head;
-	t_env	*env_current;
-	int		i;
-
-	env_head = NULL;
-	env_current = NULL;
-	env_head = env_newnode(envp[0]);
-	if (!env_head)
-		return (NULL);
-	env_current = env_head;
-	env_current->next = NULL;
-	i = 1;
-	while (envp[i])
-	{
-		env_current->next = env_newnode(envp[i]);
-		if (!env_current->next)
-			return (env_clearnode(&env_head), NULL);
-		env_current = env_current->next;
-		i++;
-	}
-	return (env_head);
-}
-
-char	*env_join(char *key, char *content)
-{
-	char	*variable;
-	int		key_len;
-	int		content_len;
-
-	key_len = ft_strlen(key);
-	content_len = ft_strlen(content);
-	variable = ft_calloc(ft_strlen(key) + ft_strlen(content) + 2, sizeof(char));
-	if (!variable)
-		return (NULL);
-	ft_memcpy(variable, key, key_len);
-	variable[key_len] = 61;
-	ft_memcpy(variable + key_len + 1, content, content_len);
-	return (variable);
 }
 
 char	**envarray_init(t_exec *storage, t_env *environments)

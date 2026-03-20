@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 17:48:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/20 14:07:11 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/20 14:43:33 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,6 @@ int	check_absolute(char *command)
 	if (command[i] == '\0')
 		return (0);
 	if (access(command, X_OK) == 0)
-		return (1);
+		return (1); // errno needed for failure of access
 	return (0);
 }
