@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/20 20:49:05 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/20 21:19:18 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@ void	add_path(t_exec *storage, char *export_path)
 {
 	t_env	*current;
 
+	if (!storage->environment)
+	{
+		storage->environment = env_newnode(export_path);
+		return ;
+	}
 	current = storage->environment;
 	while (current->next)
 		current = current->next;
@@ -32,15 +37,18 @@ int	findnreplace(t_exec *storage, char *export_path)
 
 	current = storage->environment;
 	new_key = fetch_key(export_path);
-	if(!new_key)
-		return(-1);
+	if (!new_key)
+		return (-1);
 	nkey_len = ft_strlen(new_key) + 1;
 	while (current)
 	{
 		if (ft_strncmp(current->key, new_key, nkey_len) == 0)
 		{
-			free(current->content);
-			current->content = fetch_content(export_path);
+			if (find_char(export_path, '='))
+			{
+				free(current->content);
+				current->content = fetch_content(export_path);
+			}
 			return (free(new_key), 0);
 		}
 		current = current->next;
@@ -52,6 +60,7 @@ int	declare_x(t_exec *storage, t_cmd *cmd_node)
 {
 	t_env	*current;
 
+	(void)cmd_node;
 	current = storage->environment;
 	while (current)
 	{
@@ -67,16 +76,18 @@ int	declare_x(t_exec *storage, t_cmd *cmd_node)
 int	ft_export(t_exec *storage, t_cmd *cmd_node)
 {
 	int	i;
+	int	valid_path;
 
 	i = 1;
 	if (!cmd_node->cmd_flags[i])
 		return (declare_x(storage, cmd_node));
 	while (cmd_node->cmd_flags[i])
 	{
-		if (findnreplace(storage, cmd_node->cmd_flags[i]))
+		valid_path = findnreplace(storage, cmd_node->cmd_flags[i]);
+		if (valid_path == 1)
 			add_path(storage, cmd_node->cmd_flags[i]);
-		else if(findnreplace(storage, cmd_node->cmd_flags[i]) == -1)
-			return(1);
+		if (valid_path == -1)
+			return (1);
 		i++;
 	}
 	return (0);

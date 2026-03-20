@@ -584,7 +584,7 @@ int	main(int ac, char **av, char **envp)
 	create_cmd_list(&cmd, tokens);
 	print_tokens(tokens);
 	print_cmd_list(cmd);
-	printf("%s\n", create_heredoc_file_name(5));
+	printf("Last Heredoc Filename: %s\n\n", create_heredoc_file_name(5));
 	exec_main(&storage, envp, cmd, tokens);
 	rl_clear_history();
 	rl_clear_signals();

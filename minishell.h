@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/20 20:58:17 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/20 21:12:27 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <fcntl.h>
 # include <linux/limits.h>
 # include <readline/history.h>
+#include <readline/readline.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
@@ -174,5 +175,6 @@ int						newline_flag(char **command);
 void					ft_arrayfree(char **str_array);
 int						ft_envsize(t_env *lst);
 size_t					n_commands(t_cmd *cmd);
+int						find_char(char *str, char c);
 
 #endif
