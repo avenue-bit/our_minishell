@@ -1,6 +1,8 @@
 
 #include "minishell.h"
 
+int	print_syntax_error(char *token);
+
 /*char	*ft_strdup(const char *s)
 {
 	int		i;
@@ -75,6 +77,20 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if ((unsigned int)ft_strlen(s) <= start)
 		substr[0] = '\0';
 	return (substr);
+}
+
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	if (n == 0)
+		return (0);
+	while (--n > 0 && (*s1 && *s2))
+	{
+		if (*s1 != *s2)
+			return ((unsigned char)*s1 - (unsigned char)*s2);
+		s1++;
+		s2++;
+	}
+	return ((unsigned char)*s1 - (unsigned char)*s2);
 }*/
 
 void	clear_tokens(t_token **tokens)
@@ -98,8 +114,6 @@ void	clear_cmds(t_cmd **node)
 	t_cmd	*tmp;
 	int		i;
 
-	if (!node || !*node)
-		return ;
 	while (*node)
 	{
 		tmp = (*node)->next;
@@ -114,6 +128,8 @@ void	clear_cmds(t_cmd **node)
 			free((*node)->infile);
 		if ((*node)->outfile)
 			free((*node)->outfile);
+		if ((*node)->hd_delim)
+			free((*node)->hd_delim);
 		free(*node);
 		*node = tmp;
 	}
@@ -206,39 +222,6 @@ int	create_tokens(char *input, t_token **tokens, int check, int i)
 	return (0);
 }
 
-void	print_tokens(t_token *tokens)
-{
-	while (tokens)
-	{
-		printf("Type: %d | Content: [%s]\n", tokens->type, tokens->content);
-		tokens = tokens->next;
-	}
-	printf("\n\n");
-}
-
-void	print_cmd_list(t_cmd *cmd)
-{
-	int	i;
-	int	cmd_num;
-
-	cmd_num = 0;
-	while (cmd)
-	{
-		printf("--- COMMAND %d ---\n", cmd_num++);
-		printf("Infile: [%s]\n", cmd->infile);
-		printf("Outfile: [%s] (Append: %d)\n", cmd->outfile, cmd->append);
-		printf("Commands & Flags:   ");
-		i = 0;
-		if (cmd->cmd_flags)
-		{
-			while (cmd->cmd_flags[i])
-				printf("[%s]", cmd->cmd_flags[i++]);
-		}
-		printf("\n\n");
-		cmd = cmd->next;
-	}
-}
-
 int	count_tokens_words(t_token *tokens)
 {
 	t_token	*tmp;
@@ -303,6 +286,16 @@ void	remove_last_cmd_node(t_cmd **cmd_list, t_cmd *node)
 	free(node);
 }
 
+int	set_redir_path(t_cmd *cmd, t_token **tokens, t_type type)
+{
+	if (type == tk_REDIR_IN)
+		return (free(cmd->infile), cmd->infile = ft_strdup((*tokens)->content),
+			errno);
+	else
+		return (free(cmd->outfile), cmd->append = (type == tk_APPEND),
+			cmd->outfile = ft_strdup((*tokens)->content), errno);
+}
+
 int	fill_cmd_data_redir(t_token **tokens, t_cmd *cmd)
 {
 	t_type	type;
@@ -312,6 +305,10 @@ int	fill_cmd_data_redir(t_token **tokens, t_cmd *cmd)
 	*tokens = (*tokens)->next;
 	if (!*tokens)
 		return (ENOMEM);
+	errno = 0;
+	if (type == tk_HERE_DOC)
+		return (free(cmd->hd_delim),
+			cmd->hd_delim = ft_strdup((*tokens)->content), errno);
 	if (type == tk_REDIR_IN)
 		fd = open((*tokens)->content, O_RDONLY);
 	else if (type == tk_APPEND)
@@ -322,12 +319,7 @@ int	fill_cmd_data_redir(t_token **tokens, t_cmd *cmd)
 		return (perror((*tokens)->content), ENOENT);
 	close(fd);
 	errno = 0;
-	if (type == tk_REDIR_IN)
-		return (free(cmd->infile), cmd->infile = ft_strdup((*tokens)->content),
-			errno);
-	else
-		return (free(cmd->outfile), cmd->append = (type == tk_APPEND),
-			cmd->outfile = ft_strdup((*tokens)->content), errno);
+	return (set_redir_path(cmd, tokens, type));
 	return (0);
 }
 
@@ -387,6 +379,84 @@ t_cmd	*init_new_cmd(t_cmd **cmd_list, t_token *tokens)
 	return (current_cmd);
 }
 
+char	*create_heredoc_file_name(int num)
+{
+	static char	name[20];
+	int			temp;
+	int			len;
+
+	temp = num;
+	len = 0;
+	name[0] = '.';
+	name[1] = '_';
+	name[2] = '#';
+	temp = num;
+	len = (num == 0);
+	while (temp > 0 && ++len)
+		temp /= 10;
+	name[len + 3] = '\0';
+	temp = num;
+	while (len > 0)
+	{
+		name[len + 2] = (temp % 10) + '0';
+		temp /= 10;
+		len--;
+	}
+	if (num == 0)
+		name[3] = '0';
+	return (name);
+}
+
+void heredoc_loop(int fd, char *delim)
+{
+	char *line;
+	size_t len;
+
+	len = ft_strlen(delim);
+	if (delim[0] == '\'' && delim[--len] == '\'')
+		{
+		delim[len--] = '\0';
+		delim++;
+		}
+	while (1)
+	{
+		line = readline("> ");
+		if (!line)
+			break ;
+		if (ft_strncmp(line, delim, len) == 0 && line[len] == '\0')
+		{
+			free(line);
+			break ;
+		}
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
+		free(line);
+	}
+}
+
+int	heredoc_to_file(t_cmd *cmd)
+{
+	int			fd;
+	char		*filename;
+	static int	h_num;
+
+	if (!cmd->hd_delim)
+		return (print_syntax_error(NULL));
+	filename = create_heredoc_file_name(h_num);
+	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (fd == -1)
+		return (perror("heredoc hiddenfile open"), ENOENT);
+	heredoc_loop(fd, cmd->hd_delim);
+	close(fd);
+	if (cmd->infile)
+		free(cmd->infile);
+	cmd->infile = ft_strdup(filename);
+	if (!cmd->infile)
+		return (errno);
+	h_num++;
+	return (0);
+}
+
 void	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
 {
 	t_token	*tmp;
@@ -403,6 +473,10 @@ void	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
 			return (clear_tokens(&tokens), clear_cmds(cmd_list),
 				perror("Error"), exit(errno));
 		reint = fill_cmd_data(&tmp, current_cmd);
+		if (current_cmd->hd_delim)
+			if (heredoc_to_file(current_cmd) != 0)
+				return (clear_tokens(&tokens), clear_cmds(cmd_list),
+				perror("Error"), exit(errno));
 		if (reint == ENOMEM)
 			return (clear_tokens(&tokens), clear_cmds(cmd_list), exit(errno));
 		if (reint == ENOENT)
@@ -421,7 +495,7 @@ int	check_redirection(t_type type)
 int	print_syntax_error(char *token)
 {
 	if (!token)
-		write(2, "jeis: syntax error unexpected token 'newline'\n", 47);
+		write(2, "jeis: syntax error unexpected token `newline'\n", 47);
 	else
 	{
 		write(2, "jeis: syntax error unexpected token ", 37);
@@ -458,6 +532,40 @@ int	check_syntax(t_token *tokens)
 	return (0);
 }
 
+void	print_tokens(t_token *tokens)
+{
+	while (tokens)
+	{
+		printf("Type: %d | Content: [%s]\n", tokens->type, tokens->content);
+		tokens = tokens->next;
+	}
+	printf("\n\n");
+}
+
+void	print_cmd_list(t_cmd *cmd)
+{
+	int	i;
+	int	cmd_num;
+
+	cmd_num = 0;
+	while (cmd)
+	{
+		printf("--- COMMAND %d ---\n", cmd_num++);
+		printf("Infile: [%s]\n", cmd->infile);
+		printf("Outfile: [%s] (Append: %d)\n", cmd->outfile, cmd->append);
+		printf("Heredoc delim: [%s]\n", cmd->hd_delim);
+		printf("Commands & Flags:   ");
+		i = 0;
+		if (cmd->cmd_flags)
+		{
+			while (cmd->cmd_flags[i])
+				printf("[%s]", cmd->cmd_flags[i++]);
+		}
+		printf("\n\n");
+		cmd = cmd->next;
+	}
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_token	*tokens;
@@ -471,16 +579,21 @@ int	main(int ac, char **av, char **envp)
 	ft_bzero(&storage, sizeof(t_exec));
 	printf("Input %s\n\n", av[1]);
 	create_tokens(av[1], &tokens, 0, 0);
-	check_syntax(tokens);
+	if (check_syntax(tokens))
+		return (clear_tokens(&tokens), 1);
 	create_cmd_list(&cmd, tokens);
-	// print_tokens(tokens);
+	print_tokens(tokens);
 	print_cmd_list(cmd);
+	printf("%s\n", create_heredoc_file_name(5));
 	exec_main(&storage, envp, cmd, tokens);
-	freeing_ramp(&storage, 1); // Proper exit code needed
+	rl_clear_history();
+	rl_clear_signals();
+	rl_deprep_terminal();
+	freeing_ramp(&storage, 1);
 	return (0);
 	/*  ----END--- */
 	/* ----Check with readline----*/
-	/* 	(void)ac;
+ /* 		(void)ac;
 		(void)av;
 		(void)envp;
 		while (1)
@@ -493,7 +606,7 @@ int	main(int ac, char **av, char **envp)
 				write(1, "exiting...\n", 12);
 				break ;
 			}
-			if (*input == 'e')
+			if (ft_strncmp(input, "exit", 4) == 0 || ft_strncmp(input, "quit", 4) == 0 )
 			{
 				clear_tokens(&tokens);
 				clear_cmds(&cmd);
@@ -513,13 +626,14 @@ int	main(int ac, char **av, char **envp)
 				continue ;
 			}
 			create_cmd_list(&cmd, tokens);
-			exec_main(ac, av, envp, cmd);
-			//print_tokens(tokens);
-			//print_cmd_list(cmd);
+			//exec_main(ac, av, envp, cmd);
+			print_tokens(tokens);
+			print_cmd_list(cmd);
 			if (tokens)
 				clear_tokens(&tokens);
 			if (cmd)
 				clear_cmds(&cmd);
+			rl_clear_history();
 			free(input);
-		} */
+		}  */
 }
