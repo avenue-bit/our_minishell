@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/20 21:12:27 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/23 15:51:50 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <fcntl.h>
 # include <linux/limits.h>
 # include <readline/history.h>
-#include <readline/readline.h>
+# include <readline/readline.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
@@ -59,13 +59,13 @@ typedef struct s_token
 
 typedef struct s_cmd
 {
-	char			**cmd_flags;
-	char			*infile;
-	char			*outfile;
-	char			*hd_delim;
-	BOOL			append;
-	struct s_cmd	*next;
-	struct s_cmd	*prev;
+	char				**cmd_flags;
+	char				*infile;
+	char				*outfile;
+	char				*hd_delim;
+	BOOL				append;
+	struct s_cmd		*next;
+	struct s_cmd		*prev;
 
 }						t_cmd;
 
@@ -155,7 +155,7 @@ t_env					*get_envnode(t_exec *storage, char *key, int size);
 
 // FT_export and helpers
 int						ft_export(t_exec *storage, t_cmd *cmd_node);
-int 					declare_x(t_exec *storage, t_cmd *cmd_node);
+
 
 // Free and Close Functions
 void					freeing_ramp(t_exec *storage, int exit_code);

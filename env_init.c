@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:32:38 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/20 17:38:39 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/23 11:08:48 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,6 @@ t_env	*env_newnode(char *environment)
 		return (NULL);
 	new_env->key = fetch_key(environment);
 	new_env->content = fetch_content(environment);
-	if(!new_env->content)
-		new_env->export = 0;
-	else
-		new_env->export = 1;
 	new_env->next = NULL;
 	return (new_env);
 }

@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 11:25:25 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/18 19:43:41 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/23 14:43:12 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,12 @@
 // Keep in Alphabetical Order
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
+int		ft_isalpha(int c);
+int		ft_isdigit(int c);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	*ft_memset(void *s, int c, size_t n);
 int		ft_printf(const char *__format, ...);
+void	ft_putstr_fd(char *s, int fd);
 char	**ft_split(const char *s, char c);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(const char *s);

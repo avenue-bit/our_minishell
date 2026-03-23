@@ -1,39 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins_utils.c                                   :+:      :+:    :+:   */
+/*   3_libftutils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/17 16:48:53 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/20 20:31:30 by esezalor         ###   ########.fr       */
+/*   Created: 2026/02/27 11:38:21 by esezalor          #+#    #+#             */
+/*   Updated: 2026/03/23 14:42:58 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "libft_utils.h"
 
-int	newline_flag(char **command)
+int	ft_isalpha(int c)
 {
-	int	i;
-	int	j;
+	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
+}
 
-	i = 1;
-	while (command[i])
-	{
-		if (command[i][0] == '-' && command[i][1] == 'n')
-		{
-			j = 2;
-			while (command[i][j])
-			{
-				if (command[i][j] != 'n')
-					return (i);
-				j++;
-			}
-			i++;
-		}
-		else
-			return (i);
-	}
-	return (i);
+void	ft_putstr_fd(char *s, int fd)
+{
+	write(fd, s, ft_strlen(s));
+}
+
+int	ft_isdigit(int c)
+{
+	return (c >= '0' && c <= '9');
 }
 
