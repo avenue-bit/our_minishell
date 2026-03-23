@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:32:38 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/23 11:08:48 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/23 17:17:53 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,16 @@ t_env	*env_newnode(char *environment)
 	if (!new_env)
 		return (NULL);
 	new_env->key = fetch_key(environment);
-	new_env->content = fetch_content(environment);
+	if(new_env->key)
+		return(NULL);
+	if (!find_char(environment, '='))
+		new_env->content = NULL;
+	else
+	{
+		new_env->content = fetch_content(environment);
+		if(!new_env->content)
+			return(NULL);
+	}
 	new_env->next = NULL;
 	return (new_env);
 }
@@ -57,7 +66,7 @@ char	*fetch_key(char *environment)
 	char	*key;
 
 	key_len = 0;
-	while (environment[key_len] && environment[key_len] != '=')
+	while (environment[key_len] && environment[key_len] != '=' && environment[key_len] != '+')
 		key_len++;
 	key = ft_calloc(key_len + 1, sizeof(char));
 	if (!key)
@@ -98,10 +107,13 @@ char	**envarray_init(t_exec *storage, t_env *environments)
 	j = 0;
 	while (environments && j < env_amount)
 	{
-		array[j] = env_join(environments->key, environments->content);
-		if (!array[j])
-			return ((ft_arrayfree(array)), NULL);
-		j++;
+		if (environments->content)
+		{
+			array[j] = env_join(environments->key, environments->content);
+			if (!array[j])
+				return ((ft_arrayfree(array)), NULL);
+			j++;
+		}
 		environments = environments->next;
 	}
 	storage->n_env_variables = j;

@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/23 15:51:50 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/23 21:31:50 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ typedef struct s_env
 {
 	char				*key;
 	char				*content;
-	BOOL				export;
 	struct s_env		*next;
 }						t_env;
 
@@ -155,6 +154,8 @@ t_env					*get_envnode(t_exec *storage, char *key, int size);
 
 // FT_export and helpers
 int						ft_export(t_exec *storage, t_cmd *cmd_node);
+int 					export_error(char *export_var);
+int 					append_export_content(t_env *current, char *export_var);
 
 
 // Free and Close Functions

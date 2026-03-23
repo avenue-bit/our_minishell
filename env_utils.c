@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:10:11 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/20 17:30:14 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/23 16:40:50 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*env_join(char *key, char *content)
 
 	key_len = ft_strlen(key);
 	content_len = ft_strlen(content);
-	variable = ft_calloc(ft_strlen(key) + ft_strlen(content) + 2, sizeof(char));
+	variable = ft_calloc(key_len + content_len + 2, sizeof(char));
 	if (!variable)
 		return (NULL);
 	ft_memcpy(variable, key, key_len);
