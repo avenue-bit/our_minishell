@@ -6,18 +6,49 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/23 21:30:42 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/24 11:02:06 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	export_error(char *export_var)
+int	valid_export_key(char *export_var)
 {
-	ft_putstr_fd("bash: export: \'", 2);
-	ft_putstr_fd(export_var, 2);
-	ft_putstr_fd("\': not a valid identifier\n", 2);
-	return (1);
+	int	i;
+
+	i = 0;
+	if (!ft_isalpha(export_var[i]) && export_var[i] != '_')
+		return (-1);
+	while (export_var[i] && export_var[i] != '=')
+	{
+		if (export_var[i] == '+' && export_var[i + 1] == '=')
+			return (1);
+		if (!ft_isalpha(export_var[i]) && !ft_isdigit(export_var[i])
+			&& export_var[i] != '_')
+			return (-1);
+		i++;
+	}
+	return (0);
+}
+
+int	add_path(t_exec *storage, char *export_var)
+{
+	t_env	*current;
+
+	if (!storage->environment)
+	{
+		storage->environment = env_newnode(export_var);
+		if (!storage->environment)
+			return (1);
+		return (0);
+	}
+	current = storage->environment;
+	while (current->next)
+		current = current->next;
+	current->next = env_newnode(export_var);
+	if (!current->next)
+		return (1);
+	return (0);
 }
 
 int	append_export_content(t_env *current, char *export_var)
@@ -29,7 +60,7 @@ int	append_export_content(t_env *current, char *export_var)
 	if (!export_content)
 		return (-1);
 	if (!current->content)
-		return(current->content = export_content, 0);
+		return (current->content = export_content, 0);
 	else
 		new_content = ft_strjoin(current->content, export_content);
 	if (!new_content)
@@ -40,11 +71,19 @@ int	append_export_content(t_env *current, char *export_var)
 	return (0);
 }
 
-int update_execve_env(t_exec *storage)
+int	export_error(char *export_var)
 {
-    ft_arrayfree(storage->execve_env);
-    storage->execve_env = envarray_init(storage, storage->environment);
-    if (!storage->execve_env)
-        return (1);
-    return (0);
+	ft_putstr_fd("bash: export: \'", 2);
+	ft_putstr_fd(export_var, 2);
+	ft_putstr_fd("\': not a valid identifier\n", 2);
+	return (1);
+}
+
+int	update_execve_env(t_exec *storage)
+{
+	ft_arrayfree(storage->execve_env);
+	storage->execve_env = envarray_init(storage, storage->environment);
+	if (!storage->execve_env)
+		return (1);
+	return (0);
 }

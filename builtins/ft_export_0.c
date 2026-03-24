@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_export.c                                        :+:      :+:    :+:   */
+/*   ft_export_0.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/23 21:30:51 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/24 12:57:58 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_export(t_exec *storage, t_cmd *cmd_node)
 	exit_status = 0;
 	i = 1;
 	if (!cmd_node->cmd_flags[i])
-		declare_x(); // not built yet,will do this at the end along with sorting
+		exit_status = declare_x(storage);
 	while (cmd_node->cmd_flags[i])
 	{
 		valid_key = valid_export_key(cmd_node->cmd_flags[i]);
@@ -44,6 +44,33 @@ int	ft_export(t_exec *storage, t_cmd *cmd_node)
 	return (exit_status);
 }
 
+int declare_x(t_exec *storage)
+{
+	t_env **declare_x;
+	t_env *current;
+	int export_len;
+	int i;
+	
+	if(!storage->environment)
+		return(ft_printf("\n"), 0);
+	current = storage->environment;
+	export_len = ft_envsize(storage->environment);
+	declare_x = ft_calloc(export_len + 1, sizeof(t_env *));
+	if(!declare_x)
+		return(1);
+	i = 0;
+	while(current)
+	{
+		declare_x[i] = current;
+		current = current->next;
+		i++;
+	}
+	export_sort(declare_x, export_len);
+	print_export(declare_x);
+	return(0);
+		
+}
+
 int	export_path(t_exec *storage, char *export_var, int valid_key, int *env_chg)
 {
 	int	valid_path;
@@ -52,30 +79,16 @@ int	export_path(t_exec *storage, char *export_var, int valid_key, int *env_chg)
 	if (valid_path == -1)
 		return (1);
 	if (valid_path == 1)
-		*env_chg = add_path(storage, export_var); // to build
+	{
+		if (add_path(storage, export_var) == 1)
+			return (1);
+		*env_chg = 1;
+	}
 	else if (valid_path == 0)
 		*env_chg = 1;
 	return (0);
 }
 
-int	valid_export_key(char *export_var)
-{
-	int	i;
-
-	i = 0;
-	if (!ft_isalpha(export_var[i]) && export_var[i] != '_')
-		return (-1);
-	while (export_var[i] && export_var[i] != '=')
-	{
-		if (export_var[i] == '+' && export_var[i + 1] == '=')
-			return (1);
-		if (!ft_isalpha(export_var[i]) && !ft_isdigit(export_var[i])
-			&& export_var[i] != '_')
-			return (-1);
-		i++;
-	}
-	return (0);
-}
 
 int	findnedit(t_exec *storage, char *export_var, int flag)
 {
