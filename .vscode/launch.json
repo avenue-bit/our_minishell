@@ -6,7 +6,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/a.out",
-            "args": ["export hello"],
+            "args": ["export USER+=hello"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

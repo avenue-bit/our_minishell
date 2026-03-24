@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/24 16:33:59 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/24 18:24:15 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ void	exec_main_init(t_exec *storage, t_cmd *cmd_list, t_token *token_lst)
 int	exec_main(t_exec *storage, char **envp, t_cmd *cmd_list, t_token *token_lst)
 {
 	exec_main_init(storage, cmd_list, token_lst);
-	ft_printf("Debug #1\n");
-	storage->environment = envnodes_init(envp);
+	/*storage->environment = envnodes_init(envp);
 	if (!storage->environment)
 		return (path_env_free(storage), -1);
 	if(storage->execve_env)
@@ -42,7 +41,7 @@ int	exec_main(t_exec *storage, char **envp, t_cmd *cmd_list, t_token *token_lst)
 	storage->execve_env = envarray_init(storage, storage->environment);
 	if (!storage->execve_env)
 		return (path_env_free(storage), env_clearnode(&storage->environment),
-			0);// Error handling needed
+			0);*/
 	while (cmd_list)
 	{
 		if (!cmd_list->next && !cmd_list->prev && is_builtin(storage,

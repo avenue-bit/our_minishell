@@ -574,7 +574,7 @@ int	main(int ac, char **av, char **envp)
 	char	*input;
 
 	/*  ----Check without readline---- */
-	tokens = NULL;
+	/*tokens = NULL;
 	cmd = NULL;
 	ft_bzero(&storage, sizeof(t_exec));
 	printf("Input %s\n\n", av[1]);
@@ -585,17 +585,28 @@ int	main(int ac, char **av, char **envp)
 	print_tokens(tokens);
 	print_cmd_list(cmd);
 	printf("Last Heredoc Filename: %s\n\n", create_heredoc_file_name(5));
+	ft_printf("Debug #0\n");
 	exec_main(&storage, envp, cmd, tokens);
 	rl_clear_history();
 	rl_clear_signals();
 	rl_deprep_terminal();
 	freeing_ramp(&storage, 1);
-	return (0);
+	return (0);*/
 	/*  ----END--- */
 	/* ----Check with readline----*/
- /* 		(void)ac;
+  		(void)ac;
 		(void)av;
-		(void)envp;
+		// (void)envp;
+		ft_bzero(&storage, sizeof(t_exec));
+		storage.environment = envnodes_init(envp);
+		if (!storage.environment)
+			return (path_env_free(&storage), -1);
+		if(storage.execve_env)
+			ft_arrayfree(storage.execve_env);
+		storage.execve_env = envarray_init(&storage, storage.environment);
+		if (!storage.execve_env)
+			return (path_env_free(&storage), env_clearnode(&storage.environment),
+				0);
 		while (1)
 		{
 			tokens = NULL;
@@ -626,14 +637,11 @@ int	main(int ac, char **av, char **envp)
 				continue ;
 			}
 			create_cmd_list(&cmd, tokens);
-			//exec_main(ac, av, envp, cmd);
+			exec_main(&storage, envp, cmd, tokens);
 			print_tokens(tokens);
 			print_cmd_list(cmd);
-			if (tokens)
-				clear_tokens(&tokens);
-			if (cmd)
-				clear_cmds(&cmd);
+			// freeing_ramp(&storage, 1);
 			rl_clear_history();
 			free(input);
-		}  */
+		} 
 }
