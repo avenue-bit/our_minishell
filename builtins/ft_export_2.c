@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/24 12:59:06 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/24 16:19:59 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,20 @@ void	ft_swap(t_env **node1, t_env **node2)
 	*node2 = tmp;
 }
 
-// void print_export(t_env **exp_array)
-// {
-// 	int i;
+void	print_export(t_env **exp_array)
+{
+	int	i;
 
-// 	i = 0;
-// 	while(exp_array[i])
-// }
+	i = 0;
+	if (!exp_array[i])
+		ft_printf("\n");
+	while (exp_array[i])
+	{
+		if (exp_array[i]->content == NULL)
+			ft_printf("declare -x %s\n", exp_array[i]->key);
+		else
+			ft_printf("declare -x %s=\"%s\"\n", exp_array[i]->key,
+				exp_array[i]->content);
+		i++;
+	}
+}

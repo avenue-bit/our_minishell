@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/24 12:57:58 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/24 16:19:56 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,22 @@ int	ft_export(t_exec *storage, t_cmd *cmd_node)
 	return (exit_status);
 }
 
-int declare_x(t_exec *storage)
+int	declare_x(t_exec *storage)
 {
-	t_env **declare_x;
-	t_env *current;
-	int export_len;
-	int i;
-	
-	if(!storage->environment)
-		return(ft_printf("\n"), 0);
+	t_env	**declare_x;
+	t_env	*current;
+	int		export_len;
+	int		i;
+
+	if (!storage->environment)
+		return (ft_printf("\n"), 0);
 	current = storage->environment;
 	export_len = ft_envsize(storage->environment);
 	declare_x = ft_calloc(export_len + 1, sizeof(t_env *));
-	if(!declare_x)
-		return(1);
+	if (!declare_x)
+		return (1);
 	i = 0;
-	while(current)
+	while (current)
 	{
 		declare_x[i] = current;
 		current = current->next;
@@ -67,8 +67,7 @@ int declare_x(t_exec *storage)
 	}
 	export_sort(declare_x, export_len);
 	print_export(declare_x);
-	return(0);
-		
+	return (0);
 }
 
 int	export_path(t_exec *storage, char *export_var, int valid_key, int *env_chg)
@@ -88,7 +87,6 @@ int	export_path(t_exec *storage, char *export_var, int valid_key, int *env_chg)
 		*env_chg = 1;
 	return (0);
 }
-
 
 int	findnedit(t_exec *storage, char *export_var, int flag)
 {

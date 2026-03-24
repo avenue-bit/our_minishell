@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/23 21:31:50 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/24 16:19:14 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,8 +154,19 @@ t_env					*get_envnode(t_exec *storage, char *key, int size);
 
 // FT_export and helpers
 int						ft_export(t_exec *storage, t_cmd *cmd_node);
-int 					export_error(char *export_var);
-int 					append_export_content(t_env *current, char *export_var);
+int declare_x(t_exec *storage);
+int	export_path(t_exec *storage, char *export_var, int valid_key, int *env_chg);
+int	findnedit(t_exec *storage, char *export_var, int flag);
+int	replace_or_append(t_env *current, char *export_var, int flag);
+int	valid_export_key(char *export_var);
+int	add_path(t_exec *storage, char *export_var);
+int	append_export_content(t_env *current, char *export_var);
+int	export_error(char *export_var);
+int	update_execve_env(t_exec *storage);
+void	export_sort(t_env **exp_array, int exp_len);
+void	ft_swap(t_env **node1, t_env **node2);
+void print_export(t_env **exp_array);
+
 
 
 // Free and Close Functions
