@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:32:38 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/24 16:46:14 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/24 17:31:55 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,15 @@ t_env	*env_newnode(char *environment)
 	if (!new_env)
 		return (NULL);
 	new_env->key = fetch_key(environment);
-	if(!new_env->key)
-		return(NULL);
+	if (!new_env->key)
+		return (NULL);
 	if (!find_char(environment, '='))
 		new_env->content = NULL;
 	else
 	{
 		new_env->content = fetch_content(environment);
-		if(!new_env->content)
-			return(NULL);
+		if (!new_env->content)
+			return (NULL);
 	}
 	new_env->next = NULL;
 	return (new_env);
@@ -66,8 +66,13 @@ char	*fetch_key(char *environment)
 	char	*key;
 
 	key_len = 0;
-	while (environment[key_len] && environment[key_len] != '=' && environment[key_len] != '+')
+	while (environment[key_len])
+	{
+		if ((environment[key_len] == '=') || (environment[key_len] == '+'
+				&& environment[key_len + 1] == '='))
+			break ;
 		key_len++;
+	}
 	key = ft_calloc(key_len + 1, sizeof(char));
 	if (!key)
 		return (NULL);

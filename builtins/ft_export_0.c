@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/24 16:24:15 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/24 17:24:14 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	replace_or_append(t_env *current, char *export_var, int flag)
 {
 	if (flag == 0)
 	{
-		if (find_char(export_var, '='))
+		if (ft_strchr(export_var, '='))
 		{
 			free(current->content);
 			current->content = fetch_content(export_var);
