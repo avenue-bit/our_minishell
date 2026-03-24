@@ -6,11 +6,11 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:32:38 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/24 17:44:24 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/24 18:51:05 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 t_env	*envnodes_init(char **envp)
 {

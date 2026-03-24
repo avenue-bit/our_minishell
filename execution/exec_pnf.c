@@ -6,11 +6,11 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:45:59 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/20 14:52:41 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/24 18:50:23 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	fork_ramp(t_exec *storage, t_cmd *cmd_node)
 {

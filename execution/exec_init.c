@@ -6,11 +6,11 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/24 18:48:28 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/24 18:50:13 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	exec_main_init(t_exec *storage, t_cmd *cmd_list, t_token *token_lst)
 {
