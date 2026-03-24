@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/24 16:54:55 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/24 18:47:27 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ typedef struct s_exec
 
 int						exec_main(t_exec *storage, char **envp, t_cmd *cmd_list,
 							t_token *token_lst);
+void	exec_main_init(t_exec *storage, t_cmd *cmd_list, t_token *token_lst);
+int envnodes_execarray_init(t_exec *storage, char **envp);
 
 // Environment Initialisation
 char					*fetch_key(char *environment);

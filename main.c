@@ -598,15 +598,7 @@ int	main(int ac, char **av, char **envp)
 		(void)av;
 		// (void)envp;
 		ft_bzero(&storage, sizeof(t_exec));
-		storage.environment = envnodes_init(envp);
-		if (!storage.environment)
-			return (path_env_free(&storage), -1);
-		if(storage.execve_env)
-			ft_arrayfree(storage.execve_env);
-		storage.execve_env = envarray_init(&storage, storage.environment);
-		if (!storage.execve_env)
-			return (path_env_free(&storage), env_clearnode(&storage.environment),
-				0);
+		envnodes_execarray_init(&storage, envp);
 		while (1)
 		{
 			tokens = NULL;
