@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/24 16:19:56 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/24 16:24:15 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	declare_x(t_exec *storage)
 	}
 	export_sort(declare_x, export_len);
 	print_export(declare_x);
-	return (0);
+	return (free(declare_x), 0);
 }
 
 int	export_path(t_exec *storage, char *export_var, int valid_key, int *env_chg)

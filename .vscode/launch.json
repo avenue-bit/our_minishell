@@ -6,7 +6,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/a.out",
-            "args": ["env > outfile2"],
+            "args": ["export"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

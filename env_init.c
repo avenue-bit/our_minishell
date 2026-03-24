@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:32:38 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/23 17:17:53 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/24 16:46:14 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_env	*env_newnode(char *environment)
 	if (!new_env)
 		return (NULL);
 	new_env->key = fetch_key(environment);
-	if(new_env->key)
+	if(!new_env->key)
 		return(NULL);
 	if (!find_char(environment, '='))
 		new_env->content = NULL;
