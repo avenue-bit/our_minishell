@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/25 09:50:38 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/25 12:44:47 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,13 @@ typedef struct s_exec
 {
 	struct s_token		*token_nodes;
 	struct s_cmd		*command_nodes;
-	int 				n_commands_nodes;
+	int					n_commands_nodes;
 	struct s_env		*environment;
 	char				**execve_env;
 	char				**all_paths;
 	int					n_paths;
 	char				*command_path;
-	pid_t 				*c_pids;
+	pid_t				*c_pids;
 	int					pre_read_fd;
 	int					pipe_fd[2];
 	int					infile_fd;
@@ -100,10 +100,9 @@ typedef struct s_exec
 	int					exit_code;
 }						t_exec;
 
-int						exec_main(t_exec *storage, char **envp, t_cmd *cmd_list,
-							t_token *token_lst);
-void	exec_main_init(t_exec *storage, t_cmd *cmd_list, t_token *token_lst);
-int envnodes_execarray_init(t_exec *storage, char **envp);
+int						exec_main(t_exec *storage, char **envp);
+void					exec_main_init(t_exec *storage);
+int						envnodes_execarray_init(t_exec *storage, char **envp);
 
 // Environment Initialisation
 char					*fetch_key(char *environment);
@@ -129,7 +128,7 @@ int						fork_ramp(t_exec *storage, t_cmd *cmd_node);
 void					exec_fork(t_exec *storage, t_cmd *cmd_node);
 void					child_wrapper(t_exec *storage, t_cmd *current);
 void					parent_wrapper(t_exec *storage, t_cmd *current);
-void					wait_for_child(t_exec *storage);
+int						wait_for_child(t_exec *storage);
 
 // Redirection Functions
 int						infile_outfile_check(t_exec *storage, t_cmd *cmd_node);

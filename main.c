@@ -114,6 +114,8 @@ void	clear_cmds(t_cmd **node)
 	t_cmd	*tmp;
 	int		i;
 
+	if(!node || !*node)
+		return ;
 	while (*node)
 	{
 		tmp = (*node)->next;
@@ -577,8 +579,8 @@ int	main(int ac, char **av, char **envp)
 	tokens = NULL;
 	cmd = NULL;
 	ft_bzero(&storage, sizeof(t_exec));
-	exec_main_init(&storage, cmd, tokens);
-	envnodes_execarray_init(&storage, envp);
+	storage.command_nodes = cmd;
+	storage.token_nodes = tokens;
 	printf("Input %s\n\n", av[1]);
 	create_tokens(av[1], &tokens, 0, 0);
 	if (check_syntax(tokens))
@@ -587,8 +589,8 @@ int	main(int ac, char **av, char **envp)
 	print_tokens(tokens);
 	print_cmd_list(cmd);
 	printf("Last Heredoc Filename: %s\n\n", create_heredoc_file_name(5));
-	ft_printf("Debug #0\n");
-	exec_main(&storage, envp, cmd, tokens);
+	envnodes_execarray_init(&storage, envp);
+	exec_main(&storage, envp);
 	rl_clear_history();
 	rl_clear_signals();
 	rl_deprep_terminal();
@@ -600,7 +602,6 @@ int	main(int ac, char **av, char **envp)
 		(void)av;
 		// (void)envp;
 		ft_bzero(&storage, sizeof(t_exec));
-		envnodes_execarray_init(&storage, envp);
 		while (1)
 		{
 			tokens = NULL;
@@ -631,11 +632,12 @@ int	main(int ac, char **av, char **envp)
 				continue ;
 			}
 			create_cmd_list(&cmd, tokens);
+			envnodes_execarray_init(&storage, envp);
 			exec_main(&storage, envp, cmd, tokens);
 			print_tokens(tokens);
 			print_cmd_list(cmd);
-			freeing_ramp(&storage, 1);
 			rl_clear_history();
 			free(input);
-		}*/
+		}
+		freeing_ramp(&storage, 1);*/
 }

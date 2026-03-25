@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/25 10:31:36 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/25 12:44:23 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,8 @@ int envnodes_execarray_init(t_exec *storage, char **envp)
 	return(1);
 }
 
-void	exec_main_init(t_exec *storage, t_cmd *cmd_list, t_token *token_lst)
+void	exec_main_init(t_exec *storage)
 {
-	storage->command_nodes = cmd_list;
-	storage->token_nodes = token_lst;
 	storage->pre_read_fd = -1;
 	storage->pipe_fd[0] = -1;
 	storage->pipe_fd[1] = -1;

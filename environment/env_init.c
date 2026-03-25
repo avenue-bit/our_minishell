@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:32:38 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/25 10:41:02 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/25 11:32:20 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ t_env	*envnodes_init(char **envp)
 	t_env	*env_current;
 	int		i;
 
-	env_head = NULL;
-	env_current = NULL;
+	if(!envp || !envp[0])
+		return(NULL); // error handling for when the environment is empty
 	env_head = env_newnode(envp[0]);
 	if (!env_head)
 		return (NULL);
@@ -30,7 +30,10 @@ t_env	*envnodes_init(char **envp)
 	{
 		env_current->next = env_newnode(envp[i]);
 		if (!env_current->next)
+		{
+			env_clearnode(&env_head);
 			return (NULL);
+		}
 		env_current = env_current->next;
 		i++;
 	}

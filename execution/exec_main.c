@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/25 10:28:55 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/25 12:44:09 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,12 @@
 // 2. clear all funcheck leaks
 // 3. rl hook to handle signals (will change life)
 
-int	exec_main(t_exec *storage, char **envp, t_cmd *cmd_list, t_token *token_lst)
+int	exec_main(t_exec *storage, char **envp)
 {
+	t_cmd *cmd_list;
+	
+	cmd_list = storage->command_nodes;
+	exec_main_init(storage);
 	storage->n_commands_nodes = n_commands(cmd_list);
 	storage->c_pids = ft_calloc(storage->n_commands_nodes, sizeof(pid_t));
 	if(!storage->c_pids)
@@ -42,6 +46,7 @@ int	exec_main(t_exec *storage, char **envp, t_cmd *cmd_list, t_token *token_lst)
 			break ;
 		cmd_list = cmd_list->next;
 	}
-	wait_for_child(storage);
+	if(wait_for_child(storage) == 1)
+		freeing_ramp(storage, errno);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 17:48:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/24 18:51:10 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/25 12:15:12 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,11 @@ char	*pathfinder(t_exec *storage, char *command)
 			ft_strlen(command));
 		if (access(is_valid, X_OK) == 0)
 			return (is_valid);
-		free(is_valid);
-		is_valid = NULL;
+		else
+			return(free(is_valid), is_valid = NULL, NULL);
 		i++;
 	}
-	return (NULL);
+	return (free(is_valid), is_valid = NULL, NULL);
 }
 
 int	check_absolute(char *command)

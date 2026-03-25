@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:45:59 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/25 10:07:18 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/25 12:19:47 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,14 @@ int	fork_ramp(t_exec *storage, t_cmd *cmd_node)
 	if (cmd_node->next)
 	{
 		if (pipe(storage->pipe_fd) == -1)
-			return (perror("pipe"), -1);
+		{
+			perror("Pipe failure");
+			freeing_ramp(storage, errno);
+		}
 	}
 	storage->c_pids[i] = fork();
 	if (storage->c_pids[i] < 0)
-		return (-1);
+		freeing_ramp(storage, 1);
 	if (storage->c_pids[i] == 0)
 		child_wrapper(storage, cmd_node);
 	else
@@ -92,7 +95,7 @@ void	parent_wrapper(t_exec *storage, t_cmd *current)
 	}
 }
 
-void	wait_for_child(t_exec *storage)
+int	wait_for_child(t_exec *storage)
 {
 	int i;
 	int	status;
@@ -106,6 +109,8 @@ void	wait_for_child(t_exec *storage)
 		{
 			if (errno == EINTR)
 				continue ;
+			else
+				return(1);
 		}
 		if (reaped_pid > 0)
 		{
@@ -116,4 +121,5 @@ void	wait_for_child(t_exec *storage)
 		}
 		i++;
 	}
+	return(0);
 }
