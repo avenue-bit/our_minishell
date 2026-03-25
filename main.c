@@ -579,8 +579,6 @@ int	main(int ac, char **av, char **envp)
 	tokens = NULL;
 	cmd = NULL;
 	ft_bzero(&storage, sizeof(t_exec));
-	storage.command_nodes = cmd;
-	storage.token_nodes = tokens;
 	printf("Input %s\n\n", av[1]);
 	create_tokens(av[1], &tokens, 0, 0);
 	if (check_syntax(tokens))
@@ -589,6 +587,8 @@ int	main(int ac, char **av, char **envp)
 	print_tokens(tokens);
 	print_cmd_list(cmd);
 	printf("Last Heredoc Filename: %s\n\n", create_heredoc_file_name(5));
+	storage.command_nodes = cmd;
+	storage.token_nodes = tokens;
 	envnodes_execarray_init(&storage, envp);
 	exec_main(&storage, envp);
 	rl_clear_history();

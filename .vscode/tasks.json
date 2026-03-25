@@ -10,6 +10,8 @@
                 "*.c",
                 "libft_utils/*.c",
                 "builtins/*.c",
+                "environment/*.c",
+                "execution/*.c",
                 "-lreadline",
                 "-o",
                 "a.out"

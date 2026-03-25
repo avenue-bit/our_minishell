@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/25 12:44:09 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/25 12:47:57 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,6 @@ int	exec_main(t_exec *storage, char **envp)
 		cmd_list = cmd_list->next;
 	}
 	if(wait_for_child(storage) == 1)
-		freeing_ramp(storage, errno);
+		return(1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 17:48:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/25 12:15:12 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/25 13:00:29 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ char	*pathfinder(t_exec *storage, char *command)
 	char	*is_valid;
 	char	**path;
 
+	is_valid = NULL;
 	if (check_absolute(command) == 1)
 		return (ft_strdup(command));
 	path = storage->all_paths;
@@ -74,11 +75,11 @@ char	*pathfinder(t_exec *storage, char *command)
 			ft_strlen(command));
 		if (access(is_valid, X_OK) == 0)
 			return (is_valid);
-		else
-			return(free(is_valid), is_valid = NULL, NULL);
+		free(is_valid);
+		is_valid = NULL;
 		i++;
 	}
-	return (free(is_valid), is_valid = NULL, NULL);
+	return (NULL);
 }
 
 int	check_absolute(char *command)
