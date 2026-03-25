@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:32:38 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/25 09:16:08 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/25 10:41:02 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_env	*envnodes_init(char **envp)
 	{
 		env_current->next = env_newnode(envp[i]);
 		if (!env_current->next)
-			return (env_clearnode(&env_head), NULL);
+			return (NULL);
 		env_current = env_current->next;
 		i++;
 	}
@@ -41,19 +41,21 @@ t_env	*env_newnode(char *environment)
 {
 	t_env	*new_env;
 
+	if(!environment)
+		return(NULL);
 	new_env = malloc(sizeof(t_env));
 	if (!new_env)
 		return (NULL);
 	new_env->key = fetch_key(environment);
 	if (!new_env->key)
-		return (NULL);
+		return (free(new_env), NULL);
 	if (!find_char(environment, '='))
 		new_env->content = NULL;
 	else
 	{
 		new_env->content = fetch_content(environment);
 		if (!new_env->content)
-			return (NULL);
+			return (free(new_env->key), free(new_env), NULL);
 	}
 	new_env->next = NULL;
 	return (new_env);

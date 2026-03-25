@@ -577,6 +577,7 @@ int	main(int ac, char **av, char **envp)
 	tokens = NULL;
 	cmd = NULL;
 	ft_bzero(&storage, sizeof(t_exec));
+	exec_main_init(&storage, cmd, tokens);
 	envnodes_execarray_init(&storage, envp);
 	printf("Input %s\n\n", av[1]);
 	create_tokens(av[1], &tokens, 0, 0);
