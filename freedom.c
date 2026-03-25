@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:10:43 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/20 14:50:31 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/25 09:36:38 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	path_env_free(t_exec *storage)
 	}
 	ft_arrayfree(storage->all_paths);
 	ft_arrayfree(storage->execve_env);
+	free(storage->c_pids);
+	storage->c_pids = NULL;
 	clear_cmds(&storage->command_nodes);
 	storage->command_nodes = NULL;
 	clear_tokens(&storage->token_nodes);

@@ -574,9 +574,10 @@ int	main(int ac, char **av, char **envp)
 	char	*input;
 
 	/*  ----Check without readline---- */
-	/*tokens = NULL;
+	tokens = NULL;
 	cmd = NULL;
 	ft_bzero(&storage, sizeof(t_exec));
+	envnodes_execarray_init(&storage, envp);
 	printf("Input %s\n\n", av[1]);
 	create_tokens(av[1], &tokens, 0, 0);
 	if (check_syntax(tokens))
@@ -591,10 +592,10 @@ int	main(int ac, char **av, char **envp)
 	rl_clear_signals();
 	rl_deprep_terminal();
 	freeing_ramp(&storage, 1);
-	return (0);*/
+	return (0);
 	/*  ----END--- */
 	/* ----Check with readline----*/
-  		(void)ac;
+  	/*	(void)ac;
 		(void)av;
 		// (void)envp;
 		ft_bzero(&storage, sizeof(t_exec));
@@ -632,8 +633,8 @@ int	main(int ac, char **av, char **envp)
 			exec_main(&storage, envp, cmd, tokens);
 			print_tokens(tokens);
 			print_cmd_list(cmd);
-			// freeing_ramp(&storage, 1);
+			freeing_ramp(&storage, 1);
 			rl_clear_history();
 			free(input);
-		} 
+		}*/
 }

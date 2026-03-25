@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/24 18:47:27 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/25 09:50:38 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,24 +80,24 @@ typedef int				(*t_builtin_ptr)(t_exec *, t_cmd *);
 
 typedef struct s_exec
 {
-	struct s_env		*environment;
-	struct s_cmd		*command_nodes;
 	struct s_token		*token_nodes;
+	struct s_cmd		*command_nodes;
+	int 				n_commands_nodes;
+	struct s_env		*environment;
 	char				**execve_env;
-	int					n_env_variables;
 	char				**all_paths;
 	int					n_paths;
 	char				*command_path;
-	char				*builtins[8];
-	t_builtin_ptr		builtin_func[8];
+	pid_t 				*c_pids;
 	int					pre_read_fd;
 	int					pipe_fd[2];
 	int					infile_fd;
 	int					outfile_fd;
+	t_builtin_ptr		builtin_func[8];
+	char				*builtins[8];
 	int					built_in;
 	int					built_out;
 	int					exit_code;
-	int					last_pid;
 }						t_exec;
 
 int						exec_main(t_exec *storage, char **envp, t_cmd *cmd_list,

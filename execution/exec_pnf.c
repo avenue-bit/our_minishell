@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:45:59 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/24 18:50:23 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/25 10:07:18 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,22 @@
 
 int	fork_ramp(t_exec *storage, t_cmd *cmd_node)
 {
-	pid_t	pid;
+	int i;
 
+	i = 0;
 	if (cmd_node->next)
 	{
 		if (pipe(storage->pipe_fd) == -1)
 			return (perror("pipe"), -1);
 	}
-	pid = fork();
-	if (pid < 0)
+	storage->c_pids[i] = fork();
+	if (storage->c_pids[i] < 0)
 		return (-1);
-	if (pid == 0)
+	if (storage->c_pids[i] == 0)
 		child_wrapper(storage, cmd_node);
 	else
 		parent_wrapper(storage, cmd_node);
-	storage->last_pid = pid;
+	i++;
 	return (0);
 }
 
@@ -93,25 +94,26 @@ void	parent_wrapper(t_exec *storage, t_cmd *current)
 
 void	wait_for_child(t_exec *storage)
 {
+	int i;
 	int	status;
 	int	reaped_pid;
 
-	while (1)
+	i = 0;
+	while (i < storage->n_commands_nodes)
 	{
-		reaped_pid = wait(&status);
+		reaped_pid = waitpid(storage->c_pids[i], &status, 0);
 		if (reaped_pid < 0)
 		{
 			if (errno == EINTR)
 				continue ;
-			if (errno == ECHILD)
-				break ;
 		}
-		if (reaped_pid == storage->last_pid)
+		if (reaped_pid > 0)
 		{
 			if (WIFEXITED(status))
 				storage->exit_code = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status))
 				storage->exit_code = 128 + WTERMSIG(status);
 		}
+		i++;
 	}
 }
