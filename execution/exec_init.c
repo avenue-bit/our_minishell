@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sezalory <sezalory@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/25 12:44:23 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/25 15:19:26 by sezalory         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int envnodes_execarray_init(t_exec *storage, char **envp)
 		freeing_ramp(storage, 1);
 	if(storage->execve_env)
 		freeing_ramp(storage, 1);
-	storage->execve_env = envarray_init(storage, storage->environment);
+	storage->execve_env = envarray_init(storage->environment);
 	if (!storage->execve_env)
 		freeing_ramp(storage, 1);
 	return(1);

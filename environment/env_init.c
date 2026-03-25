@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sezalory <sezalory@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:32:38 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/25 11:32:20 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/25 15:19:09 by sezalory         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ char	*fetch_content(char *environment)
 	return (content);
 }
 
-char	**envarray_init(t_exec *storage, t_env *environments)
+char	**envarray_init(t_env *environments)
 {
 	int		env_amount;
 	int		j;

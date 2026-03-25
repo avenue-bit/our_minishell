@@ -199,7 +199,7 @@ int	create_tokens(char *input, t_token **tokens, int check, int i)
 {
 	while (input[i])
 	{
-		while (input[i] && (input[i] == ' ' || input[i] >= 9 && input[i] <= 13))
+		while (input[i] && (input[i] == ' ' || (input[i] >= 9 && input[i] <= 13)))
 			i++;
 		if (!input[i])
 			break ;
@@ -573,9 +573,10 @@ int	main(int ac, char **av, char **envp)
 	t_token	*tokens;
 	t_cmd	*cmd;
 	t_exec storage;
-	char	*input;
+	//char	*input;
 
 	/*  ----Check without readline---- */
+	(void)ac;
 	tokens = NULL;
 	cmd = NULL;
 	ft_bzero(&storage, sizeof(t_exec));
@@ -590,11 +591,11 @@ int	main(int ac, char **av, char **envp)
 	storage.command_nodes = cmd;
 	storage.token_nodes = tokens;
 	envnodes_execarray_init(&storage, envp);
-	exec_main(&storage, envp);
+	exec_main(&storage);
 	rl_clear_history();
 	rl_clear_signals();
 	rl_deprep_terminal();
-	freeing_ramp(&storage, 1);
+	freeing_ramp(&storage, 0);
 	return (0);
 	/*  ----END--- */
 	/* ----Check with readline----*/
