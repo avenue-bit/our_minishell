@@ -487,9 +487,33 @@ char	*create_heredoc_file_name(int num)
 	return (name);
 }
 
-int	heredoc_to_file(t_cmd **cmd)
+void heredoc_loop(t_cmd **cmd, int h_fd)
 {
 	char		*line;
+	while (1)
+	{
+		line = readline("> ");
+		if (!line)
+		{
+			write(2, "jeis: warning: here-document delimited by end-of-file (wanted `", 64);
+			write(2, (*cmd)->heredoc_delim, strlen((*cmd)->heredoc_delim));
+			write(2, "')\n", 3);
+			break ;
+		}
+		if (ft_strncmp(line, (*cmd)->heredoc_delim,
+				ft_strlen((*cmd)->heredoc_delim)) == 0)
+		{
+			free(line);
+			break ;
+		}
+		write(h_fd, line, ft_strlen(line));
+		write(h_fd, "\n", 1);
+		free(line);
+	}
+}
+
+int	heredoc_to_file(t_cmd **cmd)
+{
 	int			fd;
 	char		*filename;
 	static int	h_num;
@@ -500,21 +524,7 @@ int	heredoc_to_file(t_cmd **cmd)
 	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 		return (perror("heredoc hiddenfile open"), ENOENT);
-	while (1)
-	{
-		line = readline("> ");
-		if (!line)
-			continue ;
-		if (ft_strncmp(line, (*cmd)->heredoc_delim,
-				ft_strlen((*cmd)->heredoc_delim)) == 0)
-		{
-			free(line);
-			break ;
-		}
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-		free(line);
-	}
+	heredoc_loop(cmd, fd);
 	close(fd);
 	(*cmd)->infile = filename;
 	return (0);
@@ -612,8 +622,8 @@ int	main(int ac, char **av, char **envp)
 		}
 		create_cmd_list(&cmd, tokens);
 		// exec_main(ac, av, envp, cmd);
-		print_tokens(tokens);
-		print_cmd_list(cmd);
+		//print_tokens(tokens);
+		//print_cmd_list(cmd);
 		if (tokens)
 			clear_tokens(&tokens);
 		if (cmd)
