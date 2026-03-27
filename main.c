@@ -388,6 +388,84 @@ t_cmd	*init_new_cmd(t_cmd **cmd_list, t_token *tokens)
 	return (current_cmd);
 }
 
+char	*create_heredoc_file_name(int num)
+{
+	static char	name[20];
+	int			temp;
+	int			len;
+
+	temp = num;
+	len = 0;
+	name[0] = '.';
+	name[1] = '_';
+	name[2] = '#';
+	temp = num;
+	len = (num == 0);
+	while (temp > 0 && ++len)
+		temp /= 10;
+	name[len + 3] = '\0';
+	temp = num;
+	while (len > 0)
+	{
+		name[len + 2] = (temp % 10) + '0';
+		temp /= 10;
+		len--;
+	}
+	if (num == 0)
+		name[3] = '0';
+	return (name);
+}
+
+void heredoc_loop(int fd, char *delim)
+{
+	char *line;
+	size_t len;
+
+	len = ft_strlen(delim);
+	if (delim[0] == '\'' && delim[--len] == '\'')
+		{
+		delim[len--] = '\0';
+		delim++;
+		}
+	while (1)
+	{
+		line = readline("> ");
+		if (!line)
+			break ;
+		if (ft_strncmp(line, delim, len) == 0 && line[len] == '\0')
+		{
+			free(line);
+			break ;
+		}
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
+		free(line);
+	}
+}
+
+int	heredoc_to_file(t_cmd *cmd)
+{
+	int			fd;
+	char		*filename;
+	static int	h_num;
+
+	if (!cmd->hd_delim)
+		return (print_syntax_error(NULL));
+	filename = create_heredoc_file_name(h_num);
+	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (fd == -1)
+		return (perror("heredoc hiddenfile open"), ENOENT);
+	heredoc_loop(fd, cmd->hd_delim);
+	close(fd);
+	if (cmd->infile)
+		free(cmd->infile);
+	cmd->infile = ft_strdup(filename);
+	if (!cmd->infile)
+		return (errno);
+	h_num++;
+	return (0);
+}
+
 void	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
 {
 	t_token	*tmp;
@@ -404,6 +482,10 @@ void	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
 			return (clear_tokens(&tokens), clear_cmds(cmd_list),
 				perror("Error"), exit(errno));
 		reint = fill_cmd_data(&tmp, current_cmd);
+		if (current_cmd->hd_delim)
+			if (heredoc_to_file(current_cmd) != 0)
+				return (clear_tokens(&tokens), clear_cmds(cmd_list),
+				perror("Error"), exit(errno));
 		if (reint == ENOMEM)
 			return (clear_tokens(&tokens), clear_cmds(cmd_list), exit(errno));
 		if (reint == ENOENT)
@@ -575,7 +657,8 @@ int	main(int ac, char **av, char **envp)
 	cmd = NULL;
 	printf("Input %s\n\n", av[1]);
 	create_tokens(av[1], &tokens, 0, 0);
-	check_syntax(tokens);
+	if (check_syntax(tokens))
+		return (clear_tokens(&tokens), 1);
 	create_cmd_list(&cmd, tokens);
 	print_tokens(tokens);
 	print_cmd_list(cmd);
