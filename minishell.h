@@ -49,7 +49,6 @@ typedef struct s_cmd
 	char			*infile;
 	char			*outfile;
 	char			*heredoc_delim;
-	int				heredoc_fd;
 	BOOL			append;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
