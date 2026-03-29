@@ -3,6 +3,42 @@
 
 int		heredoc_to_file(t_cmd **cmd);
 
+
+char	*ft_strchr(const char *s, int c)
+{
+	while (*s)
+	{
+		if (*s == (char)c)
+			return ((char *)s);
+		s++;
+	}
+	if (*s == (char)c)
+		return ((char *)s);
+	return (NULL);
+}
+
+int	ft_isalpha(int c)
+{
+	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
+		return (1);
+	return (0);
+}
+
+int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
+}
+
+int	ft_isalnum(int c)
+{
+	if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z')
+		|| (c >= 'a' && c <= 'z'))
+		return (1);
+	return (0);
+}
+
 char	*ft_strdup(const char *s)
 {
 	int		i;
@@ -22,6 +58,35 @@ char	*ft_strdup(const char *s)
 	}
 	new_string[i] = '\0';
 	return (new_string);
+}
+
+char	*ft_itoa(int n)
+{
+	long	num;
+	int		bytes;
+	char	*numstr;
+
+	num = n;
+	bytes = (n < 0);
+	if (n == 0)
+		return (ft_strdup("0"));
+	while (num && ++bytes)
+		num /= 10;
+	numstr = malloc(sizeof(char) * (bytes + 1));
+	if (!numstr)
+		return (NULL);
+	numstr[bytes] = '\0';
+	num = n;
+	if (num < 0)
+		num *= -1;
+	while (num)
+	{
+		numstr[--bytes] = (num % 10) + 48;
+		num /= 10;
+	}
+	if (n < 0)
+		numstr[0] = '-';
+	return (numstr);
 }
 
 size_t	ft_strlen(const char *str)
@@ -530,6 +595,205 @@ int	heredoc_to_file(t_cmd **cmd)
 	return (0);
 }
 
+char	*append_str(char *dst, const char *src)
+{
+	size_t	i;
+	size_t	j;
+	char	*new_str;
+
+
+	new_str = malloc(ft_strlen(dst) + ft_strlen(src) + 1);
+	if (!new_str)
+		return (free(dst), NULL);
+	i = -1;
+	while (dst[++i])
+		new_str[i] = dst[i];
+	j = 0;
+	while (src[j])
+		new_str[i++] = src[j++];
+	new_str[i] = '\0';
+	return (free(dst), new_str);
+}
+
+char	*append_char(char *dst, char c)
+{
+	char	tmp[2];
+
+	tmp[0] = c;
+	tmp[1] = '\0';
+	return (append_str(dst, tmp));
+}
+
+char	*get_env_value(t_env *env, const char *name)
+{
+	while (env)
+	{
+		if (ft_strncmp(env->key, name, ft_strlen(name) + 1) == 0)
+		{
+			if (env->content)
+				return (env->content);
+			return ("");
+		}
+		env = env->next;
+	}
+	return ("");
+}
+
+char	*handle_exit_code(char *result, int last_exit, int *i)
+{
+	char	*code;
+
+	code = ft_itoa(last_exit);
+	if (!code)
+		return (free(result), NULL);
+	result = append_str(result, code);
+	free(code);
+	if (!result)
+		return (NULL);
+	*i += 2;
+	return (result);
+}
+
+char	*handle_variable(char *result, char *input, t_env *env, int *i)
+{
+	int		start;
+	int		len;
+	char	*name;
+	char	*value;
+
+	start = *i + 1;
+	len = 0;
+	while (input[start + len]
+		&& (ft_isalnum(input[start + len]) || input[start + len] == '_'))
+		len++;
+	name = ft_substr(input, start, len);
+	if (!name)
+		return (free(result), NULL);
+	value = get_env_value(env, name);
+	result = append_str(result, value);
+	free(name);
+	if (!result)
+		return (NULL);
+	*i = start + len;
+	return (result);
+}
+
+
+char	*append_and_advance(char *str, char c, int *i)
+{
+	str = append_char(str, c);
+	if (!str)
+		return (NULL);
+	(*i)++;
+	return (str);
+}
+
+char	*handle_dollar_case(char *str, char *input, t_env *env, int *i,
+		int last_exit)
+{
+	if (input[*i + 1] == '?')
+		str = handle_exit_code(str, last_exit, i);
+	else if (ft_isalpha(input[*i + 1]) || input[*i + 1] == '_')
+		str = handle_variable(str, input, env, i);
+	else if (ft_isdigit(input[*i + 1]))
+		*i += 2;
+	else
+		str = append_and_advance(str, input[*i], i);
+	return (str);
+}
+
+char	*handle_quote_case(char *str, char *input, int *i, char *quote)
+{
+	if ((input[*i] == '\'' || input[*i] == '\"') && *quote == 0)
+		*quote = input[*i];
+	else if (input[*i] == *quote)
+		*quote = 0;
+	return (append_and_advance(str, input[*i], i));
+}
+
+char	*process_expansion(char *input, t_env *env, int last_exit)
+{
+	char	*new_str;
+	int		i;
+	char	quote;
+
+	i = 0;
+	quote = 0;
+	new_str = ft_strdup("");
+	if (!new_str)
+		return (NULL);
+	while (input[i])
+	{
+		if (((input[i] == '\'' || input[i] == '\"') && quote == 0)
+			|| input[i] == quote)
+			new_str = handle_quote_case(new_str, input, &i, &quote);
+		else if (input[i] == '$' && quote != '\'')
+			new_str = handle_dollar_case(new_str, input, env, &i, last_exit);
+		else
+			new_str = append_and_advance(new_str, input[i], &i);
+		if (!new_str)
+			return (NULL);
+	}
+	return (new_str);
+}
+
+char *remove_quotes(t_token *tokens)
+{
+	char *dst;
+	int i;
+	int j;
+	char quote;
+
+	dst = malloc(ft_strlen(tokens->content) + 1);
+	if (!dst)
+		return (NULL);
+	i = 0;
+	j = 0;
+	quote = 0;
+	while (tokens->content[i])
+	{
+		if ((tokens->content[i] == '\'' || tokens->content[i] == '\"') && quote == 0)
+			quote = tokens->content[i++];
+		else if (tokens->content[i] == quote)
+			(quote = 0, i++);
+		else
+			dst[j++] = tokens->content[i++];
+	}
+	dst[j] = '\0';
+	free(tokens->content);
+	tokens->content = dst;
+	return ("");
+}
+
+void expand_variables(t_token **tokens, t_env *env, int last_exit)
+{
+	t_token *cur;
+	char *expanded_val;
+
+	cur = *tokens;
+	while (cur)
+	{
+		if (cur->prev && cur->prev->type == tk_HERE_DOC)
+		{
+			if (!remove_quotes(cur))
+				return (clear_tokens(tokens), perror("Error"), exit(errno));
+			cur = cur->next;
+			continue ;
+		}
+		if (cur->type == tk_WORD && ft_strchr(cur->content, '$'))
+		{
+			expanded_val = process_expansion(cur->content, env, last_exit);
+			if (!expanded_val)
+				return (clear_tokens(tokens), perror("Error"), exit(errno));
+			free(cur->content);
+			cur->content = expanded_val;
+		}
+		if (!remove_quotes(cur))
+			return (clear_tokens(tokens), perror("Error"), exit(errno));
+		cur = cur->next;
+	}
+}
+
 void	print_tokens(t_token *tokens)
 {
 	while (tokens)
@@ -564,11 +828,130 @@ void	print_cmd_list(t_cmd *cmd)
 	}
 }
 
+
+/*env - just for testing */
+
+char	*env_key(char *env_str)
+{
+	int	i;
+
+	i = 0;
+	while (env_str[i] && env_str[i] != '=')
+		i++;
+	return (ft_substr(env_str, 0, i));
+}
+
+char	*env_content(char *env_str)
+{
+	int	i;
+
+	i = 0;
+	while (env_str[i] && env_str[i] != '=')
+		i++;
+	if (!env_str[i])
+		return (ft_strdup(""));
+	return (ft_strdup(env_str + i + 1));
+}
+
+t_env	*new_env_node(char *key, char *content)
+{
+	t_env	*new_node;
+
+	new_node = malloc(sizeof(t_env));
+	if (!new_node)
+		return (NULL);
+	new_node->key = key;
+	new_node->content = content;
+	new_node->next = NULL;
+	return (new_node);
+}
+
+void	add_env_back(t_env **env, t_env *new_node)
+{
+	t_env	*tmp;
+
+	if (!*env)
+	{
+		*env = new_node;
+		return ;
+	}
+	tmp = *env;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new_node;
+}
+
+static t_env	*create_env_node(char *env_str)
+{
+	t_env	*node;
+	char	*key;
+	char	*content;
+
+	key = env_key(env_str);
+	if (!key)
+		return (NULL);
+	content = env_content(env_str);
+	if (!content)
+		return (free(key), NULL);
+	node = new_env_node(key, content);
+	if (!node)
+		return (free(key), free(content), NULL);
+	return (node);
+}
+
+void	clear_env(t_env **env)
+{
+	t_env	*tmp;
+
+	while (*env)
+	{
+		tmp = (*env)->next;
+		free((*env)->key);
+		free((*env)->content);
+		free(*env);
+		*env = tmp;
+	}
+}
+
+t_env	*init_env(char **envp)
+{
+	t_env	*env;
+	t_env	*node;
+	int		i;
+
+	env = NULL;
+	i = 0;
+	while (envp[i])
+	{
+		node = create_env_node(envp[i]);
+		if (!node)
+			return (clear_env(&env), NULL);
+		add_env_back(&env, node);
+		i++;
+	}
+	return (env);
+}
+
+void	print_env_list(t_env *env)
+{
+	while (env)
+	{
+		printf("KEY: [%s] | VALUE: [%s]\n", env->key, env->content);
+		env = env->next;
+	}
+	printf("\n");
+}
+
+/*END env - just for testing*/
+
+
 int	main(int ac, char **av, char **envp)
 {
 	t_token	*tokens;
 	t_cmd	*cmd;
 	char	*input;
+	t_env *env;
+	int last_exit_status;
 
 	/*  ----Check without readline---- */
 	/*tokens = NULL;
@@ -591,6 +974,12 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	(void)envp;
+	env = init_env(envp);
+	//print_env_list(env);
+	last_exit_status = 0;
+	if (!env)
+		return (perror("init_env"), 1);
+
 	while (1)
 	{
 		tokens = NULL;
@@ -605,7 +994,8 @@ int	main(int ac, char **av, char **envp)
 		{
 			clear_tokens(&tokens);
 			clear_cmds(&cmd);
-			exit(errno);
+			clear_env(&env);
+			exit(last_exit_status);
 		}
 		if (*input)
 			add_history(input);
@@ -614,6 +1004,7 @@ int	main(int ac, char **av, char **envp)
 			free(input);
 			continue ;
 		}
+		expand_variables(&tokens, env, last_exit_status);
 		if (check_syntax(tokens))
 		{
 			clear_tokens(&tokens);
@@ -622,12 +1013,15 @@ int	main(int ac, char **av, char **envp)
 		}
 		create_cmd_list(&cmd, tokens);
 		// exec_main(ac, av, envp, cmd);
-		//print_tokens(tokens);
-		//print_cmd_list(cmd);
+		print_tokens(tokens);
+		print_cmd_list(cmd);
 		if (tokens)
 			clear_tokens(&tokens);
 		if (cmd)
 			clear_cmds(&cmd);
 		free(input);
 	}
+	if (env)
+		clear_env(&env);
+	return (0);
 }
