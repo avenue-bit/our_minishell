@@ -561,7 +561,7 @@ void heredoc_loop(t_cmd **cmd, int h_fd)
 		if (!line)
 		{
 			write(2, "jeis: warning: here-document delimited by end-of-file (wanted `", 64);
-			write(2, (*cmd)->heredoc_delim, strlen((*cmd)->heredoc_delim));
+			write(2, (*cmd)->heredoc_delim, ft_strlen((*cmd)->heredoc_delim));
 			write(2, "')\n", 3);
 			break ;
 		}
