@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/31 11:59:27 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/31 19:43:48 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,6 @@ int						exec_builtin(t_exec *storage, t_cmd *cmd_node);
 void					builtin_dup(t_exec *storage, t_cmd *cmd_node);
 int						ft_echo(t_exec *storage, t_cmd *cmd_node);
 int						ft_pwd(t_exec *storage, t_cmd *cmd_node);
-int						ft_unset(t_exec *storage, t_cmd *cmd_node);
 int						ft_env(t_exec *storage, t_cmd *cmd_node);
 int						ft_exit(t_exec *storage, t_cmd *cmd_node);
 
@@ -153,7 +152,7 @@ char					*cd_path(t_exec *storage, char *key, int size);
 int						replace_pwd(t_exec *storage, char *old_pwd);
 t_env					*get_envnode(t_exec *storage, char *key, int size);
 
-// FT_export and helpers
+// Ft_export and helpers
 int						ft_export(t_exec *storage, t_cmd *cmd_node);
 int						declare_x(t_exec *storage);
 int						export_path(t_exec *storage, char *export_var,
@@ -170,15 +169,21 @@ void					export_sort(t_env **exp_array, int exp_len);
 void					ft_swap(t_env **node1, t_env **node2);
 void					print_export(t_env **exp_array);
 
+// Ft_unset and helpers
+int						ft_unset(t_exec *storage, t_cmd *cmd_node);
+int						valid_unset_key(char *export_var);
+
 // Free and Close Functions
 void					freeing_ramp(t_exec *storage);
-void					path_env_free(t_exec *storage);
 void					failexec_close(t_exec *storage);
 void					clear_cmds(t_cmd **node);
 void					clear_tokens(t_token **tokens);
+void					free_in_readline(t_exec *storage);
+void					free_out_readline(t_exec *storage);
 
 // Environment Utils
-void					env_clearnode(t_env **env_lst);
+void					envclear_allnodes(t_env **env_lst);
+void					envclear_node(t_env *current, t_env *next);
 t_env					*env_newnode(char *environment);
 
 // Built-In Utils

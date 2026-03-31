@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:10:43 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/31 11:47:43 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/31 19:42:51 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,38 @@
 
 void	freeing_ramp(t_exec *storage)
 {
-	env_clearnode(&storage->environment);
-	path_env_free(storage);
-	failexec_close(storage);
+	free_in_readline(storage);
+	free_out_readline(storage);
 }
 
-void	path_env_free(t_exec *storage)
+void	free_in_readline(t_exec *storage)
 {
+	if (storage->token_nodes)
+	{
+		clear_tokens(&storage->token_nodes);
+		storage->token_nodes = NULL;
+	}
+	if (storage->command_nodes)
+	{
+		clear_cmds(&storage->command_nodes);
+		storage->command_nodes = NULL;
+	}
+	free(storage->c_pids);
+	storage->c_pids = NULL;
 	if (storage->command_path)
 	{
 		free(storage->command_path);
 		storage->command_path = NULL;
 	}
 	ft_arrayfree(storage->all_paths);
+	storage->all_paths = NULL;
+}
+
+void	free_out_readline(t_exec *storage)
+{
+	envclear_allnodes(&storage->environment);
 	ft_arrayfree(storage->execve_env);
-	free(storage->c_pids);
-	storage->c_pids = NULL;
-	clear_cmds(&storage->command_nodes);
-	storage->command_nodes = NULL;
-	clear_tokens(&storage->token_nodes);
-	storage->token_nodes = NULL;
+	failexec_close(storage);
 }
 
 void	failexec_close(t_exec *storage)

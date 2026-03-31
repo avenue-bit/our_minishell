@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sezalory <sezalory@student.42.fr>          +#+  +:+       +#+        */
+/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:32:38 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/25 15:19:09 by sezalory         ###   ########.fr       */
+/*   Updated: 2026/03/31 19:42:51 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_env	*envnodes_init(char **envp)
 		env_current->next = env_newnode(envp[i]);
 		if (!env_current->next)
 		{
-			env_clearnode(&env_head);
+			envclear_allnodes(&env_head);
 			return (NULL);
 		}
 		env_current = env_current->next;

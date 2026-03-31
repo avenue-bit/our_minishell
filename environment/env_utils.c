@@ -6,13 +6,13 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:10:11 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/24 18:51:14 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/31 19:42:51 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	env_clearnode(t_env **env_lst)
+void	envclear_allnodes(t_env **env_lst)
 {
 	t_env	*current_node;
 	t_env	*next_node;

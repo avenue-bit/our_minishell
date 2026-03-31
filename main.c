@@ -481,68 +481,46 @@ int	main(int ac, char **av, char **envp)
 	t_exec storage;
 	char *input;
 
-	/*  ----Check without readline---- */
-	
 	(void)ac;
-	tokens = NULL;
-	cmd = NULL;
+	(void)av;
 	ft_bzero(&storage, sizeof(t_exec));
-	printf("Input %s\n\n", av[1]);
-	create_tokens(av[1], &tokens, 0, 0);
-	check_syntax(tokens);
-	create_cmd_list(&cmd, tokens);
-	print_tokens(tokens);
-	print_cmd_list(cmd);
-	printf("%s\n", create_heredoc_file_name(5));
-	storage.command_nodes = cmd;
-	storage.token_nodes = tokens;
 	envnodes_execarray_init(&storage, envp);
-	exec_main(&storage);
-	freeing_ramp(&storage);
-	return (0);
-	/*  ----END--- */
-	/* ----Check with readline----*/
-	// (void)ac;
-	// (void)av;
-	// ft_bzero(&storage, sizeof(t_exec));
-	// while (1)
-	// {
-	// 	tokens = NULL;
-	// 	cmd = NULL;
-	// 	input = readline("#jeis$ ");
-	// 	if (!input)
-	// 	{
-	// 		write(1, "exiting...\n", 12);
-	// 		break ;
-	// 	}
-	// 	if (ft_strncmp(input, "exit", 5) == 0)
-	// 	{
-	// 		clear_tokens(&tokens);
-	// 		clear_cmds(&cmd);
-	// 		exit(errno);
-	// 	}
-	// 	if (*input)
-	// 		add_history(input);
-	// 	if (create_tokens(input, &tokens, 0, 0) != 0)
-	// 	{
-	// 		free(input);
-	// 		continue ;
-	// 	}
-	// 	if (check_syntax(tokens))
-	// 	{
-	// 		clear_tokens(&tokens);
-	// 		free(input);
-	// 		continue ;
-	// 	}
-	// 	create_cmd_list(&cmd, tokens);
-	// 	envnodes_execarray_init(&storage, envp);
-	// 	exec_main(&storage);
-	// 	//print_tokens(tokens);
-	// 	print_cmd_list(cmd);
-	// 	if (tokens)
-	// 		clear_tokens(&tokens);
-	// 	if (cmd)
-	// 		clear_cmds(&cmd);
-	// 	free(input);
-	// }
+	while (1)
+	{
+		tokens = NULL;
+		cmd = NULL;
+		input = readline("#jeis$ ");
+		if (!input)
+		{
+			write(1, "exiting...\n", 12);
+			break ;
+		}
+		if (ft_strncmp(input, "exit", 5) == 0)
+		{
+			freeing_ramp(&storage);
+			free(input);
+			exit(storage.exit_code);
+		}
+		if (*input)
+			add_history(input);
+		if (create_tokens(input, &tokens, 0, 0) != 0)
+		{
+			free(input);
+			continue ;
+		}
+		if (check_syntax(tokens))
+		{
+			clear_tokens(&tokens);
+			free(input);
+			continue ;
+		}
+		create_cmd_list(&cmd, tokens);
+		storage.command_nodes = cmd;
+		storage.token_nodes = tokens;
+		print_cmd_list(cmd);
+		exec_main(&storage);
+		free_in_readline(&storage);
+		free(input);
+	}
+	free_out_readline(&storage);
 }

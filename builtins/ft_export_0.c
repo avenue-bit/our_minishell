@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/24 17:49:22 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/31 19:02:43 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,18 +72,18 @@ int	declare_x(t_exec *storage)
 
 int	export_path(t_exec *storage, char *export_var, int valid_key, int *env_chg)
 {
-	int	valid_path;
+	int	valid_exportenv;
 
-	valid_path = findnedit(storage, export_var, valid_key);
-	if (valid_path == -1)
+	valid_exportenv = findnedit(storage, export_var, valid_key);
+	if (valid_exportenv == -1)
 		return (1);
-	if (valid_path == 1)
+	if (valid_exportenv == 1)
 	{
 		if (add_path(storage, export_var) == 1)
 			return (1);
 		*env_chg = 1;
 	}
-	else if (valid_path == 0)
+	else if (valid_exportenv == 0)
 		*env_chg = 1;
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sezalory <sezalory@student.42.fr>          +#+  +:+       +#+        */
+/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/25 15:20:41 by sezalory         ###   ########.fr       */
+/*   Updated: 2026/03/31 14:25:25 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	export_error(char *export_var)
 int	update_execve_env(t_exec *storage)
 {
 	ft_arrayfree(storage->execve_env);
+	storage->execve_env = NULL;
 	storage->execve_env = envarray_init(storage->environment);
 	if (!storage->execve_env)
 		return (1);
