@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sezalory <sezalory@student.42.fr>          +#+  +:+       +#+        */
+/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/25 15:14:29 by sezalory         ###   ########.fr       */
+/*   Updated: 2026/03/31 10:55:39 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 
 
 // TO DO LIST:
-// 1. Change the waiting function with waitpid, it is a must
-// 2. clear all funcheck leaks
+// 1. clear all funcheck leaks
+// 2. help with the cleanup of the heredoc
 // 3. rl hook to handle signals (will change life)
 
 int	exec_main(t_exec *storage)
