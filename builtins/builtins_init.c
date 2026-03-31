@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/20 20:55:05 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/31 11:57:50 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,18 +71,18 @@ void	builtin_dup(t_exec *storage, t_cmd *cmd_node)
 {
 	storage->built_in = dup(0);
 	if (storage->built_in == -1)
-		freeing_ramp(storage, 1);
+		return (freeing_ramp(storage), exit(1));
 	storage->built_out = dup(1);
 	if (storage->built_out == -1)
-		freeing_ramp(storage, 1);
+		return (freeing_ramp(storage), exit(1));
 	if (infile_outfile_check(storage, cmd_node))
 		storage->exit_code = exec_builtin(storage, cmd_node);
 	else
 		storage->exit_code = 1;
 	if (dup2(storage->built_in, 0) == -1)
-		freeing_ramp(storage, 1);
+		return (freeing_ramp(storage), exit(1));
 	if (dup2(storage->built_out, 1) == -1)
-		freeing_ramp(storage, 1);
+		return (freeing_ramp(storage), exit(1));
 	close(storage->built_in);
 	close(storage->built_out);
 }

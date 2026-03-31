@@ -498,10 +498,7 @@ int	main(int ac, char **av, char **envp)
 	storage.token_nodes = tokens;
 	envnodes_execarray_init(&storage, envp);
 	exec_main(&storage);
-	if (tokens)
-		clear_tokens(&tokens);
-	if (cmd)
-		clear_cmds(&cmd);
+	freeing_ramp(&storage);
 	return (0);
 	/*  ----END--- */
 	/* ----Check with readline----*/

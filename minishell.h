@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/31 10:50:45 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/31 11:59:27 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 # include <errno.h>
 # include <fcntl.h>
 # include <linux/limits.h>
-# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
@@ -59,13 +59,13 @@ typedef struct s_token
 
 typedef struct s_cmd
 {
-	char			**cmd_flags;
-	char			*infile;
-	char			*outfile;
-	char			*heredoc_delim;
-	BOOL			append;
-	struct s_cmd	*next;
-	struct s_cmd	*prev;
+	char				**cmd_flags;
+	char				*infile;
+	char				*outfile;
+	char				*heredoc_delim;
+	BOOL				append;
+	struct s_cmd		*next;
+	struct s_cmd		*prev;
 
 }						t_cmd;
 
@@ -102,7 +102,7 @@ typedef struct s_exec
 
 int						exec_main(t_exec *storage);
 void					exec_main_init(t_exec *storage);
-int						envnodes_execarray_init(t_exec *storage, char **envp);
+void					envnodes_execarray_init(t_exec *storage, char **envp);
 
 // Environment Initialisation
 char					*fetch_key(char *environment);
@@ -171,7 +171,7 @@ void					ft_swap(t_env **node1, t_env **node2);
 void					print_export(t_env **exp_array);
 
 // Free and Close Functions
-void					freeing_ramp(t_exec *storage, int exit_code);
+void					freeing_ramp(t_exec *storage);
 void					path_env_free(t_exec *storage);
 void					failexec_close(t_exec *storage);
 void					clear_cmds(t_cmd **node);

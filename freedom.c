@@ -6,18 +6,17 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:10:43 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/25 11:53:04 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/31 11:47:43 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	freeing_ramp(t_exec *storage, int exit_code)
+void	freeing_ramp(t_exec *storage)
 {
 	env_clearnode(&storage->environment);
 	path_env_free(storage);
 	failexec_close(storage);
-	exit(exit_code);
 }
 
 void	path_env_free(t_exec *storage)

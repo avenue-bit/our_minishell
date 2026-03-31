@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/31 10:55:39 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/31 11:49:04 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	exec_main(t_exec *storage)
 	storage->n_commands_nodes = n_commands(cmd_list);
 	storage->c_pids = ft_calloc(storage->n_commands_nodes, sizeof(pid_t));
 	if(!storage->c_pids)
-		freeing_ramp(storage, 1);
+		return (freeing_ramp(storage), exit(1), 0);
 	while (cmd_list)
 	{
 		if (!cmd_list->next && !cmd_list->prev && is_builtin(storage,
