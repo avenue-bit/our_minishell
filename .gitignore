@@ -54,5 +54,5 @@ dkms.conf
 # debug information files
 *.dwo
 
-# Ad Hoc Files
-*.md
+#Hidden file from minishell
+._#*

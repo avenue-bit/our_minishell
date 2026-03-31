@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/25 12:44:47 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/31 10:46:35 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,13 @@ typedef struct s_token
 
 typedef struct s_cmd
 {
-	char				**cmd_flags;
-	char				*infile;
-	char				*outfile;
-	char				*hd_delim;
-	BOOL				append;
-	struct s_cmd		*next;
-	struct s_cmd		*prev;
+	char			**cmd_flags;
+	char			*infile;
+	char			*outfile;
+	char			*heredoc_delim;
+	BOOL			append;
+	struct s_cmd	*next;
+	struct s_cmd	*prev;
 
 }						t_cmd;
 
