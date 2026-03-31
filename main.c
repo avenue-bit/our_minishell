@@ -1,7 +1,7 @@
 
 #include "minishell.h"
 
-int		heredoc_to_file(t_cmd *cmd);
+int		heredoc_to_file(t_cmd **cmd);
 
 void	clear_tokens(t_token **tokens)
 {
@@ -24,8 +24,6 @@ void	clear_cmds(t_cmd **node)
 	t_cmd	*tmp;
 	int		i;
 
-	if(!node || !*node)
-		return ;
 	while (*node)
 	{
 		tmp = (*node)->next;
@@ -109,7 +107,7 @@ int	create_tokens(char *input, t_token **tokens, int check, int i)
 {
 	while (input[i])
 	{
-		while (input[i] && (input[i] == ' ' || (input[i] >= 9 && input[i] <= 13)))
+		while (input[i] && (input[i] == ' ' || input[i] >= 9 && input[i] <= 13))
 			i++;
 		if (!input[i])
 			break ;
@@ -300,84 +298,6 @@ t_cmd	*init_new_cmd(t_cmd **cmd_list, t_token *tokens)
 	return (current_cmd);
 }
 
-char	*create_heredoc_file_name(int num)
-{
-	static char	name[20];
-	int			temp;
-	int			len;
-
-	temp = num;
-	len = 0;
-	name[0] = '.';
-	name[1] = '_';
-	name[2] = '#';
-	temp = num;
-	len = (num == 0);
-	while (temp > 0 && ++len)
-		temp /= 10;
-	name[len + 3] = '\0';
-	temp = num;
-	while (len > 0)
-	{
-		name[len + 2] = (temp % 10) + '0';
-		temp /= 10;
-		len--;
-	}
-	if (num == 0)
-		name[3] = '0';
-	return (name);
-}
-
-void heredoc_loop(int fd, char *delim)
-{
-	char *line;
-	size_t len;
-
-	len = ft_strlen(delim);
-	if (delim[0] == '\'' && delim[--len] == '\'')
-		{
-		delim[len--] = '\0';
-		delim++;
-		}
-	while (1)
-	{
-		line = readline("> ");
-		if (!line)
-			break ;
-		if (ft_strncmp(line, delim, len) == 0 && line[len] == '\0')
-		{
-			free(line);
-			break ;
-		}
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-		free(line);
-	}
-}
-
-int	heredoc_to_file(t_cmd *cmd)
-{
-	int			fd;
-	char		*filename;
-	static int	h_num;
-
-	if (!cmd->heredoc_delim)
-		return (print_syntax_error(NULL));
-	filename = create_heredoc_file_name(h_num);
-	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (fd == -1)
-		return (perror("heredoc hiddenfile open"), ENOENT);
-	heredoc_loop(fd, cmd->heredoc_delim);
-	close(fd);
-	if (cmd->infile)
-		free(cmd->infile);
-	cmd->infile = ft_strdup(filename);
-	if (!cmd->infile)
-		return (errno);
-	h_num++;
-	return (0);
-}
-
 void	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
 {
 	t_token	*tmp;
@@ -394,10 +314,6 @@ void	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
 			return (clear_tokens(&tokens), clear_cmds(cmd_list),
 				perror("Error"), exit(errno));
 		reint = fill_cmd_data(&tmp, current_cmd);
-		if (current_cmd->heredoc_delim)
-			if (heredoc_to_file(current_cmd) != 0)
-				return (clear_tokens(&tokens), clear_cmds(cmd_list),
-				perror("Error"), exit(errno));
 		if (reint == ENOMEM)
 			return (clear_tokens(&tokens), clear_cmds(cmd_list), exit(errno));
 		if (reint == ENOENT)
@@ -562,31 +478,24 @@ int	main(int ac, char **av, char **envp)
 {
 	t_token	*tokens;
 	t_cmd	*cmd;
-	t_exec storage;
-	//char	*input;
+	char	*input;
 
 	/*  ----Check without readline---- */
-	(void)ac;
-	tokens = NULL;
+	/*tokens = NULL;
 	cmd = NULL;
-	ft_bzero(&storage, sizeof(t_exec));
 	printf("Input %s\n\n", av[1]);
 	create_tokens(av[1], &tokens, 0, 0);
-	if (check_syntax(tokens))
-		return (clear_tokens(&tokens), 1);
+	check_syntax(tokens);
 	create_cmd_list(&cmd, tokens);
 	print_tokens(tokens);
 	print_cmd_list(cmd);
-	printf("Last Heredoc Filename: %s\n\n", create_heredoc_file_name(5));
-	storage.command_nodes = cmd;
-	storage.token_nodes = tokens;
-	envnodes_execarray_init(&storage, envp);
-	exec_main(&storage);
-	rl_clear_history();
-	rl_clear_signals();
-	rl_deprep_terminal();
-	freeing_ramp(&storage, 0);
-	return (0);
+	printf("%s\n", create_heredoc_file_name(5));
+	// exec_main(ac, av, envp, cmd);
+	if (tokens)
+		clear_tokens(&tokens);
+	if (cmd)
+		clear_cmds(&cmd);
+	return (0); */
 	/*  ----END--- */
 	/* ----Check with readline----*/
 	(void)ac;
