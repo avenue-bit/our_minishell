@@ -12,6 +12,8 @@
                 "builtins/*.c",
                 "environment/*.c",
                 "execution/*.c",
+                "-I/opt/homebrew/opt/readline/include",
+                "-L/opt/homebrew/opt/readline/lib",
                 "-lreadline",
                 "-o",
                 "a.out"

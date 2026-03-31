@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_basic.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sezalory <sezalory@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/24 17:36:18 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/25 15:12:01 by sezalory         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	ft_pwd(t_exec *storage, t_cmd *cmd_node)
 {
 	t_env	*current;
 
+	(void)cmd_node;
 	current = storage->environment;
 	while (current)
 	{
@@ -58,6 +59,7 @@ int	ft_env(t_exec *storage, t_cmd *cmd_node)
 {
 	int	i;
 
+	(void)cmd_node;
 	i = 0;
 	while (storage->execve_env[i])
 	{
@@ -69,10 +71,14 @@ int	ft_env(t_exec *storage, t_cmd *cmd_node)
 
 int	ft_exit(t_exec *storage, t_cmd *cmd_node)
 {
+	(void)cmd_node;
+	(void)storage;
 	return (0);
 }
 
 int	ft_unset(t_exec *storage, t_cmd *cmd_node)
 {
+	(void)cmd_node;
+	(void)storage;
 	return (0);
 }

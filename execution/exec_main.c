@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sezalory <sezalory@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/25 12:47:57 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/25 15:14:29 by sezalory         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 // 2. clear all funcheck leaks
 // 3. rl hook to handle signals (will change life)
 
-int	exec_main(t_exec *storage, char **envp)
+int	exec_main(t_exec *storage)
 {
 	t_cmd *cmd_list;
 	

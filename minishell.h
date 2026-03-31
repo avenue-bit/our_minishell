@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/31 10:46:35 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/03/31 10:50:45 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 # include <errno.h>
 # include <fcntl.h>
 # include <linux/limits.h>
+# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
@@ -100,7 +100,7 @@ typedef struct s_exec
 	int					exit_code;
 }						t_exec;
 
-int						exec_main(t_exec *storage, char **envp);
+int						exec_main(t_exec *storage);
 void					exec_main_init(t_exec *storage);
 int						envnodes_execarray_init(t_exec *storage, char **envp);
 
@@ -108,7 +108,7 @@ int						envnodes_execarray_init(t_exec *storage, char **envp);
 char					*fetch_key(char *environment);
 char					*fetch_content(char *environment);
 t_env					*envnodes_init(char **envp);
-char					**envarray_init(t_exec *storage, t_env *environments);
+char					**envarray_init(t_env *environments);
 char					*env_join(char *key, char *content);
 
 // Path Initialisation
