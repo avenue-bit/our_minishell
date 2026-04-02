@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sezalory <sezalory@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 17:30:42 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/31 20:03:17 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/02 10:56:04 by sezalory         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,15 @@ int	ft_unset(t_exec *storage, t_cmd *cmd_node)
 	while (cmd_node->cmd_flags[i])
 	{
 		valid_key = valid_unset_key(cmd_node->cmd_flags[i]);
-		if (valid_key && unset_env(storage, cmd_node->cmd_flags[i], &env_changed))
-			return (0);
+		if (!valid_key)
+		{
+			if (unset_env(storage, cmd_node->cmd_flags[i], &env_changed) == 1)
+				return (0);
+		}
 		i++;
 	}
-	if(env_changed && update_execve_env(storage))
-	    return(0);
+	if (env_changed && update_execve_env(storage))
+		return (0);
 	return (0);
 }
 
@@ -51,34 +54,47 @@ int	valid_unset_key(char *export_var)
 	return (0);
 }
 
-int unset_env(t_exec *storage, char *unset_var, int *env_changed)
+int	unset_env(t_exec *storage, char *unset_var, int *env_changed)
 {
-    int var_len;
-    t_env *next;
-    t_env *current;
+	int		var_len;
+	t_env	*next;
+	t_env	*current;
 
-    var_len = ft_strlen(unset_var) + 1;
-    current = storage->environment;
-    if(current && ft_strncmp(current->key, unset_var, var_len) == 0)
-    {
-        next = current->next;
-        free(current->key);
-        free(current->content);
-        free(current);
-        current = next;
-        current = storage->environment;
-        return(*env_changed = 1, 0);
-    }
-    while(current && current->next)
-    {
-        if(ft_strncmp(current->next->key, unset_var, var_len) == 0)
-            return(*env_changed = 1, delete_node(current), 0);
-        current = current->next;
-    }
-    return(0);
+	var_len = ft_strlen(unset_var) + 1;
+	current = storage->environment;
+	if (current && ft_strncmp(current->key, unset_var, var_len) == 0)
+	{
+		next = current->next;
+		free(current->key);
+		free(current->content);
+		free(current);
+		current = next;
+		storage->environment = current;
+		return (*env_changed = 1, 0);
+	}
+	if (!current)
+		return (1);
+	if (delete_node(current, unset_var, var_len) == 1)
+		return (*env_changed = 1, 0);
+	return (0);
 }
 
-void delete_node(t_env *current)
+int	delete_node(t_env *current, char *unset_var, int var_len)
 {
-    
+	t_env	*temp;
+
+	while (current && current->next)
+	{
+		if (ft_strncmp(current->next->key, unset_var, var_len) == 0)
+		{
+			temp = current->next;
+			current->next = current->next->next;
+			free(temp->key);
+			free(temp->content);
+			free(temp);
+			return (1);
+		}
+		current = current->next;
+	}
+	return (0);
 }

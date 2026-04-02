@@ -521,6 +521,9 @@ int	main(int ac, char **av, char **envp)
 		exec_main(&storage);
 		free_in_readline(&storage);
 		free(input);
+		if(storage.exit_flag == 1)
+			break;
 	}
 	free_out_readline(&storage);
+	exit(storage.exit_code);
 }

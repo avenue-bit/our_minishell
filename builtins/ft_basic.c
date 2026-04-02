@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_basic.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sezalory <sezalory@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/31 17:31:44 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/02 11:40:59 by sezalory         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	ft_echo(t_exec *storage, t_cmd *cmd_node)
 int	ft_pwd(t_exec *storage, t_cmd *cmd_node)
 {
 	t_env	*current;
+	char	*buffer;
 
 	(void)cmd_node;
 	current = storage->environment;
@@ -52,7 +53,13 @@ int	ft_pwd(t_exec *storage, t_cmd *cmd_node)
 		}
 		current = current->next;
 	}
-	return (1);
+	buffer = ft_calloc(PATH_MAX, sizeof(char));
+	if(!buffer)
+		return(1);
+	if(!getcwd(buffer, PATH_MAX))
+		return(free(buffer), 1);
+	ft_printf("%s\n", buffer);
+	return (0);
 }
 
 int	ft_env(t_exec *storage, t_cmd *cmd_node)
@@ -71,7 +78,13 @@ int	ft_env(t_exec *storage, t_cmd *cmd_node)
 
 int	ft_exit(t_exec *storage, t_cmd *cmd_node)
 {
-	(void)cmd_node;
-	(void)storage;
+	int exit_code;
+	
+	if(!cmd_node->cmd_flags[1])
+		return(storage->exit_flag = 1, ft_printf("exit\n"), 0);
+	if(cmd_node->cmd_flags[2])
+		return(ft_printf("exit\n"), perror("exit: too many arguments\n"), 1);
+	exit_code = ft_atoi(cmd_node->cmd_flags[1]) % 256;
+	
 	return (0);
 }

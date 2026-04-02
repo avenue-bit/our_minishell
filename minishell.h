@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sezalory <sezalory@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/31 19:43:48 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/02 11:26:16 by sezalory         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "libft_utils/libft_utils.h"
 # include <errno.h>
 # include <fcntl.h>
-# include <linux/limits.h>
+# include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdio.h>
@@ -98,6 +98,7 @@ typedef struct s_exec
 	int					built_in;
 	int					built_out;
 	int					exit_code;
+	int					exit_flag;
 }						t_exec;
 
 int						exec_main(t_exec *storage);
@@ -172,7 +173,10 @@ void					print_export(t_env **exp_array);
 // Ft_unset and helpers
 int						ft_unset(t_exec *storage, t_cmd *cmd_node);
 int						valid_unset_key(char *export_var);
-
+int						unset_env(t_exec *storage, char *unset_var,
+							int *env_changed);
+int						delete_node(t_env *current, char *unset_var,
+							int var_len);
 // Free and Close Functions
 void					freeing_ramp(t_exec *storage);
 void					failexec_close(t_exec *storage);

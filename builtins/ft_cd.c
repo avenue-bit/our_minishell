@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins_cd.c                                      :+:      :+:    :+:   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sezalory <sezalory@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/20 20:31:42 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/02 10:49:55 by sezalory         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ int	ft_cd(t_exec *storage, t_cmd *cmd_node)
 	char	*old_pwd;
 
 	if (cmd_node->cmd_flags[1] && cmd_node->cmd_flags[2])
-		return (ft_printf("Too many arguments for cd\n"), 1);
-	// Error Handling Needed
+		return (ft_printf("Too many arguments for cd\n"), 1); // Error Handling Needed
 	pwd_path = cd_path(storage, "PWD", 4);
 	if (!pwd_path)
 		old_pwd = ft_strdup("");
@@ -30,13 +29,13 @@ int	ft_cd(t_exec *storage, t_cmd *cmd_node)
 		return (1);
 	target_path = get_target_path(storage, cmd_node->cmd_flags[1]);
 	if (!target_path)
-		return (free(old_pwd), ft_printf("home not set\n"), 1);
-	// Error Handling Needed
+		return (free(old_pwd), ft_printf("home not set\n"), 1); // Error Handling Needed
 	if (chdir(target_path) == -1)
-		return (free(old_pwd), ft_printf("could not change directory\n"), 1);
-	// Error Handling Needed
+		return (free(old_pwd), ft_printf("could not change directory\n"), 1); // Error Handling Needed
 	if (replace_pwd(storage, old_pwd) == -1)
 		return (free(old_pwd), 1);
+	if (update_execve_env(storage))
+		return (1);
 	return (0);
 }
 
@@ -68,7 +67,7 @@ int	replace_pwd(t_exec *storage, char *old_pwd)
 	t_env	*oldpwd_node;
 	t_env	*pwd_node;
 
-	oldpwd_node = get_envnode(storage, "OLD_PWD", 8);
+	oldpwd_node = get_envnode(storage, "OLDPWD", 7);
 	pwd_node = get_envnode(storage, "PWD", 4);
 	if (pwd_node)
 	{
