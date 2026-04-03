@@ -495,12 +495,6 @@ int	main(int ac, char **av, char **envp)
 			write(1, "exiting...\n", 12);
 			break ;
 		}
-		if (ft_strncmp(input, "exit", 5) == 0)
-		{
-			freeing_ramp(&storage);
-			free(input);
-			exit(storage.exit_code);
-		}
 		if (*input)
 			add_history(input);
 		if (create_tokens(input, &tokens, 0, 0) != 0)

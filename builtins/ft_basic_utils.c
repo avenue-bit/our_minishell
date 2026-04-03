@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   basic_utils.c                                      :+:      :+:    :+:   */
+/*   ft_basic_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:48:53 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/23 15:25:09 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/03 15:31:03 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,32 @@ int	newline_flag(char **command)
 			return (i);
 	}
 	return (i);
+}
+
+int	isvalid_exitcode(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str[i])
+		return (1);
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	if (!str[i])
+		return (1);
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+void	ft_exit_message(char *exit_str)
+{
+	ft_putstr_fd("exit\n", 2);
+	ft_putstr_fd("bash: exit: ", 2);
+	ft_putstr_fd(exit_str, 2);
+	ft_putstr_fd(": numeric argument required\n", 2);
 }

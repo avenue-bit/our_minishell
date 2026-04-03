@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   3_libftutils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sezalory <sezalory@student.42.fr>          +#+  +:+       +#+        */
+/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 11:38:21 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/02 11:49:35 by sezalory         ###   ########.fr       */
+/*   Updated: 2026/04/03 12:18:58 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ long	ft_atol(const char *nptr)
 {
 	int			i;
 	int			sign;
-	long long	new_nbr;
+	long	new_nbr;
 
 	i = 0;
 	sign = 1;
 	new_nbr = 0;
-	while(nptr[i] == ' ' || nptr[i] == '\t')
+	while (nptr[i] == ' ' || nptr[i] == '\t')
 		i++;
 	if (nptr[i] == '-' || nptr[i] == '+')
 	{
@@ -47,10 +47,9 @@ long	ft_atol(const char *nptr)
 	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
 		new_nbr = (new_nbr * 10) + (nptr[i] - 48);
-		if(new_nbr > INT_MAX || new_nbr < INT_MIN)
-			return(2147483648);
+		if (new_nbr > INT_MAX || new_nbr < INT_MIN)
+			return (2147483648);
 		i++;
 	}
 	return (new_nbr * sign);
 }
-

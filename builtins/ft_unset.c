@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sezalory <sezalory@student.42.fr>          +#+  +:+       +#+        */
+/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 17:30:42 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/02 10:56:04 by sezalory         ###   ########.fr       */
+/*   Updated: 2026/04/03 12:42:15 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,22 +79,3 @@ int	unset_env(t_exec *storage, char *unset_var, int *env_changed)
 	return (0);
 }
 
-int	delete_node(t_env *current, char *unset_var, int var_len)
-{
-	t_env	*temp;
-
-	while (current && current->next)
-	{
-		if (ft_strncmp(current->next->key, unset_var, var_len) == 0)
-		{
-			temp = current->next;
-			current->next = current->next->next;
-			free(temp->key);
-			free(temp->content);
-			free(temp);
-			return (1);
-		}
-		current = current->next;
-	}
-	return (0);
-}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sezalory <sezalory@student.42.fr>          +#+  +:+       +#+        */
+/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/02 11:26:16 by sezalory         ###   ########.fr       */
+/*   Updated: 2026/04/03 15:08:56 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "libft_utils/libft_utils.h"
 # include <errno.h>
 # include <fcntl.h>
-# include <limits.h>
+# include <linux/limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdio.h>
@@ -187,11 +187,14 @@ void					free_out_readline(t_exec *storage);
 
 // Environment Utils
 void					envclear_allnodes(t_env **env_lst);
-void					envclear_node(t_env *current, t_env *next);
+int						delete_node(t_env *current, char *unset_var,
+							int var_len);
 t_env					*env_newnode(char *environment);
 
 // Built-In Utils
 int						newline_flag(char **command);
+int						isvalid_exitcode(char *str);
+void					ft_exit_message(char *exit_str);
 
 // AdHoc Utils
 void					ft_arrayfree(char **str_array);

@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:10:11 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/31 19:42:51 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/03 12:42:21 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,26 @@ void	envclear_allnodes(t_env **env_lst)
 		current_node = next_node;
 	}
 	*env_lst = NULL;
+}
+
+int	delete_node(t_env *current, char *unset_var, int var_len)
+{
+	t_env	*temp;
+
+	while (current && current->next)
+	{
+		if (ft_strncmp(current->next->key, unset_var, var_len) == 0)
+		{
+			temp = current->next;
+			current->next = current->next->next;
+			free(temp->key);
+			free(temp->content);
+			free(temp);
+			return (1);
+		}
+		current = current->next;
+	}
+	return (0);
 }
 
 char	*env_join(char *key, char *content)
