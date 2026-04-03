@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 17:30:42 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/03 12:42:15 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/03 15:35:19 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,3 @@ int	unset_env(t_exec *storage, char *unset_var, int *env_changed)
 		return (*env_changed = 1, 0);
 	return (0);
 }
-
