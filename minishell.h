@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/03 15:08:56 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/06 12:30:29 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,11 +179,13 @@ int						delete_node(t_env *current, char *unset_var,
 							int var_len);
 // Free and Close Functions
 void					freeing_ramp(t_exec *storage);
-void					failexec_close(t_exec *storage);
 void					clear_cmds(t_cmd **node);
 void					clear_tokens(t_token **tokens);
 void					free_in_readline(t_exec *storage);
+void					unlink_files(t_cmd *cmds);
 void					free_out_readline(t_exec *storage);
+void					failexec_close(t_exec *storage);
+
 
 // Environment Utils
 void					envclear_allnodes(t_env **env_lst);

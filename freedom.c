@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:10:43 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/31 19:42:51 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/06 12:28:51 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	free_in_readline(t_exec *storage)
 	}
 	if (storage->command_nodes)
 	{
+		unlink_files(storage->command_nodes);
 		clear_cmds(&storage->command_nodes);
 		storage->command_nodes = NULL;
 	}
@@ -39,6 +40,18 @@ void	free_in_readline(t_exec *storage)
 	}
 	ft_arrayfree(storage->all_paths);
 	storage->all_paths = NULL;
+}
+void	unlink_files(t_cmd *cmds)
+{
+	t_cmd	*current;
+
+	current = cmds;
+	while (current)
+	{
+		if (current->infile && current->heredoc_delim)
+			unlink(current->infile);
+		current = current->next;
+	}
 }
 
 void	free_out_readline(t_exec *storage)

@@ -34,7 +34,7 @@ void	clear_cmds(t_cmd **node)
 				free((*node)->cmd_flags[i++]);
 			free((*node)->cmd_flags);
 		}
-		if ((*node)->infile && ft_strncmp((*node)->infile, "._#", 3) != 0)
+		if ((*node)->infile)
 			free((*node)->infile);
 		if ((*node)->outfile)
 			free((*node)->outfile);
@@ -107,7 +107,7 @@ int	create_tokens(char *input, t_token **tokens, int check, int i)
 {
 	while (input[i])
 	{
-		while (input[i] && (input[i] == ' ' || input[i] >= 9 && input[i] <= 13))
+		while (input[i] && (input[i] == ' ' || (input[i] >= 9 && input[i] <= 13)))
 			i++;
 		if (!input[i])
 			break ;
@@ -411,7 +411,7 @@ void heredoc_loop(t_cmd **cmd, int h_fd)
 			break ;
 		}
 		if (ft_strncmp(line, (*cmd)->heredoc_delim,
-				ft_strlen((*cmd)->heredoc_delim)) == 0)
+				(ft_strlen((*cmd)->heredoc_delim) + 1)) == 0)
 		{
 			free(line);
 			break ;
@@ -436,7 +436,9 @@ int	heredoc_to_file(t_cmd **cmd)
 		return (perror("heredoc hiddenfile open"), ENOENT);
 	heredoc_loop(cmd, fd);
 	close(fd);
-	(*cmd)->infile = filename;
+	(*cmd)->infile = ft_strdup(filename);
+	if(!(*cmd)->infile)
+		return(perror("Error"), ENOMEM);
 	return (0);
 }
 
