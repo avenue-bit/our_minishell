@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/06 12:30:29 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/06 17:54:32 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "libft_utils/libft_utils.h"
 # include <errno.h>
 # include <fcntl.h>
+# include <signal.h>
 # include <linux/limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>

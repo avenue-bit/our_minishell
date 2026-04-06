@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/31 11:49:04 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/06 17:26:17 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@
 
 
 // TO DO LIST:
-// 1. clear all funcheck leaks
-// 2. help with the cleanup of the heredoc
 // 3. rl hook to handle signals (will change life)
 
 int	exec_main(t_exec *storage)
