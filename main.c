@@ -443,7 +443,7 @@ int	heredoc_to_file(t_cmd **cmd)
 	if (fd == -1)
 		return (perror("heredoc hiddenfile open"), ENOENT);
 	heredoc_loop(cmd, fd);
-	if (g_signal = SIGINT)
+	if (g_signal == SIGINT)
 	{
 		close(fd);
 		if (access(filename, F_OK) != -1)
@@ -491,6 +491,21 @@ void	print_cmd_list(t_cmd *cmd)
 	}
 }
 
+void    sh_global(int signum)
+{
+	g_signal = signum;
+}
+
+int sh_readline_hook(void)
+{
+	if(g_signal == SIGINT)
+	{
+		rl_replace_line("", 0);
+		rl_done = 1;
+	}
+	return(0);
+}
+
 
 int	main(int ac, char **av, char **envp)
 {
@@ -503,16 +518,19 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	ft_bzero(&storage, sizeof(t_exec));
 	envnodes_execarray_init(&storage, envp);
+	rl_event_hook = sh_readline_hook;
+	config_interactive_sigs();
 	while (1)
 	{
 		tokens = NULL;
 		cmd = NULL;
 		input = readline("#jeis$ ");
-		if (!input)
-		{
-			write(1, "exiting...\n", 12);
-			break ;
-		}
+	    if (!input)
+        {
+            write(1, "exit\n", 6);
+			storage.exit_code = 0;
+            break ;
+        }
 		if (*input)
 			add_history(input);
 		if (create_tokens(input, &tokens, 0, 0) != 0)
@@ -529,12 +547,12 @@ int	main(int ac, char **av, char **envp)
 		create_cmd_list(&cmd, tokens);
 		storage.command_nodes = cmd;
 		storage.token_nodes = tokens;
-		print_cmd_list(cmd);
-		if (g_signal = SIGINT)
+		//print_cmd_list(cmd);
+		if (g_signal == SIGINT)
 		{
-			free(input);
-			g_signal = 0;
 			storage.exit_code = 130;
+			g_signal = 0;
+			free(input);
 			continue ;
 		}
 		exec_main(&storage);

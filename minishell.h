@@ -6,22 +6,26 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/06 17:54:32 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/07 17:49:03 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# define _POSIX_SOURCE
+# define _DEFAULT_SOURCE
+
 # include "libft_utils/libft_utils.h"
 # include <errno.h>
 # include <fcntl.h>
-# include <signal.h>
 # include <linux/limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <sys/ioctl.h>
 # include <sys/wait.h>
 # include <unistd.h>
 
@@ -130,7 +134,10 @@ int						fork_ramp(t_exec *storage, t_cmd *cmd_node);
 void					exec_fork(t_exec *storage, t_cmd *cmd_node);
 void					child_wrapper(t_exec *storage, t_cmd *current);
 void					parent_wrapper(t_exec *storage, t_cmd *current);
+
+// Wait Functions
 int						wait_for_child(t_exec *storage);
+void					child_status(t_exec *storage, int status);
 
 // Redirection Functions
 int						infile_outfile_check(t_exec *storage, t_cmd *cmd_node);
@@ -187,6 +194,12 @@ void					unlink_files(t_cmd *cmds);
 void					free_out_readline(t_exec *storage);
 void					failexec_close(t_exec *storage);
 
+// Signals
+void					sh_global(int signum);
+int						sh_readline_hook(void);
+void					config_interactive_sigs(void);
+void					config_child_ign(void);
+void					config_child_dfl(void);
 
 // Environment Utils
 void					envclear_allnodes(t_env **env_lst);
