@@ -214,8 +214,7 @@ int	process_heredoc(t_token *tokens, t_cmd *cmd)
 	free(cmd->heredoc_delim), cmd->heredoc_delim = ft_strdup(tokens->content);
 	if (!cmd->heredoc_delim)
 		return (errno);
-	heredoc_to_file(&cmd);
-	return (0);
+	return (heredoc_to_file(&cmd));
 }
 
 int	fill_cmd_data_redir(t_token **tokens, t_cmd *cmd)
@@ -451,8 +450,10 @@ int	heredoc_to_file(t_cmd **cmd)
 		return (EINTR);
 	}
 	close(fd);
+	free((*cmd)->infile);
+	(*cmd)->infile = NULL;
 	(*cmd)->infile = ft_strdup(filename);
-	if (!(*cmd)->infile)
+	if ((*cmd)->infile == NULL)
 		return (perror("Error"), ENOMEM);
 	return (0);
 }
@@ -547,11 +548,12 @@ int	main(int ac, char **av, char **envp)
 		create_cmd_list(&cmd, tokens);
 		storage.command_nodes = cmd;
 		storage.token_nodes = tokens;
-		//print_cmd_list(cmd);
+		print_cmd_list(cmd);
 		if (g_signal == SIGINT)
 		{
 			storage.exit_code = 130;
 			g_signal = 0;
+			free_in_readline(&storage);
 			free(input);
 			continue ;
 		}

@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/03 15:35:35 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/08 18:35:16 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	ft_pwd(t_exec *storage, t_cmd *cmd_node)
 	if (!getcwd(buffer, PATH_MAX))
 		return (free(buffer), 1);
 	ft_printf("%s\n", buffer);
+	free(buffer);
 	return (0);
 }
 

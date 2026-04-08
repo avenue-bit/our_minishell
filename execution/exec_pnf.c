@@ -6,17 +6,14 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:45:59 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/07 17:37:54 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/08 19:59:43 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	fork_ramp(t_exec *storage, t_cmd *cmd_node)
+int	fork_ramp(t_exec *storage, t_cmd *cmd_node, int i)
 {
-	int	i;
-
-	i = 0;
 	if (cmd_node->next)
 	{
 		if (pipe(storage->pipe_fd) == -1)
@@ -31,7 +28,6 @@ int	fork_ramp(t_exec *storage, t_cmd *cmd_node)
 		child_wrapper(storage, cmd_node);
 	else
 		parent_wrapper(storage, cmd_node);
-	i++;
 	return (0);
 }
 

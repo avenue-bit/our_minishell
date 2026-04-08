@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/06 17:26:17 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/08 20:07:05 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@
 int	exec_main(t_exec *storage)
 {
 	t_cmd *cmd_list;
+	int i;
 	
+	i = 0;
 	cmd_list = storage->command_nodes;
 	exec_main_init(storage);
 	storage->n_commands_nodes = n_commands(cmd_list);
@@ -39,10 +41,11 @@ int	exec_main(t_exec *storage)
 	{
 		if (!cmd_list->next && !cmd_list->prev && is_builtin(storage,
 				cmd_list->cmd_flags[0]))
-			builtin_dup(storage, cmd_list);
-		else if (fork_ramp(storage, cmd_list) == -1)
+			return(builtin_dup(storage, cmd_list), 0);
+		else if (fork_ramp(storage, cmd_list, i) == -1)
 			break ;
 		cmd_list = cmd_list->next;
+		i++;
 	}
 	if(wait_for_child(storage) == 1)
 		return(1);

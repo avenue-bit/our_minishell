@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:32:38 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/06 11:01:10 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/08 19:28:46 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	*fetch_content(char *environment)
 		return (NULL);
 	content = ft_strdup(post_key + 1);
 	if (!content)
-		return (free(post_key), post_key = NULL, NULL);
+		return (NULL);
 	return (content);
 }
 

@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/31 19:02:43 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/08 18:36:13 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	findnedit(t_exec *storage, char *export_var, int flag)
 	while (current)
 	{
 		if (ft_strncmp(current->key, nkey, nkey_len) == 0)
-			return (replace_or_append(current, export_var, flag));
+			return (free(nkey), replace_or_append(current, export_var, flag));
 		current = current->next;
 	}
 	return (free(nkey), 1);
