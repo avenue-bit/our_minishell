@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:10:11 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/03 12:42:21 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/08 20:23:42 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ int	delete_node(t_env *current, char *unset_var, int var_len)
 
 char	*env_join(char *key, char *content)
 {
-	char *variable;
-	int key_len;
-	int content_len;
+	char	*variable;
+	int		key_len;
+	int		content_len;
 
 	key_len = ft_strlen(key);
 	content_len = ft_strlen(content);

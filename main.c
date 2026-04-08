@@ -492,21 +492,20 @@ void	print_cmd_list(t_cmd *cmd)
 	}
 }
 
-void    sh_global(int signum)
+void	sh_global(int signum)
 {
 	g_signal = signum;
 }
 
-int sh_readline_hook(void)
+int	sh_readline_hook(void)
 {
-	if(g_signal == SIGINT)
+	if (g_signal == SIGINT)
 	{
 		rl_replace_line("", 0);
 		rl_done = 1;
 	}
-	return(0);
+	return (0);
 }
-
 
 int	main(int ac, char **av, char **envp)
 {
@@ -526,12 +525,12 @@ int	main(int ac, char **av, char **envp)
 		tokens = NULL;
 		cmd = NULL;
 		input = readline("#jeis$ ");
-	    if (!input)
-        {
-            write(1, "exit\n", 6);
+		if (!input)
+		{
+			write(1, "exit\n", 6);
 			storage.exit_code = 0;
-            break ;
-        }
+			break ;
+		}
 		if (*input)
 			add_history(input);
 		if (create_tokens(input, &tokens, 0, 0) != 0)

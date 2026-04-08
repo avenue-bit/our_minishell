@@ -6,18 +6,18 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/31 11:50:45 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/08 20:23:39 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void envnodes_execarray_init(t_exec *storage, char **envp)
+void	envnodes_execarray_init(t_exec *storage, char **envp)
 {
 	storage->environment = envnodes_init(envp);
 	if (!storage->environment)
 		return (freeing_ramp(storage), exit(1));
-	if(storage->execve_env)
+	if (storage->execve_env)
 		return (freeing_ramp(storage), exit(1));
 	storage->execve_env = envarray_init(storage->environment);
 	if (!storage->execve_env)

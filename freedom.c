@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:10:43 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/06 15:11:47 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/08 20:23:18 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	unlink_files(t_cmd *cmds)
 	{
 		if (current->infile && current->heredoc_delim)
 		{
-			if(access(current->infile, F_OK) != -1)
+			if (access(current->infile, F_OK) != -1)
 				unlink(current->infile);
 		}
 		current = current->next;

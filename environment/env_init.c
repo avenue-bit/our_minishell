@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:32:38 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/08 19:28:46 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/08 20:23:49 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ t_env	*envnodes_init(char **envp)
 	t_env	*env_current;
 	int		i;
 
-	if(!envp || !envp[0])
-		return(NULL); // error handling for when the environment is empty
+	if (!envp || !envp[0])
+		return (NULL); // error handling for when the environment is empty
 	env_head = env_newnode(envp[0]);
 	if (!env_head)
 		return (NULL);
@@ -44,8 +44,8 @@ t_env	*env_newnode(char *environment)
 {
 	t_env	*new_env;
 
-	if(!environment)
-		return(NULL);
+	if (!environment)
+		return (NULL);
 	new_env = malloc(sizeof(t_env));
 	if (!new_env)
 		return (NULL);
