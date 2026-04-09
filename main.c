@@ -380,8 +380,6 @@ char	*create_heredoc_file_name(int num)
 	int			temp;
 	int			len;
 
-	temp = num;
-	len = 0;
 	name[0] = '.';
 	name[1] = '_';
 	name[2] = '#';
