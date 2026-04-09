@@ -6,11 +6,11 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:15:54 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/24 18:50:27 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/09 10:37:35 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "execution.h"
 
 int	infile_outfile_check(t_exec *storage, t_cmd *cmd_node)
 {

@@ -6,11 +6,11 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/24 16:19:59 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/09 10:33:12 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "builtins.h"
 
 void	export_sort(t_env **exp_array, int exp_len)
 {

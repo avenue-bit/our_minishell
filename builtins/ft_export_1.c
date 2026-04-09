@@ -6,11 +6,11 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/31 14:25:25 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/09 10:33:08 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "builtins.h"
 
 int	valid_export_key(char *export_var)
 {

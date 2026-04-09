@@ -6,11 +6,11 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/08 20:23:37 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/09 10:37:57 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "execution.h"
 
 // 1. envnodes_init: Initialise the environment found in envp into a linked list,
 //	the return value (pointer to head of list) is stored in the shell struct
@@ -20,9 +20,6 @@
 
 // 3. Initialised my environment and my exec array in the main
 // as if i did it in exec_main it would wipe the arrays at every execution of a builtin
-
-// TO DO LIST:
-// 3. rl hook to handle signals (will change life)
 
 int	exec_main(t_exec *storage)
 {

@@ -6,11 +6,11 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 17:37:44 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/08 20:23:27 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/09 10:37:30 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "execution.h"
 
 int	wait_for_child(t_exec *storage)
 {

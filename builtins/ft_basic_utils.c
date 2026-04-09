@@ -6,11 +6,11 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:48:53 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/03 15:31:03 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/09 10:32:54 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "builtins.h"
 
 int	newline_flag(char **command)
 {

@@ -6,11 +6,11 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/08 18:36:13 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/09 10:33:04 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "builtins.h"
 
 // Return Values:
 // 0: found/updated

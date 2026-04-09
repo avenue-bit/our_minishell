@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 17:48:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/08 16:34:16 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/09 10:40:55 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	extract_path(t_exec *shell_storage)
 {
 	t_env	*environment;
 
-	shell_storage->n_paths = 0;
 	environment = shell_storage->environment;
 	while (environment)
 	{
@@ -47,8 +46,6 @@ int	extract_path(t_exec *shell_storage)
 	shell_storage->all_paths = ft_split(environment->content, ':');
 	if (!shell_storage->all_paths)
 		return (-1);
-	while (shell_storage->all_paths[shell_storage->n_paths])
-		shell_storage->n_paths++;
 	return (0);
 }
 
