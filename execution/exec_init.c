@@ -6,11 +6,11 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/09 10:37:46 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/09 11:25:03 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "../headerfiles/minishell.h"
 
 void	envnodes_execarray_init(t_exec *storage, char **envp)
 {

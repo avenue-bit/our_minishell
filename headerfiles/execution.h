@@ -6,14 +6,15 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 10:35:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/09 10:37:16 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/09 11:39:13 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTION_H
 # define EXECUTION_H
 
-# include "../minishell.h"
+typedef struct s_exec	t_exec;
+typedef struct s_cmd    t_cmd;
 
 // Execution main and Initialisation
 int		exec_main(t_exec *storage);

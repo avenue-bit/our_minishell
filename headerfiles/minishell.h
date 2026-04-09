@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/09 10:42:36 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/09 11:51:50 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 # define _POSIX_SOURCE
 # define _DEFAULT_SOURCE
 
-# include "builtins/builtins.h"
-# include "environment/environment.h"
-# include "execution/execution.h"
-# include "libft_utils/libft_utils.h"
+# include "./builtins.h"
+# include "./environment.h"
+# include "./execution.h"
+# include "./libft_utils.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <linux/limits.h>
@@ -31,7 +31,6 @@
 # include <sys/ioctl.h>
 # include <sys/wait.h>
 # include <unistd.h>
-#include <limits.h>
 
 # ifndef BOOL
 #  define BOOL _Bool
@@ -103,6 +102,7 @@ typedef struct s_exec
 }						t_exec;
 
 
+
 // Free and Close Functions
 void					freeing_ramp(t_exec *storage);
 void					clear_cmds(t_cmd **node);
@@ -118,7 +118,6 @@ int						sh_readline_hook(void);
 void					config_interactive_sigs(void);
 void					config_child_ign(void);
 void					config_child_dfl(void);
-
 
 // AdHoc Utils
 void					ft_arrayfree(char **str_array);

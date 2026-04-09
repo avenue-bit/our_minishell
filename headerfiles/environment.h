@@ -6,14 +6,14 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 10:31:13 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/09 10:42:03 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/09 11:44:06 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENVIRONMENT_H
 # define ENVIRONMENT_H
 
-# include "../minishell.h"
+typedef struct s_exec    t_exec;
 
 typedef struct s_env
 {

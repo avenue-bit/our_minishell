@@ -6,11 +6,11 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 11:52:31 by esezalor          #+#    #+#             */
-/*   Updated: 2026/03/25 09:26:09 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/09 11:27:32 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "headerfiles/minishell.h"
 
 void	ft_arrayfree(char **str_array)
 {

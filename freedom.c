@@ -6,11 +6,11 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:10:43 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/08 20:23:18 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/09 11:27:28 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "headerfiles/minishell.h"
 
 void	freeing_ramp(t_exec *storage)
 {

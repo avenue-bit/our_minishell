@@ -6,11 +6,11 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 17:48:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/09 10:40:55 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/09 11:24:56 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../headerfiles/minishell.h"
 
 // 1. extract_path: Look for the Key "PATH" inside the environment list,
 // extract, split and store each path in a string array stored in shell storage

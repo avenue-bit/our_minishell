@@ -6,14 +6,16 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 11:25:25 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/09 10:27:42 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/09 11:27:58 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_UTILS_H
 # define LIBFT_UTILS_H
 
-#include "../minishell.h"
+# include <limits.h>
+#include <stdarg.h>
+#include <stddef.h>
 
 // Keep in Alphabetical Order
 long	ft_atol(const char *nptr);

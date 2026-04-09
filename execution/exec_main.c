@@ -6,11 +6,11 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/09 10:37:57 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/09 11:25:05 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "../headerfiles/minishell.h"
 
 // 1. envnodes_init: Initialise the environment found in envp into a linked list,
 //	the return value (pointer to head of list) is stored in the shell struct

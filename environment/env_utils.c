@@ -6,11 +6,11 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:10:11 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/08 20:23:42 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/09 11:25:00 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../headerfiles/minishell.h"
 
 void	envclear_allnodes(t_env **env_lst)
 {

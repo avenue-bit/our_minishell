@@ -6,12 +6,11 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 13:53:44 by jille             #+#    #+#             */
-/*   Updated: 2026/03/17 18:53:52 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/09 11:26:03 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_utils.h"
-#include <stdarg.h>
+#include "../headerfiles/minishell.h"
 
 static int	f_printstr(char *cs, char c, int check_cs)
 {

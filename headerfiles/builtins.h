@@ -6,14 +6,16 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 10:26:05 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/09 10:38:58 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/09 11:43:31 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-# include "../minishell.h"
+typedef struct s_exec	t_exec;
+typedef struct s_cmd    t_cmd;
+typedef struct s_env    t_env;
 
 // Built-In Initialisation and Basic Built-In Functions
 void	built_init(t_exec *storage);
