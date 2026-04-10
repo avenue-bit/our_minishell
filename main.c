@@ -322,7 +322,7 @@ void	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
 		if (reint == ENOENT)
 			remove_last_cmd_node(cmd_list, current_cmd);
 		if (reint == EINTR)
-			return (clear_tokens(&tokens), clear_cmds(cmd_list));
+			return ;//(clear_tokens(&tokens), clear_cmds(cmd_list));
 		if (tmp && tmp->type == tk_PIPE)
 			tmp = tmp->next;
 	}
@@ -710,7 +710,6 @@ int	main(int ac, char **av, char **envp)
 	t_cmd	*cmd;
 	t_exec	storage;
 	char	*input;
-	int last_exit_status;
 
 	(void)ac;
 	(void)av;
@@ -718,12 +717,20 @@ int	main(int ac, char **av, char **envp)
 	envnodes_execarray_init(&storage, envp);
 	rl_event_hook = sh_readline_hook;
 	config_interactive_sigs();
-	last_exit_status = 0;
 	while (1)
 	{
 		tokens = NULL;
 		cmd = NULL;
-		input = readline("#jeis$ ");
+		input = readline("#jeis$ "); 
+		if (g_signal == SIGINT)
+		{
+			storage.exit_code = 130;
+			g_signal = 0;
+			free_in_readline(&storage);
+			if (input)
+				free(input);
+			continue ;
+		}
 		if (!input)
 		{
 			write(1, "exit\n", 6);
@@ -737,7 +744,7 @@ int	main(int ac, char **av, char **envp)
 			free(input);
 			continue ;
 		}
-		expand_variables(&tokens, storage.environment, last_exit_status);
+		expand_variables(&tokens, storage.environment, storage.exit_code);
 		if (check_syntax(tokens))
 		{
 			clear_tokens(&tokens);
@@ -748,14 +755,6 @@ int	main(int ac, char **av, char **envp)
 		storage.command_nodes = cmd;
 		storage.token_nodes = tokens;
 		print_cmd_list(cmd);
-		if (g_signal == SIGINT)
-		{
-			storage.exit_code = 130;
-			g_signal = 0;
-			free_in_readline(&storage);
-			free(input);
-			continue ;
-		}
 		exec_main(&storage);
 		free_in_readline(&storage);
 		free(input);
