@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/09 11:51:50 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/10 18:04:31 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "./environment.h"
 # include "./execution.h"
 # include "./libft_utils.h"
+# include "./parsing.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <linux/limits.h>
@@ -31,6 +32,8 @@
 # include <sys/ioctl.h>
 # include <sys/wait.h>
 # include <unistd.h>
+
+extern volatile __sig_atomic_t	g_signal;
 
 # ifndef BOOL
 #  define BOOL _Bool

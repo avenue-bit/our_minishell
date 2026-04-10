@@ -3,28 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   3_libftutils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 11:38:21 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/09 11:25:42 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/10 14:47:43 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headerfiles/minishell.h"
-
-int	ft_isalpha(int c)
-{
-	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
-}
 
 void	ft_putstr_fd(char *s, int fd)
 {
 	write(fd, s, ft_strlen(s));
 }
 
+int	ft_isalpha(int c)
+{
+	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
+}
+
 int	ft_isdigit(int c)
 {
 	return (c >= '0' && c <= '9');
+}
+
+int	ft_isalnum(int c)
+{
+	if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z')
+		|| (c >= 'a' && c <= 'z'))
+		return (1);
+	return (0);
 }
 
 long	ft_atol(const char *nptr)
@@ -53,3 +61,33 @@ long	ft_atol(const char *nptr)
 	}
 	return (new_nbr * sign);
 }
+
+char	*ft_itoa(int n)
+{
+	long	num;
+	int		bytes;
+	char	*numstr;
+
+	num = n;
+	bytes = (n < 0);
+	if (n == 0)
+		return (ft_strdup("0"));
+	while (num && ++bytes)
+		num /= 10;
+	numstr = malloc(sizeof(char) * (bytes + 1));
+	if (!numstr)
+		return (NULL);
+	numstr[bytes] = '\0';
+	num = n;
+	if (num < 0)
+		num *= -1;
+	while (num)
+	{
+		numstr[--bytes] = (num % 10) + 48;
+		num /= 10;
+	}
+	if (n < 0)
+		numstr[0] = '-';
+	return (numstr);
+}
+

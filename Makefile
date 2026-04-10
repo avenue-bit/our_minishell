@@ -24,14 +24,23 @@ SRCS = adhoc_utils.c \
 		builtins/ft_export_0.c \
 		builtins/ft_export_1.c \
 		builtins/ft_export_2.c \
-		builtins/ft_unset.c
+		builtins/ft_unset.c \
+		parsing/check_syntax.c \
+		parsing/clearing_tkcmd.c \
+		parsing/cmd_addrm.c \
+		parsing/cmds_init.c \
+		parsing/expansion_functions.c \
+		parsing/expansion_helper.c \
+		parsing/expansion_init.c \
+		parsing/heredoc.c \
+		parsing/token_init.c
 
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 RLFLAG = -lreadline
-HEADERS = headerfiles/minishell.h headerfiles/builtins.h headerfiles/environment.h headerfiles/execution.h headerfiles/libft_utils.h
+HEADERS = headerfiles/minishell.h headerfiles/builtins.h headerfiles/environment.h headerfiles/execution.h headerfiles/libft_utils.h headerfiles/parsing.h
 
 all: $(NAME)
 
