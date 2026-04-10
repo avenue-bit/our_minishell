@@ -56,6 +56,3 @@ dkms.conf
 
 #Hidden file from minishell
 ._#*
-
-#Minishell program
-minishell
