@@ -1,162 +1,9 @@
 
-#include "minishell.h"
+#include "headerfiles/minishell.h"
 
-int		heredoc_to_file(t_cmd **cmd);
+volatile __sig_atomic_t	g_signal = 0;
 
-
-char	*ft_strchr(const char *s, int c)
-{
-	while (*s)
-	{
-		if (*s == (char)c)
-			return ((char *)s);
-		s++;
-	}
-	if (*s == (char)c)
-		return ((char *)s);
-	return (NULL);
-}
-
-int	ft_isalpha(int c)
-{
-	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
-		return (1);
-	return (0);
-}
-
-int	ft_isdigit(int c)
-{
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
-}
-
-int	ft_isalnum(int c)
-{
-	if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z')
-		|| (c >= 'a' && c <= 'z'))
-		return (1);
-	return (0);
-}
-
-char	*ft_strdup(const char *s)
-{
-	int		i;
-	char	*new_string;
-
-	i = 0;
-	while (s[i])
-		i++;
-	new_string = malloc(sizeof(char) * (i + 1));
-	if (new_string == NULL)
-		return (NULL);
-	i = 0;
-	while (*s)
-	{
-		new_string[i++] = *s;
-		s++;
-	}
-	new_string[i] = '\0';
-	return (new_string);
-}
-
-char	*ft_itoa(int n)
-{
-	long	num;
-	int		bytes;
-	char	*numstr;
-
-	num = n;
-	bytes = (n < 0);
-	if (n == 0)
-		return (ft_strdup("0"));
-	while (num && ++bytes)
-		num /= 10;
-	numstr = malloc(sizeof(char) * (bytes + 1));
-	if (!numstr)
-		return (NULL);
-	numstr[bytes] = '\0';
-	num = n;
-	if (num < 0)
-		num *= -1;
-	while (num)
-	{
-		numstr[--bytes] = (num % 10) + 48;
-		num /= 10;
-	}
-	if (n < 0)
-		numstr[0] = '-';
-	return (numstr);
-}
-
-size_t	ft_strlen(const char *str)
-{
-	int	i;
-
-	i = 0;
-	while (*(str + i) != '\0')
-	{
-		i++;
-	}
-	return (i);
-}
-
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	void	*ptr;
-	size_t	i;
-
-	i = 0;
-	if (nmemb == 0 || size == 0)
-		return (malloc(0));
-	if (nmemb > ((size_t)-1) / size)
-		return (NULL);
-	ptr = malloc(nmemb * size);
-	if (ptr == NULL)
-		return (NULL);
-	while (i < nmemb * size)
-		((unsigned char *)ptr)[i++] = 0;
-	return (ptr);
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char	*substr;
-	size_t	i;
-
-	i = 0;
-	if (!s || (unsigned int)ft_strlen(s) <= start)
-		return (ft_calloc(1, 1));
-	while (s[start + i] != '\0' && i < len)
-		i++;
-	substr = malloc(sizeof(char) * (i + 1));
-	if (!substr)
-		return (NULL);
-	i = 0;
-	while (s[start + i] != '\0' && i < len)
-	{
-		substr[i] = s[start + i];
-		i++;
-	}
-	substr[i] = '\0';
-	if ((unsigned int)ft_strlen(s) <= start)
-		substr[0] = '\0';
-	return (substr);
-}
-
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	if (n == 0)
-		return (0);
-	while (--n > 0 && (*s1 && *s2))
-	{
-		if (*s1 != *s2)
-			return ((unsigned char)*s1 - (unsigned char)*s2);
-		s1++;
-		s2++;
-	}
-	return ((unsigned char)*s1 - (unsigned char)*s2);
-}
+int						heredoc_to_file(t_cmd **cmd);
 
 void	clear_tokens(t_token **tokens)
 {
@@ -189,7 +36,7 @@ void	clear_cmds(t_cmd **node)
 				free((*node)->cmd_flags[i++]);
 			free((*node)->cmd_flags);
 		}
-		if ((*node)->infile && ft_strncmp((*node)->infile, "._#", 3) != 0)
+		if ((*node)->infile)
 			free((*node)->infile);
 		if ((*node)->outfile)
 			free((*node)->outfile);
@@ -262,7 +109,8 @@ int	create_tokens(char *input, t_token **tokens, int check, int i)
 {
 	while (input[i])
 	{
-		while (input[i] && (input[i] == ' ' || input[i] >= 9 && input[i] <= 13))
+		while (input[i] && (input[i] == ' ' || (input[i] >= 9
+					&& input[i] <= 13)))
 			i++;
 		if (!input[i])
 			break ;
@@ -363,12 +211,10 @@ int	set_redir_path(t_cmd *cmd, t_token **tokens, t_type type)
 
 int	process_heredoc(t_token *tokens, t_cmd *cmd)
 {
-	free(cmd->heredoc_delim),
-		cmd->heredoc_delim = ft_strdup(tokens->content);
+	free(cmd->heredoc_delim), cmd->heredoc_delim = ft_strdup(tokens->content);
 	if (!cmd->heredoc_delim)
 		return (errno);
-	heredoc_to_file(&cmd);
-	return (0);
+	return (heredoc_to_file(&cmd));
 }
 
 int	fill_cmd_data_redir(t_token **tokens, t_cmd *cmd)
@@ -433,6 +279,8 @@ int	fill_cmd_data(t_token **tokens, t_cmd *cmd)
 				*tokens = (*tokens)->next;
 			return (ENOENT);
 		}
+		if (reint == EINTR)
+			return (EINTR);
 		if (*tokens)
 			*tokens = (*tokens)->next;
 	}
@@ -473,6 +321,8 @@ void	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
 			return (clear_tokens(&tokens), clear_cmds(cmd_list), exit(errno));
 		if (reint == ENOENT)
 			remove_last_cmd_node(cmd_list, current_cmd);
+		if (reint == EINTR)
+			return (clear_tokens(&tokens), clear_cmds(cmd_list));
 		if (tmp && tmp->type == tk_PIPE)
 			tmp = tmp->next;
 	}
@@ -530,8 +380,6 @@ char	*create_heredoc_file_name(int num)
 	int			temp;
 	int			len;
 
-	temp = num;
-	len = 0;
 	name[0] = '.';
 	name[1] = '_';
 	name[2] = '#';
@@ -552,25 +400,27 @@ char	*create_heredoc_file_name(int num)
 	return (name);
 }
 
-void heredoc_loop(t_cmd **cmd, int h_fd)
+void	heredoc_loop(t_cmd **cmd, int h_fd)
 {
-	char		*line;
+	char	*line;
+
 	while (1)
 	{
 		line = readline("> ");
 		if (!line)
 		{
-			write(2, "jeis: warning: here-document delimited by end-of-file (wanted `", 64);
-			write(2, (*cmd)->heredoc_delim, ft_strlen((*cmd)->heredoc_delim));
+			write(2,
+				"jeis: warning: here-document delimited by end-of-file (wanted `",
+				64);
+			write(2, (*cmd)->heredoc_delim, strlen((*cmd)->heredoc_delim));
 			write(2, "')\n", 3);
 			break ;
 		}
+		if (g_signal == SIGINT)
+			return (free(line));
 		if (ft_strncmp(line, (*cmd)->heredoc_delim,
-				ft_strlen((*cmd)->heredoc_delim)) == 0)
-		{
-			free(line);
-			break ;
-		}
+				(ft_strlen((*cmd)->heredoc_delim) + 1)) == 0)
+			return (free(line));
 		write(h_fd, line, ft_strlen(line));
 		write(h_fd, "\n", 1);
 		free(line);
@@ -590,8 +440,19 @@ int	heredoc_to_file(t_cmd **cmd)
 	if (fd == -1)
 		return (perror("heredoc hiddenfile open"), ENOENT);
 	heredoc_loop(cmd, fd);
+	if (g_signal == SIGINT)
+	{
+		close(fd);
+		if (access(filename, F_OK) != -1)
+			unlink(filename);
+		return (EINTR);
+	}
 	close(fd);
-	(*cmd)->infile = filename;
+	free((*cmd)->infile);
+	(*cmd)->infile = NULL;
+	(*cmd)->infile = ft_strdup(filename);
+	if ((*cmd)->infile == NULL)
+		return (perror("Error"), ENOMEM);
 	return (0);
 }
 
@@ -828,158 +689,36 @@ void	print_cmd_list(t_cmd *cmd)
 	}
 }
 
-
-/*env - just for testing */
-
-char	*env_key(char *env_str)
+void	sh_global(int signum)
 {
-	int	i;
-
-	i = 0;
-	while (env_str[i] && env_str[i] != '=')
-		i++;
-	return (ft_substr(env_str, 0, i));
+	g_signal = signum;
 }
 
-char	*env_content(char *env_str)
+int	sh_readline_hook(void)
 {
-	int	i;
-
-	i = 0;
-	while (env_str[i] && env_str[i] != '=')
-		i++;
-	if (!env_str[i])
-		return (ft_strdup(""));
-	return (ft_strdup(env_str + i + 1));
-}
-
-t_env	*new_env_node(char *key, char *content)
-{
-	t_env	*new_node;
-
-	new_node = malloc(sizeof(t_env));
-	if (!new_node)
-		return (NULL);
-	new_node->key = key;
-	new_node->content = content;
-	new_node->next = NULL;
-	return (new_node);
-}
-
-void	add_env_back(t_env **env, t_env *new_node)
-{
-	t_env	*tmp;
-
-	if (!*env)
+	if (g_signal == SIGINT)
 	{
-		*env = new_node;
-		return ;
+		rl_replace_line("", 0);
+		rl_done = 1;
 	}
-	tmp = *env;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new_node;
+	return (0);
 }
-
-static t_env	*create_env_node(char *env_str)
-{
-	t_env	*node;
-	char	*key;
-	char	*content;
-
-	key = env_key(env_str);
-	if (!key)
-		return (NULL);
-	content = env_content(env_str);
-	if (!content)
-		return (free(key), NULL);
-	node = new_env_node(key, content);
-	if (!node)
-		return (free(key), free(content), NULL);
-	return (node);
-}
-
-void	clear_env(t_env **env)
-{
-	t_env	*tmp;
-
-	while (*env)
-	{
-		tmp = (*env)->next;
-		free((*env)->key);
-		free((*env)->content);
-		free(*env);
-		*env = tmp;
-	}
-}
-
-t_env	*init_env(char **envp)
-{
-	t_env	*env;
-	t_env	*node;
-	int		i;
-
-	env = NULL;
-	i = 0;
-	while (envp[i])
-	{
-		node = create_env_node(envp[i]);
-		if (!node)
-			return (clear_env(&env), NULL);
-		add_env_back(&env, node);
-		i++;
-	}
-	return (env);
-}
-
-void	print_env_list(t_env *env)
-{
-	while (env)
-	{
-		printf("KEY: [%s] | VALUE: [%s]\n", env->key, env->content);
-		env = env->next;
-	}
-	printf("\n");
-}
-
-/*END env - just for testing*/
-
 
 int	main(int ac, char **av, char **envp)
 {
 	t_token	*tokens;
 	t_cmd	*cmd;
+	t_exec	storage;
 	char	*input;
 	t_env *env;
 	int last_exit_status;
 
-	/*  ----Check without readline---- */
-	/*tokens = NULL;
-	cmd = NULL;
-	printf("Input %s\n\n", av[1]);
-	create_tokens(av[1], &tokens, 0, 0);
-	check_syntax(tokens);
-	create_cmd_list(&cmd, tokens);
-	print_tokens(tokens);
-	print_cmd_list(cmd);
-	printf("%s\n", create_heredoc_file_name(5));
-	// exec_main(ac, av, envp, cmd);
-	if (tokens)
-		clear_tokens(&tokens);
-	if (cmd)
-		clear_cmds(&cmd);
-	return (0); */
-	/*  ----END--- */
-	/* ----Check with readline----*/
 	(void)ac;
 	(void)av;
-	(void)envp;
-	env = init_env(envp);
-	//print_env_list(env);
-	last_exit_status = 0;
-	if (!env)
-		return (perror("init_env"), 1);
-
+	ft_bzero(&storage, sizeof(t_exec));
+	envnodes_execarray_init(&storage, envp);
+	rl_event_hook = sh_readline_hook;
+	config_interactive_sigs();
 	while (1)
 	{
 		tokens = NULL;
@@ -987,15 +726,9 @@ int	main(int ac, char **av, char **envp)
 		input = readline("#jeis$ ");
 		if (!input)
 		{
-			write(1, "exiting...\n", 12);
+			write(1, "exit\n", 6);
+			storage.exit_code = 0;
 			break ;
-		}
-		if (ft_strncmp(input, "exit", 5) == 0)
-		{
-			clear_tokens(&tokens);
-			clear_cmds(&cmd);
-			clear_env(&env);
-			exit(last_exit_status);
 		}
 		if (*input)
 			add_history(input);
@@ -1012,16 +745,23 @@ int	main(int ac, char **av, char **envp)
 			continue ;
 		}
 		create_cmd_list(&cmd, tokens);
-		// exec_main(ac, av, envp, cmd);
-		print_tokens(tokens);
+		storage.command_nodes = cmd;
+		storage.token_nodes = tokens;
 		print_cmd_list(cmd);
-		if (tokens)
-			clear_tokens(&tokens);
-		if (cmd)
-			clear_cmds(&cmd);
+		if (g_signal == SIGINT)
+		{
+			storage.exit_code = 130;
+			g_signal = 0;
+			free_in_readline(&storage);
+			free(input);
+			continue ;
+		}
+		exec_main(&storage);
+		free_in_readline(&storage);
 		free(input);
+		if (storage.exit_flag == 1)
+			break ;
 	}
-	if (env)
-		clear_env(&env);
-	return (0);
+	free_out_readline(&storage);
+	exit(storage.exit_code);
 }

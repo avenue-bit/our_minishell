@@ -1,0 +1,53 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/07 17:11:27 by esezalor          #+#    #+#             */
+/*   Updated: 2026/04/09 11:27:18 by esezalor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "headerfiles/minishell.h"
+
+void	config_interactive_sigs(void)
+{
+	struct sigaction	interactive_int;
+	struct sigaction	interactive_quit;
+
+	interactive_int.sa_handler = sh_global;
+	interactive_int.sa_flags = 0;
+	sigemptyset(&interactive_int.sa_mask);
+	interactive_quit.sa_handler = SIG_IGN;
+	interactive_quit.sa_flags = 0;
+	sigemptyset(&interactive_quit.sa_mask);
+	sigaction(SIGINT, &interactive_int, NULL);
+	sigaction(SIGQUIT, &interactive_quit, NULL);
+}
+
+void	config_child_ign(void)
+{
+	struct sigaction	child_int_ign;
+
+	child_int_ign.sa_handler = SIG_IGN;
+	child_int_ign.sa_flags = 0;
+	sigemptyset(&child_int_ign.sa_mask);
+	sigaction(SIGINT, &child_int_ign, NULL);
+}
+
+void	config_child_dfl(void)
+{
+	struct sigaction child_int_dfl;
+	struct sigaction child_quit_dfl;
+
+	child_int_dfl.sa_handler = SIG_DFL;
+	child_int_dfl.sa_flags = 0;
+	sigemptyset(&child_int_dfl.sa_mask);
+	sigaction(SIGINT, &child_int_dfl, NULL);
+	child_quit_dfl.sa_handler = SIG_DFL;
+	child_quit_dfl.sa_flags = 0;
+	sigemptyset(&child_quit_dfl.sa_mask);
+	sigaction(SIGQUIT, &child_quit_dfl, NULL);
+}
