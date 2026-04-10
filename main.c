@@ -322,7 +322,7 @@ void	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
 		if (reint == ENOENT)
 			remove_last_cmd_node(cmd_list, current_cmd);
 		if (reint == EINTR)
-			return ;//(clear_tokens(&tokens), clear_cmds(cmd_list));
+			return ; //(clear_tokens(&tokens), clear_cmds(cmd_list));
 		if (tmp && tmp->type == tk_PIPE)
 			tmp = tmp->next;
 	}
@@ -433,6 +433,9 @@ int	heredoc_to_file(t_cmd **cmd)
 	char		*filename;
 	static int	h_num;
 
+	if (h_num > 0)
+		if (access((*cmd)->infile, F_OK) != -1)
+			unlink((*cmd)->infile);
 	if (!(*cmd)->heredoc_delim)
 		return (print_syntax_error(NULL));
 	filename = create_heredoc_file_name(h_num++);
@@ -442,18 +445,15 @@ int	heredoc_to_file(t_cmd **cmd)
 	heredoc_loop(cmd, fd);
 	if (g_signal == SIGINT)
 	{
-		close(fd);
 		if (access(filename, F_OK) != -1)
 			unlink(filename);
-		return (EINTR);
+		return (close(fd), EINTR);
 	}
-	close(fd);
 	free((*cmd)->infile);
-	(*cmd)->infile = NULL;
 	(*cmd)->infile = ft_strdup(filename);
 	if ((*cmd)->infile == NULL)
-		return (perror("Error"), ENOMEM);
-	return (0);
+		return (close(fd), perror("Error"), ENOMEM);
+	return (close(fd), 0);
 }
 
 char	*append_str(char *dst, const char *src)
@@ -461,7 +461,6 @@ char	*append_str(char *dst, const char *src)
 	size_t	i;
 	size_t	j;
 	char	*new_str;
-
 
 	new_str = malloc(ft_strlen(dst) + ft_strlen(src) + 1);
 	if (!new_str)
@@ -524,8 +523,8 @@ char	*handle_variable(char *result, char *input, t_env *env, int *i)
 
 	start = *i + 1;
 	len = 0;
-	while (input[start + len]
-		&& (ft_isalnum(input[start + len]) || input[start + len] == '_'))
+	while (input[start + len] && (ft_isalnum(input[start + len]) || input[start
+			+ len] == '_'))
 		len++;
 	name = ft_substr(input, start, len);
 	if (!name)
@@ -538,7 +537,6 @@ char	*handle_variable(char *result, char *input, t_env *env, int *i)
 	*i = start + len;
 	return (result);
 }
-
 
 char	*append_and_advance(char *str, char c, int *i)
 {
@@ -586,7 +584,7 @@ char	*process_expansion(char *input, t_env *env, int last_exit)
 	while (input[i])
 	{
 		if (((input[i] == '\'' || input[i] == '\"') && quote == 0)
-			|| input[i] == quote)
+					|| input[i] == quote)
 			new_str = handle_quote_case(new_str, input, &i, &quote);
 		else if (input[i] == '$' && quote != '\'')
 			new_str = handle_dollar_case(new_str, input, env, &i, last_exit);
@@ -598,12 +596,12 @@ char	*process_expansion(char *input, t_env *env, int last_exit)
 	return (new_str);
 }
 
-char *remove_quotes(t_token *tokens)
+char	*remove_quotes(t_token *tokens)
 {
-	char *dst;
-	int i;
-	int j;
-	char quote;
+	char	*dst;
+	int		i;
+	int		j;
+	char	quote;
 
 	dst = malloc(ft_strlen(tokens->content) + 1);
 	if (!dst)
@@ -613,7 +611,8 @@ char *remove_quotes(t_token *tokens)
 	quote = 0;
 	while (tokens->content[i])
 	{
-		if ((tokens->content[i] == '\'' || tokens->content[i] == '\"') && quote == 0)
+		if ((tokens->content[i] == '\'' || tokens->content[i] == '\"')
+				&& quote == 0)
 			quote = tokens->content[i++];
 		else if (tokens->content[i] == quote)
 			(quote = 0, i++);
@@ -626,10 +625,10 @@ char *remove_quotes(t_token *tokens)
 	return ("");
 }
 
-void expand_variables(t_token **tokens, t_env *env, int last_exit)
+void	expand_variables(t_token **tokens, t_env *env, int last_exit)
 {
-	t_token *cur;
-	char *expanded_val;
+	t_token	*cur;
+	char	*expanded_val;
 
 	cur = *tokens;
 	while (cur)
@@ -721,16 +720,7 @@ int	main(int ac, char **av, char **envp)
 	{
 		tokens = NULL;
 		cmd = NULL;
-		input = readline("#jeis$ "); 
-		if (g_signal == SIGINT)
-		{
-			storage.exit_code = 130;
-			g_signal = 0;
-			free_in_readline(&storage);
-			if (input)
-				free(input);
-			continue ;
-		}
+		input = readline("#jeis$ ");
 		if (!input)
 		{
 			write(1, "exit\n", 6);
@@ -754,7 +744,15 @@ int	main(int ac, char **av, char **envp)
 		create_cmd_list(&cmd, tokens);
 		storage.command_nodes = cmd;
 		storage.token_nodes = tokens;
-		print_cmd_list(cmd);
+		if (g_signal == SIGINT)
+		{
+			storage.exit_code = 130;
+			g_signal = 0;
+			free_in_readline(&storage);
+			if (input)
+				free(input);
+			continue ;
+		}
 		exec_main(&storage);
 		free_in_readline(&storage);
 		free(input);
