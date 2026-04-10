@@ -710,7 +710,6 @@ int	main(int ac, char **av, char **envp)
 	t_cmd	*cmd;
 	t_exec	storage;
 	char	*input;
-	t_env *env;
 	int last_exit_status;
 
 	(void)ac;
@@ -719,6 +718,7 @@ int	main(int ac, char **av, char **envp)
 	envnodes_execarray_init(&storage, envp);
 	rl_event_hook = sh_readline_hook;
 	config_interactive_sigs();
+	last_exit_status = 0;
 	while (1)
 	{
 		tokens = NULL;
@@ -737,7 +737,7 @@ int	main(int ac, char **av, char **envp)
 			free(input);
 			continue ;
 		}
-		expand_variables(&tokens, env, last_exit_status);
+		expand_variables(&tokens, storage.environment, last_exit_status);
 		if (check_syntax(tokens))
 		{
 			clear_tokens(&tokens);
