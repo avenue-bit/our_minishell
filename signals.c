@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 17:11:27 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/09 11:27:18 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/10 19:22:58 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void	config_child_ign(void)
 
 void	config_child_dfl(void)
 {
-	struct sigaction child_int_dfl;
-	struct sigaction child_quit_dfl;
+	struct sigaction	child_int_dfl;
+	struct sigaction	child_quit_dfl;
 
 	child_int_dfl.sa_handler = SIG_DFL;
 	child_int_dfl.sa_flags = 0;

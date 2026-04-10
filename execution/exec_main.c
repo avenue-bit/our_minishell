@@ -6,20 +6,11 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/09 11:25:05 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/10 19:16:41 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headerfiles/minishell.h"
-
-// 1. envnodes_init: Initialise the environment found in envp into a linked list,
-//	the return value (pointer to head of list) is stored in the shell struct
-
-// 2. envarray_init: Converts the linked list of environment into a modifiable array of strings,
-//	must do this as it is more tedious to handle the stack version of envp rather than use a linked list
-
-// 3. Initialised my environment and my exec array in the main
-// as if i did it in exec_main it would wipe the arrays at every execution of a builtin
 
 int	exec_main(t_exec *storage)
 {

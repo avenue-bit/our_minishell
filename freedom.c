@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:10:43 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/09 11:27:28 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/10 19:26:00 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	free_in_readline(t_exec *storage)
 	ft_arrayfree(storage->all_paths);
 	storage->all_paths = NULL;
 }
+
 void	unlink_files(t_cmd *cmds)
 {
 	t_cmd	*current;

@@ -7,6 +7,7 @@ SRCS = adhoc_utils.c \
 		libft_utils/1_libftutils.c \
 		libft_utils/2_libftutils.c \
 		libft_utils/3_libftutils.c \
+		libft_utils/4_libftutils.c \
 		libft_utils/ft_printf.c \
 		libft_utils/ft_split.c \
 		execution/exec_init.c \

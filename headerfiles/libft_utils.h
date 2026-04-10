@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_utils.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
+/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 11:25:25 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/10 15:50:29 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/10 19:15:25 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define LIBFT_UTILS_H
 
 # include <limits.h>
-#include <stdarg.h>
-#include <stddef.h>
+# include <stdarg.h>
+# include <stddef.h>
 
 // Keep in Alphabetical Order
 long	ft_atol(const char *nptr);
@@ -23,7 +23,7 @@ void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
-int	    ft_isalnum(int c);
+int		ft_isalnum(int c);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	*ft_memset(void *s, int c, size_t n);
 int		ft_printf(const char *__format, ...);

@@ -6,17 +6,11 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 17:48:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/09 11:24:56 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/10 19:21:16 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headerfiles/minishell.h"
-
-// 1. extract_path: Look for the Key "PATH" inside the environment list,
-// extract, split and store each path in a string array stored in shell storage
-
-// 2. pathfinder: Based on given command[1] append to each path and check if executable
-// return fully appended '/ + cmd' string of path
 
 int	path_ramp(t_exec *storage, char **command)
 {
@@ -53,22 +47,21 @@ char	*pathfinder(t_exec *storage, char *command)
 {
 	int		i;
 	char	*is_valid;
-	char	**path;
 
 	is_valid = NULL;
 	if (check_absolute(command) == 1)
 		return (ft_strdup(command));
-	path = storage->all_paths;
 	i = 0;
-	while (path && path[i])
+	while (storage->all_paths && storage->all_paths[i])
 	{
-		is_valid = ft_calloc(ft_strlen(path[i]) + ft_strlen(command) + 2,
-				sizeof(char));
+		is_valid = ft_calloc(ft_strlen(storage->all_paths[i])
+				+ ft_strlen(command) + 2, sizeof(char));
 		if (!is_valid)
 			break ;
-		ft_memcpy(is_valid, path[i], ft_strlen(path[i]));
-		is_valid[ft_strlen(path[i])] = '/';
-		ft_memcpy(is_valid + ft_strlen(path[i]) + 1, command,
+		ft_memcpy(is_valid, storage->all_paths[i],
+			ft_strlen(storage->all_paths[i]));
+		is_valid[ft_strlen(storage->all_paths[i])] = '/';
+		ft_memcpy(is_valid + ft_strlen(storage->all_paths[i]) + 1, command,
 			ft_strlen(command));
 		if (access(is_valid, X_OK) == 0)
 			return (is_valid);
@@ -93,6 +86,6 @@ int	check_absolute(char *command)
 	if (command[i] == '\0')
 		return (0);
 	if (access(command, X_OK) == 0)
-		return (1); // errno needed for failure of access
+		return (1);
 	return (0);
 }

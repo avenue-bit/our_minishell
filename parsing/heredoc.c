@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
+/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 17:56:59 by jille             #+#    #+#             */
-/*   Updated: 2026/04/10 18:31:42 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/10 19:13:00 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	heredoc_loop(t_cmd **cmd, int h_fd)
 		if (!line)
 		{
 			write(2, "jeis: warning: h-doc delimited by end-of-file (wanted `",
-				64);
+				56);
 			write(2, (*cmd)->heredoc_delim, strlen((*cmd)->heredoc_delim));
 			write(2, "')\n", 3);
 			break ;
