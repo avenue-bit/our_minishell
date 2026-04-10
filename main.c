@@ -3,6 +3,7 @@
 
 volatile __sig_atomic_t	g_signal = 0;
 
+
 void	sh_global(int signum)
 {
 	g_signal = signum;
