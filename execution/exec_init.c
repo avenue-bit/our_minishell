@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/14 11:42:18 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/14 17:15:11 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,13 @@ void	exec_main_init(t_exec *storage)
 	storage->built_in = -1;
 	storage->built_out = -1;
 	built_init(storage);
+}
+
+int	cmd_pids_init(t_exec *storage, t_cmd *cmd_list)
+{
+	storage->n_commands_nodes = n_commands(cmd_list);
+	storage->c_pids = ft_calloc(storage->n_commands_nodes, sizeof(pid_t));
+	if (!storage->c_pids)
+		return (0);
+	return (1);
 }

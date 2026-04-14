@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/14 14:09:41 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/14 17:14:43 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ int	exec_main(t_exec *storage)
 	i = 0;
 	cmd_list = storage->command_nodes;
 	exec_main_init(storage);
-	storage->n_commands_nodes = n_commands(cmd_list);
-	storage->c_pids = ft_calloc(storage->n_commands_nodes, sizeof(pid_t));
-	if (!storage->c_pids)
-		return (freeing_ramp(storage), perror("minishell: Error"),
+	if(cmd_pids_init(storage, cmd_list) == 0)
+		return(freeing_ramp(storage), perror("minishell: Error"),
 			storage->exit_code = 1, 0);
+	if(!cmd_list)
+		return(storage->exit_code = 1, 0);
 	while (cmd_list)
 	{
 		if (!cmd_list->next && !cmd_list->prev && is_builtin(storage,
@@ -39,3 +39,4 @@ int	exec_main(t_exec *storage)
 		return (1);
 	return (0);
 }
+

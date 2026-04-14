@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 10:35:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/10 19:15:34 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/14 17:15:08 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ typedef struct s_cmd	t_cmd;
 int						exec_main(t_exec *storage);
 void					exec_main_init(t_exec *storage);
 void					envnodes_execarray_init(t_exec *storage, char **envp);
+int						cmd_pids_init(t_exec *storage, t_cmd *cmd_list);
 
 // Pipe and Fork Functions
 int						fork_ramp(t_exec *storage, t_cmd *cmd_node, int i);
