@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 19:24:33 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/14 16:41:19 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/14 18:54:46 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ int	main(int ac, char **av, char **envp)
 	{
 		tokens = NULL;
 		cmd = NULL;
-		input = readline("#jeis$ ");
+		// input = readline("#jeis$ ");
+		input = mini_nextline(0);
 		if (!input)
 		{
 			write(1, "exit\n", 5);

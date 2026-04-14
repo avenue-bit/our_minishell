@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 17:31:17 by jille             #+#    #+#             */
-/*   Updated: 2026/04/14 10:18:56 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/14 17:32:55 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	fill_cmd_data_redir(t_token **tokens, t_cmd *cmd)
 	close(fd);
 	errno = 0;
 	return (set_redir_path(cmd, tokens, type));
-	return (0);
 }
 
 int	fill_node_data(t_token **tokens, t_cmd *cmd, int *i)

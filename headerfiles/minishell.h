@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/14 12:44:57 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/14 18:53:41 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,5 +126,11 @@ void							ft_arrayfree(char **str_array);
 int								ft_envsize(t_env *lst);
 size_t							n_commands(t_cmd *cmd);
 int								find_char(char *str, char c);
+
+// Get Next Line
+char	*mini_nextline(int fd);
+char	*update_stash(int fd, char *stash, char *buffer);
+char	*extract(char *str);
+char	*the_rest(char *stash);
 
 #endif
