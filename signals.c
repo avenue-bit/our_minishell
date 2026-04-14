@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 17:11:27 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/10 19:22:58 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/14 15:47:08 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,16 @@ void	config_interactive_sigs(void)
 	struct sigaction	interactive_int;
 	struct sigaction	interactive_quit;
 
+	rl_signal_event_hook = sh_readline_hook;
+	// rl_event_hook = sh_readline_hook;
+	ft_bzero(&interactive_int, sizeof(interactive_int));
 	interactive_int.sa_handler = sh_global;
-	interactive_int.sa_flags = 0;
 	sigemptyset(&interactive_int.sa_mask);
+	interactive_int.sa_flags = 0;
+	sigaction(SIGINT, &interactive_int, NULL);
 	interactive_quit.sa_handler = SIG_IGN;
 	interactive_quit.sa_flags = 0;
 	sigemptyset(&interactive_quit.sa_mask);
-	sigaction(SIGINT, &interactive_int, NULL);
 	sigaction(SIGQUIT, &interactive_quit, NULL);
 }
 

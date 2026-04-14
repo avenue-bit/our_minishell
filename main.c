@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 19:24:33 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/14 14:57:12 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/14 15:58:13 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,25 @@ void	sh_global(int signum)
 	g_signal = signum;
 }
 
+// int	sh_readline_hook(void)
+// {
+// 	if(g_signal == SIGINT)
+// 	{
+// 		rl_replace_line("", 0);
+// 		rl_done = 1;
+// 	}
+// 	return (0);
+// }
+
 int	sh_readline_hook(void)
 {
-	if (ioctl(STDIN_FILENO, TIOCSTI, "\n") == -1)
-		perror("ioctl");
-	rl_replace_line("", 0);
+	if (g_signal == SIGINT)
+	{
+		if (ioctl(STDIN_FILENO, TIOCSTI, "\n") == -1)
+			perror("ioctl");
+		rl_replace_line("", 0);
+		return (0);
+	}
 	return (0);
 }
 
@@ -38,7 +52,6 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	ft_bzero(&storage, sizeof(t_exec));
 	envnodes_execarray_init(&storage, envp);
-	rl_signal_event_hook = sh_readline_hook;
 	config_interactive_sigs();
 	while (1)
 	{
@@ -66,6 +79,8 @@ int	main(int ac, char **av, char **envp)
 			continue ;
 		}
 		create_cmd_list(&cmd, tokens);
+		storage.command_nodes = cmd;
+		storage.token_nodes = tokens;
 		if (g_signal == SIGINT)
 		{
 			storage.exit_code = 130;
@@ -75,8 +90,6 @@ int	main(int ac, char **av, char **envp)
 				free(input);
 			continue ;
 		}
-		storage.command_nodes = cmd;
-		storage.token_nodes = tokens;
 		exec_main(&storage);
 		free_in_readline(&storage);
 		free(input);
