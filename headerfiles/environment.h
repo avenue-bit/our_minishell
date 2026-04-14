@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 10:31:13 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/10 19:15:37 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/14 11:18:47 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,7 @@ void					envclear_allnodes(t_env **env_lst);
 int						delete_node(t_env *current, char *unset_var,
 							int var_len);
 t_env					*env_newnode(char *environment);
+void					pathfinder_join(char *path, char *is_valid,
+							char *command);
 
 #endif

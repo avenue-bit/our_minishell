@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 19:24:33 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/10 19:26:15 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/14 10:07:30 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	main(int ac, char **av, char **envp)
 			continue ;
 		}
 		expand_variables(&tokens, &storage);
-		if (check_syntax(tokens))
+		if (check_syntax(tokens, &storage))
 		{
 			clear_tokens(&tokens);
 			free(input);

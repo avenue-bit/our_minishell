@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:45:59 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/10 19:17:16 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/14 10:48:39 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ int	fork_ramp(t_exec *storage, t_cmd *cmd_node, int i)
 	if (cmd_node->next)
 	{
 		if (pipe(storage->pipe_fd) == -1)
-			return (perror("Pipe failure"), freeing_ramp(storage), exit(errno),
+			return (perror("pipe"), freeing_ramp(storage), storage->exit_code = 1, exit(errno),
 				0);
 	}
 	config_child_ign();
 	storage->c_pids[i] = fork();
 	if (storage->c_pids[i] < 0)
-		return (freeing_ramp(storage), exit(1), 0);
+		return (freeing_ramp(storage), perror("fork"), storage->exit_code = 1, exit(errno), 0);
 	if (storage->c_pids[i] == 0)
 		child_wrapper(storage, cmd_node);
 	else
@@ -67,7 +67,7 @@ void	exec_fork(t_exec *storage, t_cmd *cmd_node)
 			return (freeing_ramp(storage), exit(127));
 		}
 		execve(storage->command_path, cmd_node->cmd_flags, storage->execve_env);
-		return (perror("exec failed"), freeing_ramp(storage), exit(127));
+		return (perror("execve"), freeing_ramp(storage), exit(127));
 	}
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:10:11 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/09 11:25:00 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/14 11:18:39 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,11 @@ char	*env_join(char *key, char *content)
 	variable[key_len] = 61;
 	ft_memcpy(variable + key_len + 1, content, content_len);
 	return (variable);
+}
+
+void	pathfinder_join(char *path, char *is_valid, char *command)
+{
+	ft_memcpy(is_valid, path, ft_strlen(path));
+	is_valid[ft_strlen(path)] = '/';
+	ft_memcpy(is_valid + ft_strlen(path) + 1, command, ft_strlen(command));
 }

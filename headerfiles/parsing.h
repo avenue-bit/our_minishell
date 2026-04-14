@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
+/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 18:51:10 by jille             #+#    #+#             */
-/*   Updated: 2026/04/10 18:51:13 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/14 10:08:46 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int						set_redir_path(t_cmd *cmd, t_token **tokens,
 
 int						check_redirection(t_type type);
 int						print_syntax_error(char *token);
-int						check_syntax(t_token *tokens);
+int						check_syntax(t_token *tokens, t_exec *storage);
 
 int						process_heredoc(t_token *tokens, t_cmd *cmd);
 char					*create_heredoc_file_name(int num);

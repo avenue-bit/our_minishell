@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
+/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 17:31:17 by jille             #+#    #+#             */
-/*   Updated: 2026/04/10 17:54:31 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/14 10:08:23 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,27 +31,27 @@ int	print_syntax_error(char *token)
 	return (1);
 }
 
-int	check_syntax(t_token *tokens)
+int	check_syntax(t_token *tokens, t_exec *storage)
 {
 	if (!tokens)
 		return (0);
 	if (tokens->type == tk_PIPE)
-		return (print_syntax_error("|"));
+		return (print_syntax_error("|"), storage->exit_code = 2);
 	while (tokens)
 	{
 		if (tokens->type == tk_PIPE)
 		{
 			if (!tokens->next)
-				return (print_syntax_error(NULL));
+				return (print_syntax_error(NULL), storage->exit_code = 2);
 			if (tokens->next->type == tk_PIPE)
-				return (print_syntax_error("|"));
+				return (print_syntax_error("|"), storage->exit_code = 2);
 		}
 		else if (check_redirection(tokens->type))
 		{
 			if (!tokens->next)
-				return (print_syntax_error(NULL));
+				return (print_syntax_error(NULL), storage->exit_code = 2);
 			if (tokens->next->type != tk_WORD)
-				return (print_syntax_error(tokens->next->content));
+				return (print_syntax_error(tokens->next->content), storage->exit_code = 2);
 		}
 		tokens = tokens->next;
 	}

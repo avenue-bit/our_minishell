@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 17:48:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/10 19:21:16 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/14 11:18:35 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 int	path_ramp(t_exec *storage, char **command)
 {
 	if (extract_path(storage) == -1)
-		return (-1);
+		return (ENOMEM);
+	if (extract_path(storage) == 127)
+		return (127);
 	storage->command_path = pathfinder(storage, command[0]);
 	ft_arrayfree(storage->all_paths);
 	storage->all_paths = NULL;
@@ -36,7 +38,7 @@ int	extract_path(t_exec *shell_storage)
 		environment = environment->next;
 	}
 	if (!environment || !environment->content)
-		return (-1);
+		return (127);
 	shell_storage->all_paths = ft_split(environment->content, ':');
 	if (!shell_storage->all_paths)
 		return (-1);
@@ -58,11 +60,7 @@ char	*pathfinder(t_exec *storage, char *command)
 				+ ft_strlen(command) + 2, sizeof(char));
 		if (!is_valid)
 			break ;
-		ft_memcpy(is_valid, storage->all_paths[i],
-			ft_strlen(storage->all_paths[i]));
-		is_valid[ft_strlen(storage->all_paths[i])] = '/';
-		ft_memcpy(is_valid + ft_strlen(storage->all_paths[i]) + 1, command,
-			ft_strlen(command));
+		pathfinder_join(storage->all_paths[i], is_valid, command);
 		if (access(is_valid, X_OK) == 0)
 			return (is_valid);
 		free(is_valid);

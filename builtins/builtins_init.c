@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/09 11:22:19 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/14 10:37:24 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,18 +71,22 @@ void	builtin_dup(t_exec *storage, t_cmd *cmd_node)
 {
 	storage->built_in = dup(0);
 	if (storage->built_in == -1)
-		return (freeing_ramp(storage), exit(1));
+		return (freeing_ramp(storage), perror("Error"), errno = EBADF,
+			storage->exit_code = 9, exit(errno));
 	storage->built_out = dup(1);
 	if (storage->built_out == -1)
-		return (freeing_ramp(storage), exit(1));
+		return (freeing_ramp(storage), perror("Error"), errno = EBADF,
+			storage->exit_code = 9, exit(errno));
 	if (infile_outfile_check(storage, cmd_node))
 		storage->exit_code = exec_builtin(storage, cmd_node);
 	else
 		storage->exit_code = 1;
 	if (dup2(storage->built_in, 0) == -1)
-		return (freeing_ramp(storage), exit(1));
+		return (freeing_ramp(storage), perror("Error"), errno = EBADF,
+			storage->exit_code = 9, exit(errno));
 	if (dup2(storage->built_out, 1) == -1)
-		return (freeing_ramp(storage), exit(1));
+		return (freeing_ramp(storage), perror("Error"), errno = EBADF,
+			storage->exit_code = 9, exit(errno));
 	close(storage->built_in);
 	close(storage->built_out);
 }

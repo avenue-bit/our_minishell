@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/09 11:25:03 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/14 10:29:26 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,14 @@ void	envnodes_execarray_init(t_exec *storage, char **envp)
 {
 	storage->environment = envnodes_init(envp);
 	if (!storage->environment)
-		return (freeing_ramp(storage), exit(1));
+		return (freeing_ramp(storage), perror("Error"), errno = ENOMEM,
+			storage->exit_code = 1, exit(errno));
 	if (storage->execve_env)
-		return (freeing_ramp(storage), exit(1));
+		return (freeing_ramp(storage), exit(errno));
 	storage->execve_env = envarray_init(storage->environment);
 	if (!storage->execve_env)
-		return (freeing_ramp(storage), exit(1));
+		return (freeing_ramp(storage), perror("Error"), storage->exit_code = 1,
+			errno = ENOMEM, exit(errno));
 }
 
 void	exec_main_init(t_exec *storage)
