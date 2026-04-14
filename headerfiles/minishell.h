@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/14 11:19:47 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/14 12:44:57 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # include <stdlib.h>
 # include <sys/ioctl.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <unistd.h>
 
 extern volatile __sig_atomic_t	g_signal;

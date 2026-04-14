@@ -6,14 +6,19 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 17:48:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/14 11:18:35 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/14 14:06:19 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headerfiles/minishell.h"
 
 int	path_ramp(t_exec *storage, char **command)
-{
+{	
+	int error1;
+	int error2;
+	
+	error1 = 0;
+	error2 = 0;
 	if (extract_path(storage) == -1)
 		return (ENOMEM);
 	if (extract_path(storage) == 127)
@@ -38,7 +43,7 @@ int	extract_path(t_exec *shell_storage)
 		environment = environment->next;
 	}
 	if (!environment || !environment->content)
-		return (127);
+		return (-1);
 	shell_storage->all_paths = ft_split(environment->content, ':');
 	if (!shell_storage->all_paths)
 		return (-1);
@@ -59,7 +64,7 @@ char	*pathfinder(t_exec *storage, char *command)
 		is_valid = ft_calloc(ft_strlen(storage->all_paths[i])
 				+ ft_strlen(command) + 2, sizeof(char));
 		if (!is_valid)
-			break ;
+			return(free(is_valid), NULL);
 		pathfinder_join(storage->all_paths[i], is_valid, command);
 		if (access(is_valid, X_OK) == 0)
 			return (is_valid);
