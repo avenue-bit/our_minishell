@@ -6,23 +6,23 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 17:48:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/14 14:06:19 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/14 14:09:12 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headerfiles/minishell.h"
 
 int	path_ramp(t_exec *storage, char **command)
-{	
-	int error1;
-	int error2;
-	
+{
+	int	error1;
+	int	error2;
+
 	error1 = 0;
 	error2 = 0;
 	if (extract_path(storage) == -1)
 		return (ENOMEM);
 	if (extract_path(storage) == 127)
-		return (127);
+		return (-1);
 	storage->command_path = pathfinder(storage, command[0]);
 	ft_arrayfree(storage->all_paths);
 	storage->all_paths = NULL;
@@ -64,7 +64,7 @@ char	*pathfinder(t_exec *storage, char *command)
 		is_valid = ft_calloc(ft_strlen(storage->all_paths[i])
 				+ ft_strlen(command) + 2, sizeof(char));
 		if (!is_valid)
-			return(free(is_valid), NULL);
+			return (free(is_valid), NULL);
 		pathfinder_join(storage->all_paths[i], is_valid, command);
 		if (access(is_valid, X_OK) == 0)
 			return (is_valid);
