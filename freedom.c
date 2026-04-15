@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:10:43 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/10 19:26:00 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/15 12:33:49 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,11 @@ void	free_in_readline(t_exec *storage)
 		clear_cmds(&storage->command_nodes);
 		storage->command_nodes = NULL;
 	}
-	free(storage->c_pids);
-	storage->c_pids = NULL;
+	if(storage->c_pids)
+	{
+		free(storage->c_pids);
+		storage->c_pids = NULL;
+	}
 	if (storage->command_path)
 	{
 		free(storage->command_path);
@@ -60,8 +63,13 @@ void	unlink_files(t_cmd *cmds)
 
 void	free_out_readline(t_exec *storage)
 {
+	clear_history();
 	envclear_allnodes(&storage->environment);
-	ft_arrayfree(storage->execve_env);
+	if(storage->execve_env)
+	{
+		ft_arrayfree(storage->execve_env);
+		storage->execve_env = NULL;
+	}
 	failexec_close(storage);
 }
 

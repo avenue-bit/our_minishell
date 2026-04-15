@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_init.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
+/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 18:01:06 by jille             #+#    #+#             */
-/*   Updated: 2026/04/10 18:45:19 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/15 12:38:27 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	expand_variables(t_token **tokens, t_exec *storage)
 		if (cur->prev && cur->prev->type == tk_HERE_DOC)
 		{
 			if (!remove_quotes(cur))
-				return (clear_tokens(tokens), perror("Error"), exit(errno));
+				return (freeing_ramp(storage), perror("Error"), exit(errno));
 			cur = cur->next;
 			continue ;
 		}
@@ -31,12 +31,12 @@ void	expand_variables(t_token **tokens, t_exec *storage)
 		{
 			expanded_val = process_expansion(cur->content, storage);
 			if (!expanded_val)
-				return (clear_tokens(tokens), perror("Error"), exit(errno));
+				return (freeing_ramp(storage), perror("Error"), exit(errno));
 			free(cur->content);
 			cur->content = expanded_val;
 		}
 		if (!remove_quotes(cur))
-			return (clear_tokens(tokens), perror("Error"), exit(errno));
+			return (freeing_ramp(storage), perror("Error"), exit(errno));
 		cur = cur->next;
 	}
 }

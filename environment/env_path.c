@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 17:48:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/14 14:09:12 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/15 11:55:35 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ int	path_ramp(t_exec *storage, char **command)
 	error1 = 0;
 	error2 = 0;
 	if (extract_path(storage) == -1)
-		return (ENOMEM);
-	if (extract_path(storage) == 127)
 		return (-1);
 	storage->command_path = pathfinder(storage, command[0]);
 	ft_arrayfree(storage->all_paths);

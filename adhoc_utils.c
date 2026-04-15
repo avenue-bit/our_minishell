@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 11:52:31 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/09 11:27:32 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/15 12:33:29 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	ft_arrayfree(char **str_array)
 {
 	int	i;
 
+	i = 0;
 	if (!str_array)
 		return ;
-	i = 0;
 	while (str_array[i])
 	{
 		if (str_array[i])
@@ -29,7 +29,6 @@ void	ft_arrayfree(char **str_array)
 		i++;
 	}
 	free(str_array);
-	str_array = NULL;
 }
 
 int	ft_envsize(t_env *lst)
