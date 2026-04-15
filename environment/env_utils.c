@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:10:11 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/14 14:09:22 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/15 21:16:15 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,33 @@ void	pathfinder_join(char *path, char *is_valid, char *command)
 	ft_memcpy(is_valid, path, ft_strlen(path));
 	is_valid[ft_strlen(path)] = '/';
 	ft_memcpy(is_valid + ft_strlen(path) + 1, command, ft_strlen(command));
+}
+
+int	env_error_paths(char *command, t_exec *storage, int error1)
+{
+	if (error1 == 0 && storage->exit_code == 126)
+	{
+		write(2, "jeis: ", 6);
+		ft_putstr_fd(command, 2);
+		return (write(2, ": Is a directory\n", 17), 126);
+	}
+	else if (error1 == 1 && storage->exit_code == 126)
+	{
+		write(2, "jeis: ", 6);
+		ft_putstr_fd(command, 2);
+		return (write(2, ": Permission denied\n", 20), 126);
+	}
+	else if (error1 == 1 && storage->exit_code == 127)
+	{
+		ft_putstr_fd(command, 2);
+		write(2, ": command not found\n", 20);
+		return (127);
+	}
+	else if (error1 == 0 && storage->exit_code == 127)
+	{
+		write(2, "jeis: ", 6);
+		ft_putstr_fd(command, 2);
+		return (write(2, ": No such file or directory\n", 28), 127);
+	}
+	return (perror("Error"), 1);
 }

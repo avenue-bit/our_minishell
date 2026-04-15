@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 10:31:13 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/14 14:06:38 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/15 21:07:59 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@ char					**envarray_init(t_env *environments);
 char					*env_join(char *key, char *content);
 
 // Path Initialisation
-int						extract_path(t_exec *shell_storage);
-int						check_absolute(char *command);
-char					*pathfinder(t_exec *storage, char *command);
+int						extract_path(t_exec *storage);
+int						check_absolute(char *command, int *error1);
+char					*pathfinder(t_exec *storage, char *command,
+							int *error1);
 int						path_ramp(t_exec *storage, char **argv);
 
 // Environment Utils
@@ -42,5 +43,7 @@ int						delete_node(t_env *current, char *unset_var,
 t_env					*env_newnode(char *environment);
 void					pathfinder_join(char *path, char *is_valid,
 							char *command);
+int						env_error_paths(char *command, t_exec *storage,
+							int error1);
 
 #endif

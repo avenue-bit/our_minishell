@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:32:38 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/15 12:24:03 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/15 21:25:29 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,8 @@ char	**envarray_init(t_env *environments)
 	int		j;
 	char	**array;
 
-	if(!environments)
-		return(NULL);
+	if (!environments)
+		return (NULL);
 	env_amount = ft_envsize(environments);
 	array = ft_calloc(env_amount + 1, sizeof(char *));
 	if (!array)

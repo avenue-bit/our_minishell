@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/14 18:53:41 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/15 16:31:43 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,5 +132,9 @@ char	*mini_nextline(int fd);
 char	*update_stash(int fd, char *stash, char *buffer);
 char	*extract(char *str);
 char	*the_rest(char *stash);
+
+// Print Command and Nodes
+// void	print_cmd_list(t_cmd *cmd);
+// void	print_tokens(t_token *tokens);
 
 #endif

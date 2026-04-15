@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:45:59 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/14 17:28:37 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/15 17:49:03 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,8 @@ void	exec_fork(t_exec *storage, t_cmd *cmd_node)
 		return (freeing_ramp(storage), exit(0));
 	if (is_builtin(storage, cmd_node->cmd_flags[0]) == 0)
 	{
-		if (path_ramp(storage, cmd_node->cmd_flags) != 0)
-		{
-			write(2, " command not found\n", 18);
-			return (freeing_ramp(storage), exit(127));
-		}
+		if (path_ramp(storage, cmd_node->cmd_flags) > 0)
+			return (freeing_ramp(storage), exit(storage->exit_code));
 		execve(storage->command_path, cmd_node->cmd_flags, storage->execve_env);
 		return (perror("execve"), freeing_ramp(storage), exit(127));
 	}
