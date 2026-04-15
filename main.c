@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 19:24:33 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/15 12:03:49 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/15 15:28:39 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	main(int ac, char **av, char **envp)
 	{
 		tokens = NULL;
 		cmd = NULL;
-		// input = readline("#jeis$ ");
+		input = readline("#jeis$ ");
 		input = mini_nextline(0);
 		if (!input)
 		{
@@ -65,8 +65,8 @@ int	main(int ac, char **av, char **envp)
 			storage.exit_code = 0;
 			break ;
 		}
-		// if (*input)
-		// 	add_history(input);
+		if (*input)
+			add_history(input);
 		if (create_tokens(input, &tokens, 0, 0) != 0)
 		{
 			free(input);
