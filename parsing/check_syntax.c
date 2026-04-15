@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 17:31:17 by jille             #+#    #+#             */
-/*   Updated: 2026/04/14 14:07:26 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/15 15:34:07 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ int	check_redirection(t_type type)
 int	print_syntax_error(char *token)
 {
 	if (!token)
-		write(2, "jeis: syntax error unexpected token `newline'\n", 47);
+		write(2, "jeis: syntax error unexpected token `newline'\n", 46);
 	else
 	{
-		write(2, "jeis: syntax error unexpected token ", 37);
+		write(2, "jeis: syntax error unexpected token ", 36);
 		write(2, token, ft_strlen(token));
 		write(2, "\n", 2);
 	}
