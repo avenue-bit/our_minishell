@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/15 16:31:43 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/16 16:37:58 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ char	*extract(char *str);
 char	*the_rest(char *stash);
 
 // Print Command and Nodes
-// void	print_cmd_list(t_cmd *cmd);
-// void	print_tokens(t_token *tokens);
+void	print_cmd_list(t_cmd *cmd);
+void	print_tokens(t_token *tokens);
 
 #endif

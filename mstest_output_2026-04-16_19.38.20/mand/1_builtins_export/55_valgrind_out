@@ -1,0 +1,84 @@
+==1755190== Memcheck, a memory error detector
+==1755190== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==1755190== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==1755190== Command: /home/esezalor/Desktop/2_WIP/our_minishell/minishell
+==1755190== Parent PID: 1755189
+==1755190== 
+==1755192== 
+==1755192== FILE DESCRIPTORS: 1 open (0 std) at exit.
+==1755192== Open file descriptor 3: /tmp/tmp.yE2V3wEe8n/tmp_valgrind_out
+==1755192==    <inherited from parent>
+==1755192== 
+==1755192== 
+==1755192== HEAP SUMMARY:
+==1755192==     in use at exit: 4,136 bytes in 2 blocks
+==1755192==   total heap usage: 311 allocs, 309 frees, 17,323 bytes allocated
+==1755192== 
+==1755192== 120 bytes in 1 blocks are still reachable in loss record 1 of 2
+==1755192==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1755192==    by 0x494C122: getdelim (iogetdelim.c:62)
+==1755192==    by 0x485C410: readline (in /home/esezalor/42_minishell_tester/utils/libintercept/libintercept.so)
+==1755192==    by 0x4018C1: main (main.c:60)
+==1755192== 
+==1755192== LEAK SUMMARY:
+==1755192==    definitely lost: 0 bytes in 0 blocks
+==1755192==    indirectly lost: 0 bytes in 0 blocks
+==1755192==      possibly lost: 0 bytes in 0 blocks
+==1755192==    still reachable: 120 bytes in 1 blocks
+==1755192==         suppressed: 4,016 bytes in 1 blocks
+==1755192== 
+==1755192== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 1 from 1)
+--1755192-- 
+--1755192-- used_suppression:      1 libreadline /home/esezalor/42_minishell_tester/utils/minishell.supp:2 suppressed: 4,016 bytes in 1 blocks
+==1755192== 
+==1755192== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 1 from 1)
+==1755193== 
+==1755193== FILE DESCRIPTORS: 1 open (0 std) at exit.
+==1755193== Open file descriptor 3: /tmp/tmp.yE2V3wEe8n/tmp_valgrind_out
+==1755193==    <inherited from parent>
+==1755193== 
+==1755193== 
+==1755193== HEAP SUMMARY:
+==1755193==     in use at exit: 4,136 bytes in 2 blocks
+==1755193==   total heap usage: 255 allocs, 253 frees, 14,810 bytes allocated
+==1755193== 
+==1755193== 120 bytes in 1 blocks are still reachable in loss record 1 of 2
+==1755193==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1755193==    by 0x494C122: getdelim (iogetdelim.c:62)
+==1755193==    by 0x485C410: readline (in /home/esezalor/42_minishell_tester/utils/libintercept/libintercept.so)
+==1755193==    by 0x4018C1: main (main.c:60)
+==1755193== 
+==1755193== LEAK SUMMARY:
+==1755193==    definitely lost: 0 bytes in 0 blocks
+==1755193==    indirectly lost: 0 bytes in 0 blocks
+==1755193==      possibly lost: 0 bytes in 0 blocks
+==1755193==    still reachable: 120 bytes in 1 blocks
+==1755193==         suppressed: 4,016 bytes in 1 blocks
+==1755193== 
+==1755193== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 1 from 1)
+--1755193-- 
+--1755193-- used_suppression:      1 libreadline /home/esezalor/42_minishell_tester/utils/minishell.supp:2 suppressed: 4,016 bytes in 1 blocks
+==1755193== 
+==1755193== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 1 from 1)
+==1755190== 
+==1755190== FILE DESCRIPTORS: 1 open (0 std) at exit.
+==1755190== Open file descriptor 3: /tmp/tmp.yE2V3wEe8n/tmp_valgrind_out
+==1755190==    <inherited from parent>
+==1755190== 
+==1755190== 
+==1755190== HEAP SUMMARY:
+==1755190==     in use at exit: 4,016 bytes in 1 blocks
+==1755190==   total heap usage: 276 allocs, 275 frees, 15,311 bytes allocated
+==1755190== 
+==1755190== LEAK SUMMARY:
+==1755190==    definitely lost: 0 bytes in 0 blocks
+==1755190==    indirectly lost: 0 bytes in 0 blocks
+==1755190==      possibly lost: 0 bytes in 0 blocks
+==1755190==    still reachable: 0 bytes in 0 blocks
+==1755190==         suppressed: 4,016 bytes in 1 blocks
+==1755190== 
+==1755190== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 1 from 1)
+--1755190-- 
+--1755190-- used_suppression:      1 libreadline /home/esezalor/42_minishell_tester/utils/minishell.supp:2 suppressed: 4,016 bytes in 1 blocks
+==1755190== 
+==1755190== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 1 from 1)

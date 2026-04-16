@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 10:26:05 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/10 19:15:40 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/16 15:41:13 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,6 @@ int						delete_node(t_env *current, char *unset_var,
 // Built-In Utils
 int						newline_flag(char **command);
 int						isvalid_exitcode(char *str);
-void					ft_exit_message(char *exit_str);
+void					builtin_error_messages(char *cmd, char *builtin);
 
 #endif

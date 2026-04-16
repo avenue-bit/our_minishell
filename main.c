@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 19:24:33 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/15 16:32:01 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/16 19:07:53 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int	main(int ac, char **av, char **envp)
 			continue ;
 		}
 		create_cmd_list(&cmd, tokens, &storage);
+		// print_cmd_list(cmd);
 		storage.command_nodes = cmd;
 		storage.token_nodes = tokens;
 		if (g_signal == SIGINT)

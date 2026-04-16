@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:10:43 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/16 10:27:29 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/16 16:31:02 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,6 @@ void	failexec_close(t_exec *storage)
 		close(0);
 	if(fstat(1, &sb) == 0)
 		close(1);
+	if(fstat(2, &sb) == 0)
+		close(2);
 }

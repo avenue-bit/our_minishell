@@ -6,17 +6,17 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 11:38:21 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/10 19:14:36 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/16 18:57:31 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headerfiles/minishell.h"
 
-long	ft_atol(const char *nptr)
+long long	ft_atol(const char *nptr, int *overflow_flag)
 {
-	int		i;
-	int		sign;
-	long	new_nbr;
+	int			i;
+	int			sign;
+	long long	new_nbr;
 
 	i = 0;
 	sign = 1;
@@ -29,14 +29,33 @@ long	ft_atol(const char *nptr)
 			sign = -1;
 		i++;
 	}
+	while (nptr[i] == '0')
+        i++;
+	if (ft_atol_overflow(&nptr[i], sign) == 1)
+		return (*overflow_flag = 1,  2147483648);
 	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
 		new_nbr = (new_nbr * 10) + (nptr[i] - 48);
-		if (new_nbr > INT_MAX || new_nbr < INT_MIN)
-			return (2147483648);
 		i++;
 	}
 	return (new_nbr * sign);
+}
+
+int	ft_atol_overflow(const char *nptr, int sign)
+{
+	const char	*limit;
+	int			len;
+
+	if (sign == -1)
+		limit = "9223372036854775808";
+	else
+		limit = "9223372036854775807";
+	len = ft_strlen(nptr);
+	if (len > 19)
+		return (1);
+	if (len == 19 && ft_strncmp(nptr, limit, 19) > 0)
+		return (1);
+	return (0);
 }
 
 char	*ft_itoa(int n)
