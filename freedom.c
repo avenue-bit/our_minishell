@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:10:43 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/15 12:33:49 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/16 10:27:29 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ void	free_out_readline(t_exec *storage)
 
 void	failexec_close(t_exec *storage)
 {
+	struct stat sb;
+	
 	if (storage->pre_read_fd >= 0)
 		close(storage->pre_read_fd);
 	if (storage->pipe_fd[1] >= 0)
@@ -85,4 +87,8 @@ void	failexec_close(t_exec *storage)
 		close(storage->built_in);
 	if (storage->built_out >= 0)
 		close(storage->built_out);
+	if(fstat(0, &sb) == 0)
+		close(0);
+	if(fstat(1, &sb) == 0)
+		close(1);
 }
