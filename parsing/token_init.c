@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 17:31:17 by jille             #+#    #+#             */
-/*   Updated: 2026/04/15 12:41:33 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/17 20:02:25 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	add_token_node(t_token **tokens, char *content, t_type type)
 	return (ft_strlen(content));
 }
 
-int	handle_words(char *input, t_token **tokens)
+int	handle_words(char *inp, t_token **tokens)
 {
 	int		i;
 	char	quotingmark;
@@ -49,20 +49,20 @@ int	handle_words(char *input, t_token **tokens)
 
 	i = 0;
 	quotingmark = 0;
-	while (input[i])
+	while (inp[i])
 	{
-		if ((input[i] == '\'' || input[i] == '\"') && quotingmark == 0)
-			quotingmark = input[i];
-		else if (input[i] == quotingmark)
+		if ((inp[i] == '\'' || inp[i] == '\"') && quotingmark == 0)
+			quotingmark = inp[i];
+		else if (inp[i] == quotingmark)
 			quotingmark = 0;
-		if (quotingmark == 0 && (input[i] == ' ' || input[i] == '|'
-				|| input[i] == '<' || input[i] == '>'))
+		if (quotingmark == 0 && ((inp[i] >= 9 && inp[i] <= 13) || inp[i] == ' '
+				|| inp[i] == '|' || inp[i] == '<' || inp[i] == '>'))
 			break ;
 		i++;
 	}
 	if (quotingmark)
 		return (write(2, "Error: \" / \' missing\n", 22), -2);
-	word = ft_substr(input, 0, i);
+	word = ft_substr(inp, 0, i);
 	if (!word)
 		return (-1);
 	if (add_token_node(tokens, word, tk_WORD) == -1)
@@ -91,7 +91,7 @@ int	create_tokens(char *inp, t_token **tokens, int check, int i)
 		else
 			check = handle_words(&inp[i], tokens);
 		if (check == -1)
-			return (clear_tokens(tokens), perror("Error"), exit(errno), 1);
+			return (clear_tokens(tokens), errno);
 		if (check == -2)
 			return (clear_tokens(tokens), 2);
 		i += check;
