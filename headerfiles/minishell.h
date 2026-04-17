@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/16 21:10:54 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/17 11:43:40 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/ioctl.h>
-# include <sys/wait.h>
 # include <sys/stat.h>
+# include <sys/wait.h>
 # include <unistd.h>
 
 extern volatile __sig_atomic_t	g_signal;
@@ -90,9 +90,9 @@ typedef int						(*t_builtin_ptr)(t_exec *, t_cmd *);
 
 typedef struct s_exec
 {
-	struct s_token				*token_nodes; // Pointer = 8 Bytes
-	struct s_cmd				*command_nodes; // Pointer = 8 Bytes
-	struct s_env				*environment;	// Poninter 8 Bytes
+	struct s_token *token_nodes; // Pointer = 8 Bytes
+	struct s_cmd *command_nodes; // Pointer = 8 Bytes
+	struct s_env *environment;   // Poninter 8 Bytes
 	char						**execve_env;
 	char						**all_paths;
 	char						*command_path;
@@ -101,9 +101,9 @@ typedef struct s_exec
 	int							pre_read_fd;
 	int							pipe_fd[2];
 	int							infile_fd;
-	int							outfile_fd; // 24 Bytes
-	char						*builtins[8];  // 64
-	t_builtin_ptr				builtin_func[8]; // 64
+	int outfile_fd;                // 24 Bytes
+	char *builtins[8];             // 64
+	t_builtin_ptr builtin_func[8]; // 64
 	int							built_in;
 	int							built_out;
 	int							exit_code;
@@ -131,15 +131,18 @@ void							ft_arrayfree(char **str_array);
 int								ft_envsize(t_env *lst);
 size_t							n_commands(t_cmd *cmd);
 int								find_char(char *str, char c);
+void							error_message_helper(char *command,
+									char *suffix, int fd);
 
 // Get Next Line
-char	*mini_nextline(int fd);
-char	*update_stash(int fd, char *stash, char *buffer);
-char	*extract(char *str);
-char	*the_rest(char *stash);
+char							*mini_nextline(int fd);
+char							*update_stash(int fd, char *stash,
+									char *buffer);
+char							*extract(char *str);
+char							*the_rest(char *stash);
 
 // Print Command and Nodes
-void	print_cmd_list(t_cmd *cmd);
-void	print_tokens(t_token *tokens);
+void							print_cmd_list(t_cmd *cmd);
+void							print_tokens(t_token *tokens);
 
 #endif

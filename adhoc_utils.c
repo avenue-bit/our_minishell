@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 11:52:31 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/15 12:33:29 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/17 11:42:25 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,18 @@ int	find_char(char *str, char c)
 		i++;
 	}
 	return (0);
+}
+
+void	error_message_helper(char *command, char *suffix, int fd)
+{
+	char	*err_message;
+	int		len;
+
+	err_message = ft_strjoin(command, suffix);
+	if (!err_message)
+		return ;
+	len = ft_strlen(err_message);
+	write(fd, err_message, len);
+	free(err_message);
+	err_message = NULL;
 }

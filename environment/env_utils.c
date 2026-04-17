@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:10:11 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/15 21:16:15 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/17 11:44:19 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,26 +80,25 @@ int	env_error_paths(char *command, t_exec *storage, int error1)
 	if (error1 == 0 && storage->exit_code == 126)
 	{
 		write(2, "jeis: ", 6);
-		ft_putstr_fd(command, 2);
-		return (write(2, ": Is a directory\n", 17), 126);
+		error_message_helper(command, ": Is a directory\n", 2);
+		return (126);
 	}
 	else if (error1 == 1 && storage->exit_code == 126)
 	{
 		write(2, "jeis: ", 6);
-		ft_putstr_fd(command, 2);
-		return (write(2, ": Permission denied\n", 20), 126);
+		error_message_helper(command, ": Permission denied\n", 2);
+		return (126);
 	}
 	else if (error1 == 1 && storage->exit_code == 127)
 	{
-		ft_putstr_fd(command, 2);
-		write(2, ": command not found\n", 20);
+		error_message_helper(command, ": command not found\n", 2);
 		return (127);
 	}
 	else if (error1 == 0 && storage->exit_code == 127)
 	{
 		write(2, "jeis: ", 6);
-		ft_putstr_fd(command, 2);
-		return (write(2, ": No such file or directory\n", 28), 127);
+		error_message_helper(command, ": No such file or directory\n", 2);
+		return (127);
 	}
 	return (perror("Error"), 1);
 }

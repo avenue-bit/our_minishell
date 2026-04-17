@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 17:56:59 by jille             #+#    #+#             */
-/*   Updated: 2026/04/16 21:24:13 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/17 10:45:47 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,9 @@ int	heredoc_to_file(t_cmd **cmd)
 	static int	h_num;
 
 	if (h_num > 0)
-		if (access((*cmd)->infile, F_OK) != -1)
-			unlink((*cmd)->infile);
+		if((*cmd)->infile)
+			if (access((*cmd)->infile, F_OK) != -1)
+				unlink((*cmd)->infile);
 	if (!(*cmd)->heredoc_delim)
 		return (print_syntax_error(NULL));
 	filename = create_heredoc_file_name(h_num++);
