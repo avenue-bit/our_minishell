@@ -59,6 +59,4 @@ dkms.conf
 
 #Minishell program
 minishell
-
-#Minishell tester
-/minishell_tester
+/.vscode

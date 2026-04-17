@@ -35,7 +35,6 @@ SRCS = adhoc_utils.c \
 		parsing/expansion_init.c \
 		parsing/heredoc.c \
 		parsing/token_init.c \
-		mini_gnl.c \
 		print_cmd_tokens.c
 
 OBJS = $(SRCS:.c=.o)

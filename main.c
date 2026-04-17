@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 19:24:33 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/17 12:34:54 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/17 16:17:22 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,6 @@ void	sh_global(int signum)
 {
 	g_signal = signum;
 }
-
-// int	sh_readline_hook(void)
-// {
-// 	if(g_signal == SIGINT)
-// 	{
-// 		rl_replace_line("", 0);
-// 		rl_done = 1;
-// 	}
-// 	return (0);
-// }
 
 int	sh_readline_hook(void)
 {
@@ -58,7 +48,6 @@ int	main(int ac, char **av, char **envp)
 		tokens = NULL;
 		cmd = NULL;
 		input = readline("#jeis$ ");
-		// input = mini_nextline(0);
 		if (!input)
 		{
 			write(1, "exit\n", 5);
@@ -80,7 +69,7 @@ int	main(int ac, char **av, char **envp)
 			continue ;
 		}
 		create_cmd_list(&cmd, tokens, &storage);
-		// print_cmd_list(cmd);
+		print_cmd_list(cmd);
 		storage.command_nodes = cmd;
 		storage.token_nodes = tokens;
 		if (g_signal == SIGINT)
