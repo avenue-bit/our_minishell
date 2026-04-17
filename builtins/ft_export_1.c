@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/09 18:20:03 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/16 19:37:35 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	append_export_content(t_env *current, char *export_var)
 
 int	export_error(char *export_var)
 {
-	ft_putstr_fd("bash: export: \'", 2);
+	ft_putstr_fd("jeis: export: `", 2);
 	ft_putstr_fd(export_var, 2);
 	ft_putstr_fd("\': not a valid identifier\n", 2);
 	return (1);

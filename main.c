@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/10 19:24:33 by esezalor          #+#    #+#             */
+/*   Updated: 2026/04/17 16:59:59 by jille            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "headerfiles/minishell.h"
 
@@ -12,8 +23,10 @@ int	sh_readline_hook(void)
 {
 	if (g_signal == SIGINT)
 	{
+		if (ioctl(STDIN_FILENO, TIOCSTI, "\n") == -1)
+			perror("ioctl");
 		rl_replace_line("", 0);
-		rl_done = 1;
+		return (0);
 	}
 	return (0);
 }
@@ -29,16 +42,16 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	ft_bzero(&storage, sizeof(t_exec));
 	envnodes_execarray_init(&storage, envp);
-	rl_event_hook = sh_readline_hook;
 	config_interactive_sigs();
 	while (1)
 	{
 		tokens = NULL;
 		cmd = NULL;
 		input = readline("#jeis$ ");
+		//input = mini_nextline(0);
 		if (!input)
 		{
-			write(1, "exit\n", 6);
+			write(1, "exit\n", 5);
 			storage.exit_code = 0;
 			break ;
 		}
@@ -50,13 +63,14 @@ int	main(int ac, char **av, char **envp)
 			continue ;
 		}
 		expand_variables(&tokens, &storage);
-		if (check_syntax(tokens))
+		if (check_syntax(tokens, &storage))
 		{
 			clear_tokens(&tokens);
 			free(input);
 			continue ;
 		}
-		create_cmd_list(&cmd, tokens);
+		create_cmd_list(&cmd, tokens, &storage);
+		print_cmd_list(cmd);
 		storage.command_nodes = cmd;
 		storage.token_nodes = tokens;
 		if (g_signal == SIGINT)

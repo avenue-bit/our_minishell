@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmds_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
+/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 17:31:17 by jille             #+#    #+#             */
-/*   Updated: 2026/04/10 18:22:41 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/17 12:37:57 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	fill_cmd_data_redir(t_token **tokens, t_cmd *cmd)
 	close(fd);
 	errno = 0;
 	return (set_redir_path(cmd, tokens, type));
-	return (0);
 }
 
 int	fill_node_data(t_token **tokens, t_cmd *cmd, int *i)
@@ -92,11 +91,11 @@ t_cmd	*init_new_cmd(t_cmd **cmd_list, t_token *tokens)
 	current_cmd->cmd_flags = ft_calloc((count_tokens_words(tokens) + 1),
 			sizeof(char *));
 	if (!current_cmd->cmd_flags)
-		return (NULL);
+		return (remove_last_cmd_node(cmd_list, current_cmd), NULL);
 	return (current_cmd);
 }
 
-void	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
+void	create_cmd_list(t_cmd **cmd_list, t_token *tokens, t_exec *storage)
 {
 	t_token	*tmp;
 	int		reint;
@@ -109,11 +108,10 @@ void	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
 	{
 		current_cmd = init_new_cmd(cmd_list, tmp);
 		if (!current_cmd)
-			return (clear_tokens(&tokens), clear_cmds(cmd_list),
-				perror("Error"), exit(errno));
+			return (freeing_ramp(storage), perror("Error"), exit(errno));
 		reint = fill_cmd_data(&tmp, current_cmd);
 		if (reint == ENOMEM)
-			return (clear_tokens(&tokens), clear_cmds(cmd_list), exit(errno));
+			return (freeing_ramp(storage), perror("Error"), exit(errno));
 		if (reint == ENOENT)
 			remove_last_cmd_node(cmd_list, current_cmd);
 		if (reint == EINTR)

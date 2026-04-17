@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/09 11:22:33 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/16 15:56:42 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ int	ft_cd(t_exec *storage, t_cmd *cmd_node)
 	char	*old_pwd;
 
 	if (cmd_node->cmd_flags[1] && cmd_node->cmd_flags[2])
-		return (ft_printf("Too many arguments for cd\n"), 1);
-	// Error Handling Needed
+		return (ft_putstr_fd("jeis: cd: too many arguments\n", 2), 1);
 	pwd_path = cd_path(storage, "PWD", 4);
 	if (!pwd_path)
 		old_pwd = ft_strdup("");
@@ -30,11 +29,12 @@ int	ft_cd(t_exec *storage, t_cmd *cmd_node)
 		return (1);
 	target_path = get_target_path(storage, cmd_node->cmd_flags[1]);
 	if (!target_path)
-		return (free(old_pwd), ft_printf("home not set\n"), 1);
-	// Error Handling Needed
+		return (free(old_pwd), ft_putstr_fd("jeis: cd: HOME not set\n", 2), 1);
 	if (chdir(target_path) == -1)
-		return (free(old_pwd), ft_printf("could not change directory\n"), 1);
-	// Error Handling Needed
+	{
+		builtin_error_messages(cmd_node->cmd_flags[1], "cd");
+		return (free(old_pwd), 1);
+	}
 	if (replace_pwd(storage, old_pwd) == -1)
 		return (free(old_pwd), 1);
 	if (update_execve_env(storage))
@@ -76,9 +76,9 @@ int	replace_pwd(t_exec *storage, char *old_pwd)
 	{
 		buffer = ft_calloc(PATH_MAX, sizeof(char));
 		if (!buffer)
-			return (-1); // Error Handling Needed
+			return (-1);
 		if (!getcwd(buffer, PATH_MAX))
-			return (free(buffer), -1); // Error Handling Needed
+			return (free(buffer), -1);
 		free(pwd_node->content);
 		pwd_node->content = buffer;
 	}

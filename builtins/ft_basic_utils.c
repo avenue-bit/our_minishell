@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:48:53 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/09 11:22:29 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/17 11:43:18 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,17 @@ int	isvalid_exitcode(char *str)
 	return (0);
 }
 
-void	ft_exit_message(char *exit_str)
+void	builtin_error_messages(char *cmd, char *builtin)
 {
-	ft_putstr_fd("exit\n", 2);
-	ft_putstr_fd("bash: exit: ", 2);
-	ft_putstr_fd(exit_str, 2);
-	ft_putstr_fd(": numeric argument required\n", 2);
+	if(ft_strncmp(builtin, "cd", 5) == 0)
+	{
+		write(1, "jeis: cd: ", 10);
+		error_message_helper(cmd, ": No such file or directory\n", 1);
+	}
+	else if(ft_strncmp(builtin, "exit", 5) == 0)
+	{
+		ft_putstr_fd("exit\n", 1);
+		ft_putstr_fd("bash: exit: ", 2);
+		error_message_helper(cmd, ": numeric argument required\n", 2);
+	}
 }

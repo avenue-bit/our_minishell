@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/09 11:22:31 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/17 15:02:13 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,22 @@ int	ft_echo(t_exec *storage, t_cmd *cmd_node)
 
 	(void)storage;
 	if (!cmd_node->cmd_flags[1])
-		return (ft_printf("\n"), 0);
+		return (ft_putstr_fd("\n", 1), 0);
 	i = newline_flag(cmd_node->cmd_flags);
 	j = i;
 	if (cmd_node->cmd_flags[j])
 	{
-		ft_printf("%s", cmd_node->cmd_flags[j]);
+		ft_putstr_fd(cmd_node->cmd_flags[j], 1);
 		j++;
 	}
 	while (cmd_node->cmd_flags[j])
 	{
-		ft_printf(" %s", cmd_node->cmd_flags[j]);
+		write(1, " ", 1);
+		write(1, cmd_node->cmd_flags[j], ft_strlen(cmd_node->cmd_flags[j]));
 		j++;
 	}
 	if (i == 1)
-		ft_printf("\n");
+		ft_putstr_fd("\n", 1);
 	return (0);
 }
 
@@ -79,21 +80,28 @@ int	ft_env(t_exec *storage, t_cmd *cmd_node)
 
 int	ft_exit(t_exec *storage, t_cmd *cmd_node)
 {
-	long	exit_code;
+	long long	exit_code;
+	int			overflow_flag;
 
+	overflow_flag = 0;
 	if (!cmd_node->cmd_flags[1])
-		return (storage->exit_flag = 1, ft_printf("exit\n"),
+		return (storage->exit_flag = 1, ft_putstr_fd("exit\n", 1),
 			storage->exit_code);
 	if (isvalid_exitcode(cmd_node->cmd_flags[1]))
-		return (storage->exit_flag = 1, ft_exit_message(cmd_node->cmd_flags[1]),
-			2);
+	{
+		builtin_error_messages(cmd_node->cmd_flags[1], "exit");
+		return (storage->exit_flag = 1, 2);
+	}
 	if (cmd_node->cmd_flags[2])
-		return (ft_putstr_fd("exit\n", 2),
-			ft_putstr_fd("bash: exit: too many arguments\n", 2), 1);
-	exit_code = ft_atol(cmd_node->cmd_flags[1]);
-	if (exit_code > INT_MAX)
-		return (storage->exit_flag = 1, ft_exit_message(cmd_node->cmd_flags[1]),
-			2);
+		return (ft_putstr_fd("exit\n", 1),
+			ft_putstr_fd("jeis: exit: too many arguments\n", 1), 1);
+	exit_code = ft_atol(cmd_node->cmd_flags[1], &overflow_flag);
+	if (exit_code > INT_MAX && overflow_flag == 1)
+	{
+		builtin_error_messages(cmd_node->cmd_flags[1], "exit");
+		return (storage->exit_flag = 1, 2);
+	}
 	exit_code = (exit_code % 256 + 256) % 256;
-	return (storage->exit_flag = 1, ft_putstr_fd("exit\n", 2), exit_code);
+	ft_putstr_fd("exit\n", 1);
+	return (storage->exit_flag = 1, exit_code);
 }

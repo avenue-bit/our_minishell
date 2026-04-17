@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:15:54 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/09 11:25:10 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/14 16:53:13 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	open_infile(t_exec *storage, t_cmd *cmd_node)
 {
 	storage->infile_fd = open(cmd_node->infile, O_RDONLY);
 	if (storage->infile_fd == -1)
-		return (0); // Error handling needed
+		return (0);
 	if (dup2(storage->infile_fd, 0) == -1)
 		return (close(storage->infile_fd), 0);
 	close(storage->infile_fd);

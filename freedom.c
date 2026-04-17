@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:10:43 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/09 11:27:28 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/16 16:31:02 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,11 @@ void	free_in_readline(t_exec *storage)
 		clear_cmds(&storage->command_nodes);
 		storage->command_nodes = NULL;
 	}
-	free(storage->c_pids);
-	storage->c_pids = NULL;
+	if(storage->c_pids)
+	{
+		free(storage->c_pids);
+		storage->c_pids = NULL;
+	}
 	if (storage->command_path)
 	{
 		free(storage->command_path);
@@ -41,6 +44,7 @@ void	free_in_readline(t_exec *storage)
 	ft_arrayfree(storage->all_paths);
 	storage->all_paths = NULL;
 }
+
 void	unlink_files(t_cmd *cmds)
 {
 	t_cmd	*current;
@@ -59,13 +63,20 @@ void	unlink_files(t_cmd *cmds)
 
 void	free_out_readline(t_exec *storage)
 {
+	clear_history();
 	envclear_allnodes(&storage->environment);
-	ft_arrayfree(storage->execve_env);
+	if(storage->execve_env)
+	{
+		ft_arrayfree(storage->execve_env);
+		storage->execve_env = NULL;
+	}
 	failexec_close(storage);
 }
 
 void	failexec_close(t_exec *storage)
 {
+	struct stat sb;
+	
 	if (storage->pre_read_fd >= 0)
 		close(storage->pre_read_fd);
 	if (storage->pipe_fd[1] >= 0)
@@ -76,4 +87,10 @@ void	failexec_close(t_exec *storage)
 		close(storage->built_in);
 	if (storage->built_out >= 0)
 		close(storage->built_out);
+	if(fstat(0, &sb) == 0)
+		close(0);
+	if(fstat(1, &sb) == 0)
+		close(1);
+	if(fstat(2, &sb) == 0)
+		close(2);
 }
