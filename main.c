@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 19:24:33 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/17 16:17:22 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/17 16:59:59 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	main(int ac, char **av, char **envp)
 		tokens = NULL;
 		cmd = NULL;
 		input = readline("#jeis$ ");
+		//input = mini_nextline(0);
 		if (!input)
 		{
 			write(1, "exit\n", 5);
