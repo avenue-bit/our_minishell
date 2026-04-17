@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 18:51:10 by jille             #+#    #+#             */
-/*   Updated: 2026/04/15 11:50:33 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/17 18:55:30 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ int						fill_cmd_data_redir(t_token **tokens, t_cmd *cmd);
 int						fill_node_data(t_token **tokens, t_cmd *cmd, int *i);
 int						fill_cmd_data(t_token **tokens, t_cmd *cmd);
 t_cmd					*init_new_cmd(t_cmd **cmd_list, t_token *tokens);
-void					create_cmd_list(t_cmd **cmd_list, t_token *tokens,
-							t_exec *storage);
+int						create_cmd_list(t_cmd **cmd_list, t_token *tokens);
 
 t_cmd					*add_cmd_node(t_cmd **cmd_list);
 void					remove_last_cmd_node(t_cmd **cmd_list, t_cmd *node);
@@ -64,6 +63,6 @@ char					*process_expansion(char *input, t_exec *storage);
 
 char					*remove_quotes(t_token *tokens);
 
-void					expand_variables(t_token **tokens, t_exec *storage);
+int						expand_variables(t_token **tokens, t_exec *storage);
 
 #endif

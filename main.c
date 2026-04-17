@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 19:24:33 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/17 16:59:59 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/17 19:10:20 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	main(int ac, char **av, char **envp)
 	t_cmd	*cmd;
 	t_exec	storage;
 	char	*input;
+	int status;
 
 	(void)ac;
 	(void)av;
@@ -47,33 +48,56 @@ int	main(int ac, char **av, char **envp)
 	{
 		tokens = NULL;
 		cmd = NULL;
-		input = readline("#jeis$ ");
-		//input = mini_nextline(0);
+		//input = readline("#jeis$ ");
+		input = mini_nextline(0);
 		if (!input)
 		{
 			write(1, "exit\n", 5);
 			storage.exit_code = 0;
 			break ;
 		}
-		if (*input)
-			add_history(input);
-		if (create_tokens(input, &tokens, 0, 0) != 0)
+		// if (*input)
+		// 	add_history(input);
+		status = create_tokens(input, &tokens, 0, 0);
+		if (status == ENOMEM)
 		{
 			free(input);
-			continue ;
+			perror("Error");
+			storage.exit_code = ENOMEM;
+			break ;
 		}
-		expand_variables(&tokens, &storage);
+		if (status != 0)
+		{
+			free(input);
+			continue;
+		}
+		status = expand_variables(&tokens, &storage);
+		if (status != 0)
+		{
+			clear_tokens(&tokens);
+			free(input);
+			perror("Error");
+			storage.exit_code = 1;
+			break ;
+		}
 		if (check_syntax(tokens, &storage))
 		{
 			clear_tokens(&tokens);
 			free(input);
 			continue ;
 		}
-		create_cmd_list(&cmd, tokens, &storage);
-		print_cmd_list(cmd);
+		status = create_cmd_list(&cmd, tokens);
 		storage.command_nodes = cmd;
 		storage.token_nodes = tokens;
-		if (g_signal == SIGINT)
+		if (status == ENOMEM)
+		{
+			free (input);
+			perror("Error");
+			free_in_readline(&storage);
+			storage.exit_code = ENOMEM;
+			break ;
+		}
+		if (status == EINTR || g_signal == SIGINT)
 		{
 			storage.exit_code = 130;
 			g_signal = 0;
@@ -82,6 +106,8 @@ int	main(int ac, char **av, char **envp)
 				free(input);
 			continue ;
 		}
+		if (cmd)
+			print_cmd_list(cmd);
 		exec_main(&storage);
 		free_in_readline(&storage);
 		free(input);

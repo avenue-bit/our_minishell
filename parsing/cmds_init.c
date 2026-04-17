@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmds_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 17:31:17 by jille             #+#    #+#             */
-/*   Updated: 2026/04/17 12:37:57 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/17 19:12:16 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	fill_cmd_data(t_token **tokens, t_cmd *cmd)
 	{
 		reint = fill_node_data(tokens, cmd, &i);
 		if (reint == ENOMEM)
-			return (perror("Error"), ENOMEM);
+			return (ENOMEM);
 		if (reint == ENOENT)
 		{
 			while (*tokens && (*tokens)->type != tk_PIPE)
@@ -95,28 +95,29 @@ t_cmd	*init_new_cmd(t_cmd **cmd_list, t_token *tokens)
 	return (current_cmd);
 }
 
-void	create_cmd_list(t_cmd **cmd_list, t_token *tokens, t_exec *storage)
+int	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
 {
 	t_token	*tmp;
 	int		reint;
 	t_cmd	*current_cmd;
 
 	if (!tokens)
-		return ;
+		return (0);
 	tmp = tokens;
 	while (tmp)
 	{
 		current_cmd = init_new_cmd(cmd_list, tmp);
 		if (!current_cmd)
-			return (freeing_ramp(storage), perror("Error"), exit(errno));
+			return (errno);
 		reint = fill_cmd_data(&tmp, current_cmd);
 		if (reint == ENOMEM)
-			return (freeing_ramp(storage), perror("Error"), exit(errno));
+			return (remove_last_cmd_node(cmd_list, current_cmd), errno);
 		if (reint == ENOENT)
 			remove_last_cmd_node(cmd_list, current_cmd);
 		if (reint == EINTR)
-			return ;
+			return (remove_last_cmd_node(cmd_list, current_cmd), EINTR);
 		if (tmp && tmp->type == tk_PIPE)
 			tmp = tmp->next;
 	}
+	return (0);
 }
