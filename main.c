@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 19:24:33 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/17 19:10:20 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/17 20:27:53 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	main(int ac, char **av, char **envp)
 	{
 		tokens = NULL;
 		cmd = NULL;
-		//input = readline("#jeis$ ");
+		input = readline("#jeis$ ");
 		input = mini_nextline(0);
 		if (!input)
 		{
@@ -56,8 +56,8 @@ int	main(int ac, char **av, char **envp)
 			storage.exit_code = 0;
 			break ;
 		}
-		// if (*input)
-		// 	add_history(input);
+		if (*input)
+			add_history(input);
 		status = create_tokens(input, &tokens, 0, 0);
 		if (status == ENOMEM)
 		{
