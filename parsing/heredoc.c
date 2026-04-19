@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 17:56:59 by jille             #+#    #+#             */
-/*   Updated: 2026/04/19 18:15:37 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 19:41:35 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	process_heredoc(t_token *tokens, t_cmd *cmd, t_exec *storage)
 	cmd->heredoc_expand = !check_quotes(tokens->content);
 	cmd->heredoc_delim = strip_quotes_str(tokens->content);
 	if (!cmd->heredoc_delim)
-		return (errno);
+		return (ENOMEM);
 	return (heredoc_to_file(&cmd, storage));
 }
 

@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 17:31:17 by jille             #+#    #+#             */
-/*   Updated: 2026/04/19 12:18:07 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 19:55:44 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ int	check_redirection(t_type type)
 int	print_syntax_error(char *token)
 {
 	if (!token)
-		write(2, "jeis: syntax error unexpected token `newline'\n", 46);
+		ft_putstr_fd("jeis: syntax error unexpected token `newline'\n", 2);
 	else
 	{
-		write(2, "jeis: syntax error unexpected token ", 36);
-		write(2, token, ft_strlen(token));
-		write(2, "\n", 2);
+		ft_putstr_fd("jeis: syntax error unexpected token ", 2);
+		ft_putstr_fd(token, 2);
+		ft_putstr_fd("\n", 2);
 	}
 	return (1);
 }

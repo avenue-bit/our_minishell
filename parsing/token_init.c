@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 17:31:17 by jille             #+#    #+#             */
-/*   Updated: 2026/04/19 12:18:38 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 20:42:21 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	create_tokens(char *inp, t_token **tokens, int check, int i)
 		else
 			check = handle_words(&inp[i], tokens);
 		if (check == -1)
-			return (clear_tokens(tokens), errno);
+			return (clear_tokens(tokens), ENOMEM);
 		if (check == -2)
 			return (clear_tokens(tokens), 2);
 		i += check;

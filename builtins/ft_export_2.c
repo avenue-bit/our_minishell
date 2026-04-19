@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/19 12:16:49 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 19:51:59 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,29 @@ void	print_export(t_env **exp_array)
 	int	i;
 
 	i = 0;
-	if (!exp_array[i])
-		ft_printf("\n");
 	while (exp_array[i])
 	{
-		if (ft_strncmp(exp_array[i++]->key, "_", 2) == 0)
-			continue ;
-		else if (exp_array[i]->content == NULL)
-			ft_printf("declare -x %s\n", exp_array[i]->key);
-		else
-			ft_printf("declare -x %s=\"%s\"\n", exp_array[i]->key,
-				exp_array[i]->content);
+		if (ft_strncmp(exp_array[i]->key, "_", 2) != 0)
+		{
+			if (exp_array[i]->content == NULL)
+				ft_printf("declare -x %s\n", exp_array[i]->key);
+			else
+				ft_printf("declare -x %s=\"%s\"\n", exp_array[i]->key,
+					exp_array[i]->content);
+		}
 		i++;
 	}
+	// if (!exp_array[i])
+	// 	ft_printf("\n");
+	// while (exp_array[i])
+	// {
+	// 	if (ft_strncmp(exp_array[i++]->key, "_", 2) == 0)
+	// 		continue ;
+	// 	else if (exp_array[i]->content == NULL)
+	// 		ft_printf("declare -x %s\n", exp_array[i]->key);
+	// 	else
+	// 		ft_printf("declare -x %s=\"%s\"\n", exp_array[i]->key,
+	// 			exp_array[i]->content);
+	// 	i++;
+	// }
 }
