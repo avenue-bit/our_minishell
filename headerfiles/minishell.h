@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/17 20:17:48 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 15:05:37 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_cmd
 	char						*outfile;
 	char						*heredoc_delim;
 	BOOL						append;
+	BOOL						heredoc_expand;
 	struct s_cmd				*next;
 	struct s_cmd				*prev;
 

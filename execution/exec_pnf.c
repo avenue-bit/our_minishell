@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pnf.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:45:59 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/15 17:49:03 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/19 12:17:16 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headerfiles/minishell.h"
+#include "minishell.h"
 
 int	fork_ramp(t_exec *storage, t_cmd *cmd_node, int i)
 {

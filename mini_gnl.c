@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_gnl.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 14:32:04 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/14 18:52:19 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/19 12:18:53 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #define BUFFER_SIZE 42
 #endif
 
-#include "headerfiles/minishell.h"
+#include "minishell.h"
 
 char	*mini_nextline(int fd)
 {

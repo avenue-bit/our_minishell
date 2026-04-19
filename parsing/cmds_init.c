@@ -6,13 +6,13 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 17:31:17 by jille             #+#    #+#             */
-/*   Updated: 2026/04/19 12:18:17 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 13:07:21 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	fill_cmd_data_redir(t_token **tokens, t_cmd *cmd)
+int	fill_cmd_data_redir(t_token **tokens, t_cmd *cmd, t_exec *storage)
 {
 	t_type	type;
 	int		fd;
@@ -23,7 +23,7 @@ int	fill_cmd_data_redir(t_token **tokens, t_cmd *cmd)
 		return (ENOMEM);
 	errno = 0;
 	if (type == tk_HERE_DOC)
-		return (process_heredoc(*tokens, cmd));
+		return (process_heredoc(*tokens, cmd, storage));
 	if (type == tk_REDIR_IN)
 		fd = open((*tokens)->content, O_RDONLY);
 	else if (type == tk_APPEND)
@@ -37,7 +37,7 @@ int	fill_cmd_data_redir(t_token **tokens, t_cmd *cmd)
 	return (set_redir_path(cmd, tokens, type));
 }
 
-int	fill_node_data(t_token **tokens, t_cmd *cmd, int *i)
+int	fill_node_data(t_token **tokens, t_cmd *cmd, int *i, t_exec *storage)
 {
 	int	reint;
 
@@ -49,14 +49,14 @@ int	fill_node_data(t_token **tokens, t_cmd *cmd, int *i)
 	}
 	else if ((*tokens)->type >= tk_REDIR_IN && (*tokens)->type <= tk_APPEND)
 	{
-		reint = fill_cmd_data_redir(tokens, cmd);
+		reint = fill_cmd_data_redir(tokens, cmd, storage);
 		if (reint != 0)
 			return (reint);
 	}
 	return (0);
 }
 
-int	fill_cmd_data(t_token **tokens, t_cmd *cmd)
+int	fill_cmd_data(t_token **tokens, t_cmd *cmd, t_exec *storage)
 {
 	int	i;
 	int	reint;
@@ -64,7 +64,7 @@ int	fill_cmd_data(t_token **tokens, t_cmd *cmd)
 	i = 0;
 	while (*tokens && (*tokens)->type != tk_PIPE)
 	{
-		reint = fill_node_data(tokens, cmd, &i);
+		reint = fill_node_data(tokens, cmd, &i, storage);
 		if (reint == ENOMEM)
 			return (ENOMEM);
 		if (reint == ENOENT)
@@ -95,7 +95,7 @@ t_cmd	*init_new_cmd(t_cmd **cmd_list, t_token *tokens)
 	return (current_cmd);
 }
 
-int	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
+int	create_cmd_list(t_cmd **cmd_list, t_token *tokens, t_exec *storage)
 {
 	t_token	*tmp;
 	int		reint;
@@ -109,7 +109,7 @@ int	create_cmd_list(t_cmd **cmd_list, t_token *tokens)
 		current_cmd = init_new_cmd(cmd_list, tmp);
 		if (!current_cmd)
 			return (errno);
-		reint = fill_cmd_data(&tmp, current_cmd);
+		reint = fill_cmd_data(&tmp, current_cmd, storage);
 		if (reint == ENOMEM)
 			return (remove_last_cmd_node(cmd_list, current_cmd), errno);
 		if (reint == ENOENT)

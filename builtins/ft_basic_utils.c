@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_basic_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:48:53 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/17 11:43:18 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/19 12:16:33 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headerfiles/minishell.h"
+#include "minishell.h"
 
 int	newline_flag(char **command)
 {

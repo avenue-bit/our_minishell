@@ -6,11 +6,11 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 11:29:21 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/10 15:16:54 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 12:17:51 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headerfiles/minishell.h"
+#include "minishell.h"
 
 char	*ft_strchr(const char *s, int c)
 {

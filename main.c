@@ -6,11 +6,11 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 19:24:33 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/17 20:27:53 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 15:21:37 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headerfiles/minishell.h"
+#include "minishell.h"
 
 volatile __sig_atomic_t	g_signal = 0;
 
@@ -49,7 +49,7 @@ int	main(int ac, char **av, char **envp)
 		tokens = NULL;
 		cmd = NULL;
 		input = readline("#jeis$ ");
-		input = mini_nextline(0);
+		//input = mini_nextline(0);
 		if (!input)
 		{
 			write(1, "exit\n", 5);
@@ -57,7 +57,7 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		}
 		if (*input)
-			add_history(input);
+		  	add_history(input);
 		status = create_tokens(input, &tokens, 0, 0);
 		if (status == ENOMEM)
 		{
@@ -86,7 +86,7 @@ int	main(int ac, char **av, char **envp)
 			free(input);
 			continue ;
 		}
-		status = create_cmd_list(&cmd, tokens);
+		status = create_cmd_list(&cmd, tokens, &storage);
 		storage.command_nodes = cmd;
 		storage.token_nodes = tokens;
 		if (status == ENOMEM)

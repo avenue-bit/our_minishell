@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   3_libftutils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 11:38:21 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/10 19:14:56 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/19 12:17:56 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headerfiles/minishell.h"
+#include "minishell.h"
 
 void	ft_putstr_fd(char *s, int fd)
 {

@@ -34,21 +34,23 @@ SRCS = adhoc_utils.c \
 		parsing/expansion_helper.c \
 		parsing/expansion_init.c \
 		parsing/heredoc.c \
+		parsing/heredoc_helper.c \
 		parsing/token_init.c \
-		print_cmd_tokens.c# \
-#		mini_gnl.c
+		print_cmd_tokens.c \
+		mini_gnl.c
 
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 RLFLAG = -lreadline
+INC = headerfiles
 HEADERS = headerfiles/minishell.h headerfiles/builtins.h headerfiles/environment.h headerfiles/execution.h headerfiles/libft_utils.h headerfiles/parsing.h
 
 all: $(NAME)
 
 %.o: %.c $(HEADERS) 
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -I $(INC) -c $< -o $@
 
 $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) $(RLFLAG) -o $(NAME)

@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 18:01:06 by jille             #+#    #+#             */
-/*   Updated: 2026/04/19 12:20:23 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 13:36:20 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int	expand_variables(t_token **tokens, t_exec *storage)
 	{
 		if (cur->prev && cur->prev->type == tk_HERE_DOC)
 		{
-			if (!remove_quotes(cur))
-				return (-1);
+			cur = cur->next;//if (!remove_quotes(cur))
+			continue ; //return (-1);
 		}
 		else 
 		{

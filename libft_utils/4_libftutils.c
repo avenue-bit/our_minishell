@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   4_libftutils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 11:38:21 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/16 18:57:31 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/19 12:17:59 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headerfiles/minishell.h"
+#include "minishell.h"
 
 long long	ft_atol(const char *nptr, int *overflow_flag)
 {

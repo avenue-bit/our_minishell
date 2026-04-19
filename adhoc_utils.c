@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   adhoc_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 11:52:31 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/17 11:42:25 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/19 12:18:41 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headerfiles/minishell.h"
+#include "minishell.h"
 
 void	ft_arrayfree(char **str_array)
 {

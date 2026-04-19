@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 17:11:27 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/14 15:47:08 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/19 12:19:02 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headerfiles/minishell.h"
+#include "minishell.h"
 
 void	config_interactive_sigs(void)
 {
