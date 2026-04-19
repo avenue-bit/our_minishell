@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 18:51:10 by jille             #+#    #+#             */
-/*   Updated: 2026/04/19 13:30:30 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 18:15:35 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,15 @@ int						check_syntax(t_token *tokens, t_exec *storage);
 
 int						check_quotes(char *str);
 char					*strip_quotes_str(char *str);
-char					*expand_heredoc_line(char *input, t_exec *storage);
+int						expand_heredoc_line(char *input, t_exec *storage,
+							int h_fd);
+void					close_unlink(int fd, char *filename);
 
 int						process_heredoc(t_token *tokens, t_cmd *cmd,
 							t_exec *storage);
 char					*create_heredoc_file_name(int num);
-int						heredoc_loop(t_cmd **cmd, int h_fd, t_exec *storage);
+int						heredoc_warning(t_cmd *cmd);
+int						heredoc_loop(t_cmd *cmd, int h_fd, t_exec *storage);
 int						heredoc_to_file(t_cmd **cmd, t_exec *storage);
 
 char					*append_str(char *dst, const char *src);
@@ -69,8 +72,6 @@ char					*handle_dollar_case(char *str, char *input,
 char					*handle_quote_case(char *str, char *input, int *i,
 							char *quote);
 char					*process_expansion(char *input, t_exec *storage);
-
-char					*remove_quotes(t_token *tokens);
 
 int						expand_variables(t_token **tokens, t_exec *storage);
 
