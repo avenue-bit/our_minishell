@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 17:31:17 by jille             #+#    #+#             */
-/*   Updated: 2026/04/19 13:07:21 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 16:40:42 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,12 +108,12 @@ int	create_cmd_list(t_cmd **cmd_list, t_token *tokens, t_exec *storage)
 	{
 		current_cmd = init_new_cmd(cmd_list, tmp);
 		if (!current_cmd)
-			return (errno);
+			return (ENOMEM);
 		reint = fill_cmd_data(&tmp, current_cmd, storage);
 		if (reint == ENOMEM)
-			return (remove_last_cmd_node(cmd_list, current_cmd), errno);
+			return (remove_last_cmd_node(cmd_list, current_cmd), ENOMEM);
 		if (reint == ENOENT)
-			remove_last_cmd_node(cmd_list, current_cmd);
+			return (remove_last_cmd_node(cmd_list, current_cmd), ENOENT);
 		if (reint == EINTR)
 			return (remove_last_cmd_node(cmd_list, current_cmd), EINTR);
 		if (tmp && tmp->type == tk_PIPE)
