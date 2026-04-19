@@ -6,11 +6,11 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 17:31:17 by jille             #+#    #+#             */
-/*   Updated: 2026/04/10 18:21:58 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 12:18:11 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headerfiles/minishell.h"
+#include "minishell.h"
 
 void	clear_tokens(t_token **tokens)
 {

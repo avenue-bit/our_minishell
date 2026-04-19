@@ -6,11 +6,11 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 18:01:06 by jille             #+#    #+#             */
-/*   Updated: 2026/04/17 20:18:27 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 12:20:23 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headerfiles/minishell.h"
+#include "minishell.h"
 
 int expand_word_token(t_token *cur, t_exec *storage)
 {

@@ -6,11 +6,11 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 17:31:17 by jille             #+#    #+#             */
-/*   Updated: 2026/04/17 19:12:16 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 12:18:17 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headerfiles/minishell.h"
+#include "minishell.h"
 
 int	fill_cmd_data_redir(t_token **tokens, t_cmd *cmd)
 {

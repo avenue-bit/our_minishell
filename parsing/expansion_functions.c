@@ -6,11 +6,11 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 18:06:40 by jille             #+#    #+#             */
-/*   Updated: 2026/04/10 18:49:33 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 12:18:20 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headerfiles/minishell.h"
+#include "minishell.h"
 
 char	*append_and_advance(char *str, char c, int *i)
 {

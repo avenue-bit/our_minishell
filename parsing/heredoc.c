@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 17:56:59 by jille             #+#    #+#             */
-/*   Updated: 2026/04/17 10:45:47 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/19 12:18:35 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headerfiles/minishell.h"
+#include "minishell.h"
 
 int	process_heredoc(t_token *tokens, t_cmd *cmd)
 {

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 17:31:17 by jille             #+#    #+#             */
-/*   Updated: 2026/04/15 15:34:07 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/19 12:18:07 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headerfiles/minishell.h"
+#include "minishell.h"
 
 int	check_redirection(t_type type)
 {
