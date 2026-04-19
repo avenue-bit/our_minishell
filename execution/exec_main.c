@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/19 19:14:56 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 20:22:22 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	exec_main(t_exec *storage)
 		return (freeing_ramp(storage), perror("minishell: Error"),
 			storage->exit_code = 1, 0);
 	if (!cmd_list)
-		return (storage->exit_code = 1, 0);
+		return (0);
 	while (cmd_list)
 	{
 		if (!cmd_list->next && !cmd_list->prev && is_builtin(storage,
