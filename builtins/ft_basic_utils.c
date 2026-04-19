@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:48:53 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/19 19:08:54 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 19:44:59 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	builtin_error_messages(char *cmd, char *builtin)
 	if (ft_strncmp(builtin, "cd", 5) == 0)
 	{
 		write(1, "jeis: cd: ", 10);
-		error_message_helper(cmd, ": No such file or directory\n", 1);
+		error_message_helper(cmd, ": No such file or directory\n", 2);
 	}
 	else if (ft_strncmp(builtin, "exit", 5) == 0)
 	{

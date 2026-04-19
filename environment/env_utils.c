@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:10:11 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/19 12:17:04 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 19:54:16 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int	env_error_paths(char *command, t_exec *storage, int error1)
 	}
 	else if (error1 == 1 && storage->exit_code == 127)
 	{
+		write(2, "jeis: ", 6);
 		error_message_helper(command, ": command not found\n", 2);
 		return (127);
 	}

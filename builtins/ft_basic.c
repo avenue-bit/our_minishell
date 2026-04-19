@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/19 12:16:36 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 19:45:32 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	ft_exit(t_exec *storage, t_cmd *cmd_node)
 	}
 	if (cmd_node->cmd_flags[2])
 		return (ft_putstr_fd("exit\n", 1),
-			ft_putstr_fd("jeis: exit: too many arguments\n", 1), 1);
+			ft_putstr_fd("jeis: exit: too many arguments\n", 1), 2);
 	exit_code = ft_atol(cmd_node->cmd_flags[1], &overflow_flag);
 	if (exit_code > INT_MAX && overflow_flag == 1)
 	{

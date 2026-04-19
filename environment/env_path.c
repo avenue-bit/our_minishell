@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 17:48:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/19 12:17:02 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 19:53:25 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ char	*pathfinder(t_exec *storage, char *command, int *path_error_flag)
 				return (is_valid);
 			else
 				return (free(is_valid), *path_error_flag = 1,
-					storage->exit_code = 127, NULL);
+					storage->exit_code = 126, NULL);
 		}
 		free(is_valid);
 		is_valid = NULL;
