@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   2_libftutils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 11:38:21 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/09 11:25:37 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/19 12:17:54 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headerfiles/minishell.h"
+#include "minishell.h"
 
 void	ft_bzero(void *s, size_t n)
 {

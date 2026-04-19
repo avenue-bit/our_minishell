@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 17:48:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/15 21:24:54 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/19 12:17:02 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headerfiles/minishell.h"
+#include "minishell.h"
 
 int	path_ramp(t_exec *storage, char **command)
 {

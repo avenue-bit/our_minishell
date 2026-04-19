@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:15:54 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/14 16:53:13 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/19 12:17:20 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headerfiles/minishell.h"
+#include "minishell.h"
 
 int	infile_outfile_check(t_exec *storage, t_cmd *cmd_node)
 {

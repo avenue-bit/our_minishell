@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_wait.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 17:37:44 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/09 11:25:15 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/19 12:17:22 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headerfiles/minishell.h"
+#include "minishell.h"
 
 int	wait_for_child(t_exec *storage)
 {

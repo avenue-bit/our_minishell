@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_0.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/16 19:58:46 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/19 12:16:44 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headerfiles/minishell.h"
+#include "minishell.h"
 
 // Return Values:
 // 0: found/updated

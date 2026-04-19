@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 18:51:10 by jille             #+#    #+#             */
-/*   Updated: 2026/04/17 18:55:30 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 18:15:35 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,15 @@ int						create_tokens(char *inp, t_token **tokens, int check,
 							int i);
 int						count_tokens_words(t_token *tokens);
 
-int						fill_cmd_data_redir(t_token **tokens, t_cmd *cmd);
-int						fill_node_data(t_token **tokens, t_cmd *cmd, int *i);
-int						fill_cmd_data(t_token **tokens, t_cmd *cmd);
+int						fill_cmd_data_redir(t_token **tokens, t_cmd *cmd,
+							t_exec *storage);
+int						fill_node_data(t_token **tokens, t_cmd *cmd, int *i,
+							t_exec *storage);
+int						fill_cmd_data(t_token **tokens, t_cmd *cmd,
+							t_exec *storage);
 t_cmd					*init_new_cmd(t_cmd **cmd_list, t_token *tokens);
-int						create_cmd_list(t_cmd **cmd_list, t_token *tokens);
+int						create_cmd_list(t_cmd **cmd_list, t_token *tokens,
+							t_exec *storage);
 
 t_cmd					*add_cmd_node(t_cmd **cmd_list);
 void					remove_last_cmd_node(t_cmd **cmd_list, t_cmd *node);
@@ -42,10 +46,18 @@ int						check_redirection(t_type type);
 int						print_syntax_error(char *token);
 int						check_syntax(t_token *tokens, t_exec *storage);
 
-int						process_heredoc(t_token *tokens, t_cmd *cmd);
+int						check_quotes(char *str);
+char					*strip_quotes_str(char *str);
+int						expand_heredoc_line(char *input, t_exec *storage,
+							int h_fd);
+void					close_unlink(int fd, char *filename);
+
+int						process_heredoc(t_token *tokens, t_cmd *cmd,
+							t_exec *storage);
 char					*create_heredoc_file_name(int num);
-void					heredoc_loop(t_cmd **cmd, int h_fd);
-int						heredoc_to_file(t_cmd **cmd);
+int						heredoc_warning(t_cmd *cmd);
+int						heredoc_loop(t_cmd *cmd, int h_fd, t_exec *storage);
+int						heredoc_to_file(t_cmd **cmd, t_exec *storage);
 
 char					*append_str(char *dst, const char *src);
 char					*append_char(char *dst, char c);
@@ -60,8 +72,6 @@ char					*handle_dollar_case(char *str, char *input,
 char					*handle_quote_case(char *str, char *input, int *i,
 							char *quote);
 char					*process_expansion(char *input, t_exec *storage);
-
-char					*remove_quotes(t_token *tokens);
 
 int						expand_variables(t_token **tokens, t_exec *storage);
 

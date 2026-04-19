@@ -6,11 +6,11 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 17:31:17 by jille             #+#    #+#             */
-/*   Updated: 2026/04/17 20:02:25 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 12:18:38 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headerfiles/minishell.h"
+#include "minishell.h"
 
 int	add_token_node(t_token **tokens, char *content, t_type type)
 {

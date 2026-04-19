@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   freedom.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:10:43 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/16 16:31:02 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/19 19:05:29 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headerfiles/minishell.h"
+#include "minishell.h"
 
 void	freeing_ramp(t_exec *storage)
 {
@@ -31,7 +31,7 @@ void	free_in_readline(t_exec *storage)
 		clear_cmds(&storage->command_nodes);
 		storage->command_nodes = NULL;
 	}
-	if(storage->c_pids)
+	if (storage->c_pids)
 	{
 		free(storage->c_pids);
 		storage->c_pids = NULL;
@@ -65,7 +65,7 @@ void	free_out_readline(t_exec *storage)
 {
 	clear_history();
 	envclear_allnodes(&storage->environment);
-	if(storage->execve_env)
+	if (storage->execve_env)
 	{
 		ft_arrayfree(storage->execve_env);
 		storage->execve_env = NULL;
@@ -75,8 +75,8 @@ void	free_out_readline(t_exec *storage)
 
 void	failexec_close(t_exec *storage)
 {
-	struct stat sb;
-	
+	struct stat	sb;
+
 	if (storage->pre_read_fd >= 0)
 		close(storage->pre_read_fd);
 	if (storage->pipe_fd[1] >= 0)
@@ -87,10 +87,10 @@ void	failexec_close(t_exec *storage)
 		close(storage->built_in);
 	if (storage->built_out >= 0)
 		close(storage->built_out);
-	if(fstat(0, &sb) == 0)
+	if (fstat(0, &sb) == 0)
 		close(0);
-	if(fstat(1, &sb) == 0)
+	if (fstat(1, &sb) == 0)
 		close(1);
-	if(fstat(2, &sb) == 0)
+	if (fstat(2, &sb) == 0)
 		close(2);
 }
