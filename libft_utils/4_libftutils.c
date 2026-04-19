@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 11:38:21 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/19 12:17:59 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 19:06:41 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ long long	ft_atol(const char *nptr, int *overflow_flag)
 		i++;
 	}
 	while (nptr[i] == '0')
-        i++;
+		i++;
 	if (ft_atol_overflow(&nptr[i], sign) == 1)
-		return (*overflow_flag = 1,  2147483648);
+		return (*overflow_flag = 1, 2147483648);
 	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
 		new_nbr = (new_nbr * 10) + (nptr[i] - 48);

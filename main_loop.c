@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 18:56:09 by jille             #+#    #+#             */
-/*   Updated: 2026/04/19 18:56:33 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 19:14:29 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	get_input(char **input, t_exec *storage)
 {
 	*input = readline("#jeis$ ");
+    //*input = mini_nextline(0);
 	if (!*input)
 	{
 		write(1, "exit\n", 5);
@@ -22,7 +23,7 @@ int	get_input(char **input, t_exec *storage)
 		return (-1);
 	}
 	if (**input)
-		add_history(*input);
+	 	add_history(*input);
 	return (1);
 }
 

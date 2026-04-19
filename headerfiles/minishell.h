@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/19 15:05:37 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 19:04:38 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,14 @@ typedef struct s_exec
 	int							exit_code;
 	int							exit_flag;
 }								t_exec;
+
+// main_loop
+int								get_input(char **input, t_exec *storage);
+int								parse_input(char *input, t_token **tokens,
+									t_exec *storage);
+int								build_commands(char *input, t_token **tokens,
+									t_cmd **cmd, t_exec *storage);
+int								run_prompt(t_exec *storage);
 
 // Free and Close Functions
 void							freeing_ramp(t_exec *storage);
