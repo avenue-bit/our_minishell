@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 17:56:59 by jille             #+#    #+#             */
-/*   Updated: 2026/04/19 15:19:14 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 18:15:37 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,41 +48,39 @@ char	*create_heredoc_file_name(int num)
 	return (name);
 }
 
-int	heredoc_loop(t_cmd **cmd, int h_fd, t_exec *storage)
+int	heredoc_warning(t_cmd *cmd)
+{
+	write(2, "jeis: warning: h-doc delimited by end-of-file (wanted `", 56);
+	write(2, (cmd)->heredoc_delim, strlen((cmd)->heredoc_delim));
+	write(2, "')\n", 3);
+	return (0);
+}
+
+int	heredoc_loop(t_cmd *cmd, int h_fd, t_exec *storage)
 {
 	char	*line;
-	char	*expanded;
+	int		status;
 
 	while (1)
 	{
 		line = readline("> ");
 		if (!line)
-		{
-			write(2, "jeis: warning: h-doc delimited by end-of-file (wanted `",
-				56);
-			write(2, (*cmd)->heredoc_delim, strlen((*cmd)->heredoc_delim));
-			write(2, "')\n", 3);
-			return (0);
-		}
+			return (heredoc_warning(cmd));
 		if (g_signal == SIGINT)
 			return (free(line), EINTR);
-		if (ft_strncmp(line, (*cmd)->heredoc_delim,
-				(ft_strlen((*cmd)->heredoc_delim) + 1)) == 0)
+		if (ft_strncmp(line, (cmd)->heredoc_delim,
+				(ft_strlen((cmd)->heredoc_delim) + 1)) == 0)
 			return (free(line), 0);
-		if ((*cmd)->heredoc_expand)
-		{
-			expanded = expand_heredoc_line(line, storage);
-			free(line);
-			if (!expanded)
-				return (errno);
-			write(h_fd, expanded, ft_strlen(expanded));
-			free(expanded);
-		}
+		if ((cmd)->heredoc_expand)
+			status = expand_heredoc_line(line, storage, h_fd);
 		else
 		{
 			write(h_fd, line, ft_strlen(line));
 			free(line);
+			status = 0;
 		}
+		if (status != 0)
+			return (status);
 		write(h_fd, "\n", 1);
 	}
 }
@@ -104,21 +102,9 @@ int	heredoc_to_file(t_cmd **cmd, t_exec *storage)
 	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 		return (perror("heredoc hiddenfile open"), ENOENT);
-	status = heredoc_loop(cmd, fd, storage);
-
+	status = heredoc_loop(*cmd, fd, storage);
 	if (status != 0)
-	{
-		close(fd);
-		if (access(filename, F_OK) != -1)
-			unlink(filename);
-		return (status);
-	}
-	// if (g_signal == SIGINT)
-	// {
-	// 	if (access(filename, F_OK) != -1)
-	// 		unlink(filename);
-	// 	return (close(fd), EINTR);
-	// }
+		return (close_unlink(fd, filename), status);
 	free((*cmd)->infile);
 	(*cmd)->infile = ft_strdup(filename);
 	if ((*cmd)->infile == NULL)

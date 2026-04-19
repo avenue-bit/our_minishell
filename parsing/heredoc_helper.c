@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 12:24:20 by jille             #+#    #+#             */
-/*   Updated: 2026/04/19 14:57:54 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 18:22:38 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,25 +54,33 @@ char	*strip_quotes_str(char *str)
 	return (dst[j] = '\0', str = dst);
 }
 
-char *expand_heredoc_line(char *input, t_exec *storage)
+int	expand_heredoc_line(char *input, t_exec *storage, int h_fd)
 {
-    char *new_str;
-    int i;
+	char	*new_str;
+	int		i;
 
-    new_str = ft_strdup("");
-    if (!new_str)
-        return (NULL);
-    i = 0;
-    while (input[i])
-    {
-        if (input[i] == '$')
-            new_str = handle_dollar_case(new_str, input, storage, &i);
-        else 
-            new_str = append_and_advance(new_str, input[i], &i);
-        if (!new_str)
-            return (NULL);
-    }
-    return (new_str);
+	new_str = ft_strdup("");
+	if (!new_str)
+		return (free(input), ENOMEM);
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] == '$')
+			new_str = handle_dollar_case(new_str, input, storage, &i);
+		else
+			new_str = append_and_advance(new_str, input[i], &i);
+		if (!new_str)
+			return (free(input), ENOMEM);
+	}
+	free(input);
+	write(h_fd, new_str, ft_strlen(new_str));
+	free(new_str);
+	return (0);
 }
 
-
+void	close_unlink(int fd, char *filename)
+{
+	close(fd);
+	if (access(filename, F_OK) != -1)
+		unlink(filename);
+}

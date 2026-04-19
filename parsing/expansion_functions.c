@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 18:06:40 by jille             #+#    #+#             */
-/*   Updated: 2026/04/19 16:36:02 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 18:17:54 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,33 +67,4 @@ char	*process_expansion(char *input, t_exec *storage)
 			return (NULL);
 	}
 	return (new_str);
-}
-
-char	*remove_quotes(t_token *tokens)
-{
-	char	*dst;
-	int		i;
-	int		j;
-	char	quote;
-
-	dst = malloc(ft_strlen(tokens->content) + 1);
-	if (!dst)
-		return (NULL);
-	i = 0;
-	j = 0;
-	quote = 0;
-	while (tokens->content[i])
-	{
-		if ((tokens->content[i] == '\'' || tokens->content[i] == '\"')
-			&& quote == 0)
-			quote = tokens->content[i++];
-		else if (tokens->content[i] == quote)
-		{
-			quote = 0;
-			i++;
-		}
-		else
-			dst[j++] = tokens->content[i++];
-	}
-	return (free(tokens->content), dst[j] = '\0', tokens->content = dst, "");
 }

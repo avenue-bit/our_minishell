@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 18:01:06 by jille             #+#    #+#             */
-/*   Updated: 2026/04/19 12:18:26 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/19 18:22:04 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,19 +70,18 @@ char	*handle_exit_code(char *result, int last_exit, int *i)
 	return (result);
 }
 
-char	*handle_variable(char *result, char *input, t_env *env, int *i)
+char	*handle_variable(char *result, char *in, t_env *env, int *i)
 {
-	int		start;
+	int		beg;
 	int		len;
 	char	*name;
 	char	*value;
 
-	start = *i + 1;
+	beg = *i + 1;
 	len = 0;
-	while (input[start + len] && (ft_isalnum(input[start + len]) || input[start
-				+ len] == '_'))
+	while (in[beg + len] && (ft_isalnum(in[beg + len]) || in[beg + len] == '_'))
 		len++;
-	name = ft_substr(input, start, len);
+	name = ft_substr(in, beg, len);
 	if (!name)
 		return (free(result), NULL);
 	value = get_env_value(env, name);
@@ -90,6 +89,6 @@ char	*handle_variable(char *result, char *input, t_env *env, int *i)
 	free(name);
 	if (!result)
 		return (NULL);
-	*i = start + len;
+	*i = beg + len;
 	return (result);
 }
