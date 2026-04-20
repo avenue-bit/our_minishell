@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freedom.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
+/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:10:43 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/19 19:05:29 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/20 15:45:10 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	unlink_files(t_cmd *cmds)
 
 void	free_out_readline(t_exec *storage)
 {
-	clear_history();
+	//clear_history();
 	envclear_allnodes(&storage->environment);
 	if (storage->execve_env)
 	{

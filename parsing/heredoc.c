@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
+/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 17:56:59 by jille             #+#    #+#             */
-/*   Updated: 2026/04/19 19:41:35 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/20 14:35:41 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*create_heredoc_file_name(int num)
 
 int	heredoc_warning(t_cmd *cmd)
 {
-	write(2, "jeis: warning: h-doc delimited by end-of-file (wanted `", 56);
+	write(2, "jeis: warning: h-doc delimited by end-of-file (wanted `", 55);
 	write(2, (cmd)->heredoc_delim, strlen((cmd)->heredoc_delim));
 	write(2, "')\n", 3);
 	return (0);
