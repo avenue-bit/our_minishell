@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 17:56:59 by jille             #+#    #+#             */
-/*   Updated: 2026/04/20 14:35:41 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/20 17:48:55 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	heredoc_loop(t_cmd *cmd, int h_fd, t_exec *storage)
 	while (1)
 	{
 		line = readline("> ");
+		//line = mini_nextline(0);
 		if (!line)
 			return (heredoc_warning(cmd));
 		if (g_signal == SIGINT)
@@ -108,6 +109,6 @@ int	heredoc_to_file(t_cmd **cmd, t_exec *storage)
 	free((*cmd)->infile);
 	(*cmd)->infile = ft_strdup(filename);
 	if ((*cmd)->infile == NULL)
-		return (close(fd), perror("Error"), ENOMEM);
+		return (close_unlink(fd, filename), perror("Error"), ENOMEM);
 	return (close(fd), 0);
 }
