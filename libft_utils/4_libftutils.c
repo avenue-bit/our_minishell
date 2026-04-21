@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 11:38:21 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/19 19:06:41 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/21 18:05:45 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,17 @@ int	ft_atol_overflow(const char *nptr, int sign)
 		limit = "9223372036854775808";
 	else
 		limit = "9223372036854775807";
-	len = ft_strlen(nptr);
+	len = 0;
+	while (nptr[len] >= '0' && nptr[len] <= '9')
+		len++;
 	if (len > 19)
 		return (1);
 	if (len == 19 && ft_strncmp(nptr, limit, 19) > 0)
 		return (1);
+	while (nptr[len] == ' ' || (nptr[len] >= 9 && nptr[len] <= 13))
+		len++;
+	if (nptr[len] != '\0')
+		return (0);
 	return (0);
 }
 

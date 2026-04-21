@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 19:24:33 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/20 17:52:51 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/21 16:12:55 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	main(int ac, char **av, char **envp)
 		if (status == -1)
 			break ;
 	}
-	mini_nextline(-1);
+	//mini_nextline(-1);
 	free_out_readline(&storage);
 	return (storage.exit_code);
 }

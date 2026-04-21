@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_basic_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:48:53 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/20 14:19:14 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/21 18:05:39 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,18 @@ int	isvalid_exitcode(char *str)
 	i = 0;
 	if (!str[i])
 		return (1);
+	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+		i++;
 	if (str[i] == '+' || str[i] == '-')
 		i++;
-	if (!str[i])
+	if (!ft_isdigit(str[i]))
 		return (1);
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-			return (1);
+	while (ft_isdigit(str[i]))
 		i++;
-	}
+	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] != '\0')
+		return (1);
 	return (0);
 }
 
@@ -67,7 +69,7 @@ void	builtin_error_messages(char *cmd, char *builtin)
 	else if (ft_strncmp(builtin, "exit", 5) == 0)
 	{
 		ft_putstr_fd("exit\n", 1);
-		ft_putstr_fd("bash: exit: ", 2);
+		ft_putstr_fd("jeis: exit: ", 2);
 		error_message_helper(cmd, ": numeric argument required\n", 2);
 	}
 }
