@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 17:56:59 by jille             #+#    #+#             */
-/*   Updated: 2026/04/19 19:41:35 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/20 17:53:14 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*create_heredoc_file_name(int num)
 
 int	heredoc_warning(t_cmd *cmd)
 {
-	write(2, "jeis: warning: h-doc delimited by end-of-file (wanted `", 56);
+	write(2, "jeis: warning: h-doc delimited by end-of-file (wanted `", 55);
 	write(2, (cmd)->heredoc_delim, strlen((cmd)->heredoc_delim));
 	write(2, "')\n", 3);
 	return (0);
@@ -63,7 +63,8 @@ int	heredoc_loop(t_cmd *cmd, int h_fd, t_exec *storage)
 
 	while (1)
 	{
-		line = readline("> ");
+		//line = readline("> ");
+		line = mini_nextline(0);
 		if (!line)
 			return (heredoc_warning(cmd));
 		if (g_signal == SIGINT)
@@ -108,6 +109,6 @@ int	heredoc_to_file(t_cmd **cmd, t_exec *storage)
 	free((*cmd)->infile);
 	(*cmd)->infile = ft_strdup(filename);
 	if ((*cmd)->infile == NULL)
-		return (close(fd), perror("Error"), ENOMEM);
+		return (close_unlink(fd, filename), perror("Error"), ENOMEM);
 	return (close(fd), 0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
+/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:10:11 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/19 19:54:16 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/20 14:26:52 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,29 +77,22 @@ void	pathfinder_join(char *path, char *is_valid, char *command)
 
 int	env_error_paths(char *command, t_exec *storage, int error1)
 {
+	char	*msg;
+
+	msg = NULL;
 	if (error1 == 0 && storage->exit_code == 126)
-	{
-		write(2, "jeis: ", 6);
-		error_message_helper(command, ": Is a directory\n", 2);
-		return (126);
-	}
+		msg = ": Is a directory\n";
 	else if (error1 == 1 && storage->exit_code == 126)
-	{
-		write(2, "jeis: ", 6);
-		error_message_helper(command, ": Permission denied\n", 2);
-		return (126);
-	}
+		msg = ": Permission denied\n";
 	else if (error1 == 1 && storage->exit_code == 127)
-	{
-		write(2, "jeis: ", 6);
-		error_message_helper(command, ": command not found\n", 2);
-		return (127);
-	}
+		msg = ": command not found\n";
 	else if (error1 == 0 && storage->exit_code == 127)
+		msg = ": No such file or directory\n";
+	if (msg)
 	{
 		write(2, "jeis: ", 6);
-		error_message_helper(command, ": No such file or directory\n", 2);
-		return (127);
+		error_message_helper(command, msg, 2);
+		return (storage->exit_code);
 	}
 	return (perror("Error"), 1);
 }

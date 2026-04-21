@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:12:57 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/19 20:22:22 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/21 16:13:37 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ int	exec_main(t_exec *storage)
 		i++;
 	}
 	if (wait_for_child(storage) == 1)
-		return (1);
+	 	return (1);
 	return (0);
 }

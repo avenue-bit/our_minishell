@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 17:31:17 by jille             #+#    #+#             */
-/*   Updated: 2026/04/19 12:18:14 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/20 17:42:28 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	remove_last_cmd_node(t_cmd **cmd_list, t_cmd *node)
 		free(node->infile);
 	if (node->outfile)
 		free(node->outfile);
+	if (node->heredoc_delim)
+		free(node->heredoc_delim);
 	free(node);
 }
 

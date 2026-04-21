@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
+/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/19 19:56:48 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/20 14:55:33 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,18 +82,13 @@ typedef struct s_cmd
 
 }								t_cmd;
 
-// enum exit_codes {
-// 	Failure,
-// 	Success,
-// };
-
 typedef int						(*t_builtin_ptr)(t_exec *, t_cmd *);
 
 typedef struct s_exec
 {
-	struct s_token *token_nodes; // Pointer = 8 Bytes
-	struct s_cmd *command_nodes; // Pointer = 8 Bytes
-	struct s_env *environment;   // Poninter 8 Bytes
+	struct s_token				*token_nodes;
+	struct s_cmd				*command_nodes;
+	struct s_env				*environment;
 	char						**execve_env;
 	char						**all_paths;
 	char						*command_path;
@@ -102,16 +97,16 @@ typedef struct s_exec
 	int							pre_read_fd;
 	int							pipe_fd[2];
 	int							infile_fd;
-	int outfile_fd;                // 24 Bytes
-	char *builtins[8];             // 64
-	t_builtin_ptr builtin_func[8]; // 64
+	int							outfile_fd;
+	char						*builtins[8];
+	t_builtin_ptr				builtin_func[8];
 	int							built_in;
 	int							built_out;
 	int							exit_code;
 	int							exit_flag;
 }								t_exec;
 
-// main_loop
+// Main_loop
 int								get_input(char **input);
 int								parse_input(char *input, t_token **tokens,
 									t_exec *storage);
