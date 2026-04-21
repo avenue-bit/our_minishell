@@ -23,7 +23,7 @@ int	get_input(char **input)
 		return (-1);
 	}
 	if (**input)
-	 	add_history(*input);
+		add_history(*input);
 	return (1);
 }
 
