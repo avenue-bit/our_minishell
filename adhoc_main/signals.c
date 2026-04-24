@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
+/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 17:11:27 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/24 14:13:51 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/24 14:59:47 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	config_child_ign(void)
 	child_int_ign.sa_flags = 0;
 	sigemptyset(&child_int_ign.sa_mask);
 	sigaction(SIGINT, &child_int_ign, NULL);
-	child_pipe_ign.sa_handler = SIG_IGN;
+	child_pipe_ign.sa_handler = SIG_DFL;
 	child_pipe_ign.sa_flags = 0;
 	sigemptyset(&child_pipe_ign.sa_mask);
 	sigaction(SIGPIPE, &child_pipe_ign, NULL);
