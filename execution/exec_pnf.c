@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:45:59 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/24 15:09:00 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/24 15:13:08 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	fork_ramp(t_exec *storage, t_cmd *cmd_node, int i)
 
 void	child_wrapper(t_exec *storage, t_cmd *current)
 {
+	storage->is_child = 1;
 	config_child_dfl();
 	if (storage->pre_read_fd != -1)
 	{

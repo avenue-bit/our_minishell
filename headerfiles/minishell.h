@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/24 15:08:30 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/24 15:14:26 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ typedef struct s_exec
 	int							built_out;
 	int							exit_code;
 	int							exit_flag;
+	int							is_child;
 }								t_exec;
 
 // Main_loop
@@ -119,7 +120,7 @@ void							freeing_ramp(t_exec *storage);
 void							clear_cmds(t_cmd **node);
 void							clear_tokens(t_token **tokens);
 void							free_in_readline(t_exec *storage);
-void							unlink_files(t_cmd *cmds);
+void							unlink_files(t_exec *storage, t_cmd *cmds);
 void							free_out_readline(t_exec *storage);
 void							failexec_close(t_exec *storage);
 
