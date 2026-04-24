@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:45:59 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/24 15:13:08 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/24 15:34:13 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,12 @@ void	exec_fork(t_exec *storage, t_cmd *cmd_node)
 		if (path_ramp(storage, cmd_node->cmd_flags) > 0)
 			return (freeing_ramp(storage), exit(storage->exit_code));
 		execve(storage->command_path, cmd_node->cmd_flags, storage->execve_env);
-		return (perror("execve"), free_out_readline(storage), exit(127));
+		return (perror("execve"), freeing_ramp(storage), exit(127));
 	}
 	else
 	{
 		storage->exit_code = exec_builtin(storage, cmd_node);
-		return (free_out_readline(storage), exit(storage->exit_code));
+		return (freeing_ramp(storage), exit(storage->exit_code));
 	}
 }
 
