@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 18:56:09 by jille             #+#    #+#             */
-/*   Updated: 2026/04/21 17:05:25 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/24 14:12:38 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	get_input(char **input)
 {
 	*input = readline("#jeis$ ");
-	//*input = mini_nextline(0);
 	if (!*input)
 	{
 		if (isatty(STDIN_FILENO))
@@ -86,8 +85,6 @@ int	run_prompt(t_exec *storage)
 	status = build_commands(input, &tokens, &cmd, storage);
 	if (status != 1)
 		return (status);
-	//print_cmd_list(cmd);
-	//print_tokens(tokens);
 	exec_main(storage);
 	free_in_readline(storage);
 	free(input);

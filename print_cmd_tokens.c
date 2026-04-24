@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 19:23:16 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/19 15:07:32 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/24 14:14:43 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ void	print_cmd_list(t_cmd *cmd)
 		printf("--- COMMAND %d ---\n", cmd_num++);
 		printf("Infile: [%s]\n", cmd->infile);
 		printf("Outfile: [%s] (Append: %d)\n", cmd->outfile, cmd->append);
-		printf("Heredoc delim: [%s] (Expand: %d)\n", cmd->heredoc_delim, cmd->heredoc_expand);
+		printf("Heredoc delim: [%s] (Expand: %d)\n", cmd->heredoc_delim,
+			cmd->heredoc_expand);
 		printf("Commands & Flags:   ");
 		i = 0;
 		if (cmd->cmd_flags)

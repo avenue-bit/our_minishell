@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/19 12:16:41 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/24 14:08:46 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,8 @@ int	ft_cd(t_exec *storage, t_cmd *cmd_node)
 	if (!target_path)
 		return (free(old_pwd), ft_putstr_fd("jeis: cd: HOME not set\n", 2), 1);
 	if (chdir(target_path) == -1)
-	{
-		builtin_error_messages(cmd_node->cmd_flags[1], "cd");
-		return (free(old_pwd), 1);
-	}
+		return (builtin_error_messages(cmd_node->cmd_flags[1], "cd"),
+			free(old_pwd), 1);
 	if (replace_pwd(storage, old_pwd) == -1)
 		return (free(old_pwd), 1);
 	if (update_execve_env(storage))

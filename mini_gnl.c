@@ -6,12 +6,12 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 14:32:04 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/19 12:18:53 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/24 14:14:38 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUFFER_SIZE
-#define BUFFER_SIZE 42
+# define BUFFER_SIZE 42
 #endif
 
 #include "minishell.h"

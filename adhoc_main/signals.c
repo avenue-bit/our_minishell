@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 17:11:27 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/20 14:47:59 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/24 14:13:51 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	config_interactive_sigs(void)
 	struct sigaction	interactive_quit;
 
 	rl_signal_event_hook = sh_readline_hook;
-	// rl_event_hook = sh_readline_hook;
 	ft_bzero(&interactive_int, sizeof(interactive_int));
 	interactive_int.sa_handler = sh_global;
 	sigemptyset(&interactive_int.sa_mask);
@@ -43,7 +42,6 @@ void	config_child_ign(void)
 	child_pipe_ign.sa_flags = 0;
 	sigemptyset(&child_pipe_ign.sa_mask);
 	sigaction(SIGPIPE, &child_pipe_ign, NULL);
-	
 }
 
 void	config_child_dfl(void)

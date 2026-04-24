@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:57:46 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/20 14:16:40 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/24 13:50:02 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,4 @@ void	print_export(t_env **exp_array)
 		}
 		i++;
 	}
-	// if (!exp_array[i])
-	// 	ft_printf("\n");
-	// while (exp_array[i])
-	// {
-	// 	if (ft_strncmp(exp_array[i++]->key, "_", 2) == 0)
-	// 		continue ;
-	// 	else if (exp_array[i]->content == NULL)
-	// 		ft_printf("declare -x %s\n", exp_array[i]->key);
-	// 	else
-	// 		ft_printf("declare -x %s=\"%s\"\n", exp_array[i]->key,
-	// 			exp_array[i]->content);
-	// 	i++;
-	// }
 }

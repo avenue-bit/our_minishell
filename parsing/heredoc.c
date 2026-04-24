@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 17:56:59 by jille             #+#    #+#             */
-/*   Updated: 2026/04/20 17:53:14 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/24 14:10:43 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,7 @@ int	heredoc_loop(t_cmd *cmd, int h_fd, t_exec *storage)
 
 	while (1)
 	{
-		//line = readline("> ");
-		line = mini_nextline(0);
+		line = readline("> ");
 		if (!line)
 			return (heredoc_warning(cmd));
 		if (g_signal == SIGINT)

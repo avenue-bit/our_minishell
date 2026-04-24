@@ -63,7 +63,9 @@ clean:
 fclean: clean
 	@rm -f $(NAME)
 	@$ echo CLEAN SLATE BABY
-
+.c: Error!
+Notice: GLOBAL_VAR_DETECTED  (line:  15, col:   1):     Global variable present in file. Make sure it is a reasonable choice.
+Error: WRONG_SCOPE_COMMENT  (line:  50, col:   5):      Comment is invalid in this scope
 re: fclean all
 
 .PHONY: all clean fclean re
