@@ -41,7 +41,7 @@ SRCS = adhoc_main/adhoc_utils.c \
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 RLFLAG = -lreadline
 INC = headerfiles
 HEADERS = headerfiles/minishell.h headerfiles/builtins.h headerfiles/environment.h headerfiles/execution.h headerfiles/libft_utils.h headerfiles/parsing.h
