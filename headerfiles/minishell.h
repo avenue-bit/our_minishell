@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/20 14:55:33 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/24 14:28:15 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,16 +137,5 @@ size_t							n_commands(t_cmd *cmd);
 int								find_char(char *str, char c);
 void							error_message_helper(char *command,
 									char *suffix, int fd);
-
-// Get Next Line
-char							*mini_nextline(int fd);
-char							*update_stash(int fd, char *stash,
-									char *buffer);
-char							*extract(char *str);
-char							*the_rest(char *stash);
-
-// Print Command and Nodes
-void							print_cmd_list(t_cmd *cmd);
-void							print_tokens(t_token *tokens);
 
 #endif

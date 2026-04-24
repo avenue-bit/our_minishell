@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:10:43 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/24 14:00:30 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/24 14:30:26 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	unlink_files(t_cmd *cmds)
 
 void	free_out_readline(t_exec *storage)
 {
-	clear_history();
 	envclear_allnodes(&storage->environment);
 	if (storage->execve_env)
 	{

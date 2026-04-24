@@ -1,9 +1,9 @@
 NAME = minishell
 
-SRCS = adhoc_utils.c \
-		freedom.c \
+SRCS = adhoc_main/adhoc_utils.c \
+		adhoc_main/freedom.c \
 		main.c \
-		signals.c \
+		adhoc_main/signals.c \
 		libft_utils/1_libftutils.c \
 		libft_utils/2_libftutils.c \
 		libft_utils/3_libftutils.c \
@@ -36,9 +36,7 @@ SRCS = adhoc_utils.c \
 		parsing/heredoc.c \
 		parsing/heredoc_helper.c \
 		parsing/token_init.c \
-		print_cmd_tokens.c \
-		main_loop.c \
-		mini_gnl.c
+		adhoc_main/main_loop.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -63,9 +61,7 @@ clean:
 fclean: clean
 	@rm -f $(NAME)
 	@$ echo CLEAN SLATE BABY
-.c: Error!
-Notice: GLOBAL_VAR_DETECTED  (line:  15, col:   1):     Global variable present in file. Make sure it is a reasonable choice.
-Error: WRONG_SCOPE_COMMENT  (line:  50, col:   5):      Comment is invalid in this scope
+
 re: fclean all
 
 .PHONY: all clean fclean re
