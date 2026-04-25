@@ -62,6 +62,8 @@ fclean: clean
 	@rm -f $(NAME)
 	@$ echo CLEAN SLATE BABY
 
-re: fclean all
+re: 
+	make fclean 
+	make all
 
 .PHONY: all clean fclean re
