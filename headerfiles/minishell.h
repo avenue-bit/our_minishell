@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/26 15:27:48 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/26 15:45:31 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ typedef struct s_exec
 }								t_exec;
 
 // Main_loop
-int								get_input(char **input);
+int								get_input(char **input, t_exec *storage);
 int								parse_input(char *input, t_token **tokens,
 									t_exec *storage);
 int								build_commands(char *input, t_token **tokens,

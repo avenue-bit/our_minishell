@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 19:24:33 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/26 15:28:19 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/26 15:46:50 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	sh_readline_hook(void)
 		if (ioctl(STDIN_FILENO, TIOCSTI, "\n") == -1)
 			perror("ioctl");
 		rl_replace_line("", 0);
+		rl_done = 1;
 		return (0);
 	}
 	return (0);

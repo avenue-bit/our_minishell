@@ -6,15 +6,24 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 18:56:09 by jille             #+#    #+#             */
-/*   Updated: 2026/04/26 15:26:56 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/26 15:47:40 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_input(char **input)
+int	get_input(char **input, t_exec *storage)
 {
 	*input = readline("#jeis$ ");
+	if (g_signal == SIGINT)
+	{
+		storage->exit_code = 130;
+		g_signal = 0;
+		if (*input)
+			free(*input);
+		*input = NULL;
+		return (0);
+	}
 	if (!*input)
 	{
 		if (isatty(STDIN_FILENO))
@@ -76,7 +85,7 @@ int	run_prompt(t_exec *storage)
 
 	tokens = NULL;
 	cmd = NULL;
-	status = get_input(&input);
+	status = get_input(&input, storage);
 	if (status != 1)
 		return (status);
 	status = parse_input(input, &tokens, storage);
@@ -85,8 +94,6 @@ int	run_prompt(t_exec *storage)
 	status = build_commands(input, &tokens, &cmd, storage);
 	if (status != 1)
 		return (status);
-	//print_cmd_list(cmd);
-	//print_tokens(tokens);
 	exec_main(storage);
 	free_in_readline(storage);
 	free(input);
