@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 18:56:09 by jille             #+#    #+#             */
-/*   Updated: 2026/04/24 15:28:28 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/26 15:26:56 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ int	run_prompt(t_exec *storage)
 	status = build_commands(input, &tokens, &cmd, storage);
 	if (status != 1)
 		return (status);
+	//print_cmd_list(cmd);
+	//print_tokens(tokens);
 	exec_main(storage);
 	free_in_readline(storage);
 	free(input);
