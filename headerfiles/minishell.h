@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:44:32 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/20 14:55:33 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/26 15:27:48 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ typedef struct s_exec
 	int							built_out;
 	int							exit_code;
 	int							exit_flag;
+	int							is_child;
 }								t_exec;
 
 // Main_loop
@@ -119,7 +120,7 @@ void							freeing_ramp(t_exec *storage);
 void							clear_cmds(t_cmd **node);
 void							clear_tokens(t_token **tokens);
 void							free_in_readline(t_exec *storage);
-void							unlink_files(t_cmd *cmds);
+void							unlink_files(t_exec *storage, t_cmd *cmds);
 void							free_out_readline(t_exec *storage);
 void							failexec_close(t_exec *storage);
 
@@ -137,16 +138,5 @@ size_t							n_commands(t_cmd *cmd);
 int								find_char(char *str, char c);
 void							error_message_helper(char *command,
 									char *suffix, int fd);
-
-// Get Next Line
-char							*mini_nextline(int fd);
-char							*update_stash(int fd, char *stash,
-									char *buffer);
-char							*extract(char *str);
-char							*the_rest(char *stash);
-
-// Print Command and Nodes
-void							print_cmd_list(t_cmd *cmd);
-void							print_tokens(t_token *tokens);
 
 #endif

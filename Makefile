@@ -1,9 +1,9 @@
 NAME = minishell
 
-SRCS = adhoc_utils.c \
-		freedom.c \
+SRCS = adhoc_main/adhoc_utils.c \
+		adhoc_main/freedom.c \
 		main.c \
-		signals.c \
+		adhoc_main/signals.c \
 		libft_utils/1_libftutils.c \
 		libft_utils/2_libftutils.c \
 		libft_utils/3_libftutils.c \
@@ -36,14 +36,12 @@ SRCS = adhoc_utils.c \
 		parsing/heredoc.c \
 		parsing/heredoc_helper.c \
 		parsing/token_init.c \
-		print_cmd_tokens.c \
-		main_loop.c \
-		mini_gnl.c
+		adhoc_main/main_loop.c
 
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 RLFLAG = -lreadline
 INC = headerfiles
 HEADERS = headerfiles/minishell.h headerfiles/builtins.h headerfiles/environment.h headerfiles/execution.h headerfiles/libft_utils.h headerfiles/parsing.h
@@ -64,6 +62,8 @@ fclean: clean
 	@rm -f $(NAME)
 	@$ echo CLEAN SLATE BABY
 
-re: fclean all
+re: 
+	make fclean 
+	make all
 
 .PHONY: all clean fclean re

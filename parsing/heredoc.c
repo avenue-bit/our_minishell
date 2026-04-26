@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 17:56:59 by jille             #+#    #+#             */
-/*   Updated: 2026/04/20 17:53:14 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/26 15:30:12 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*create_heredoc_file_name(int num)
 int	heredoc_warning(t_cmd *cmd)
 {
 	write(2, "jeis: warning: h-doc delimited by end-of-file (wanted `", 55);
-	write(2, (cmd)->heredoc_delim, strlen((cmd)->heredoc_delim));
+	write(2, (cmd)->heredoc_delim, ft_strlen((cmd)->heredoc_delim));
 	write(2, "')\n", 3);
 	return (0);
 }
@@ -63,7 +63,6 @@ int	heredoc_loop(t_cmd *cmd, int h_fd, t_exec *storage)
 
 	while (1)
 	{
-		//line = readline("> ");
 		line = mini_nextline(0);
 		if (!line)
 			return (heredoc_warning(cmd));

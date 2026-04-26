@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freedom.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:10:43 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/20 15:45:10 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/04/26 15:26:50 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	free_in_readline(t_exec *storage)
 	}
 	if (storage->command_nodes)
 	{
-		unlink_files(storage->command_nodes);
+		unlink_files(storage, storage->command_nodes);
 		clear_cmds(&storage->command_nodes);
 		storage->command_nodes = NULL;
 	}
@@ -45,11 +45,13 @@ void	free_in_readline(t_exec *storage)
 	storage->all_paths = NULL;
 }
 
-void	unlink_files(t_cmd *cmds)
+void	unlink_files(t_exec *storage, t_cmd *cmds)
 {
 	t_cmd	*current;
 
 	current = cmds;
+	if (storage->is_child)
+		return ;
 	while (current)
 	{
 		if (current->infile && current->heredoc_delim)
@@ -63,7 +65,6 @@ void	unlink_files(t_cmd *cmds)
 
 void	free_out_readline(t_exec *storage)
 {
-	//clear_history();
 	envclear_allnodes(&storage->environment);
 	if (storage->execve_env)
 	{

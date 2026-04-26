@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pnf.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
+/*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:45:59 by esezalor          #+#    #+#             */
-/*   Updated: 2026/04/19 12:17:16 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/24 15:34:13 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	fork_ramp(t_exec *storage, t_cmd *cmd_node, int i)
 
 void	child_wrapper(t_exec *storage, t_cmd *current)
 {
+	storage->is_child = 1;
 	config_child_dfl();
 	if (storage->pre_read_fd != -1)
 	{

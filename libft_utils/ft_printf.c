@@ -6,7 +6,7 @@
 /*   By: jille <jille@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 13:53:44 by jille             #+#    #+#             */
-/*   Updated: 2026/04/19 12:18:02 by jille            ###   ########.fr       */
+/*   Updated: 2026/04/24 14:56:06 by jille            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,93 +134,3 @@ int	ft_printf(const char *__format, ...)
 	va_end(arglist);
 	return (slen);
 }
-
-// #include <stdio.h>
-// #include <limits.h>
-// int	main(void)
-// {
-// 	char b[] = "ab";
-// 	printf("\n%i\n", ft_printf("%% 372"));
-// 	printf("\n%i\n", printf("%% 372"));
-// }
-
-// int	main(void)
-// {
-// 	int	i;
-// 	int j;
-// 	unsigned int	u;
-// 	unsigned long int	ft;
-// 	unsigned long int	*ptr;
-// 	char	*test = NULL;
-
-// 	ft = 42;
-// 	ptr = &ft;
-// 	u = 2150505050;
-
-// 	ft_printf("\n\n%s\n", "-----Testing %-----");
-// 	i = ft_printf("% ");
-// 	ft_printf("%d\n", i);
-// 	j = printf("% ");
-// 	printf("%d\n", j);
-// 	ft_printf("\n\n%s\n", "-----Testing chars-----");
-// 	i = ft_printf(":%c:%c:%c:%c:%c:%c:%c:\n", 0, 9, 32, 65, 122, 127, 128);
-// 	ft_printf("%d\n", i);
-// 	j = printf(":%c:%c:%c:%c:%c:%c:%c:\n", 0, 9, 32, 65, 122, 127, 128);
-// 	printf("%d\n", j);
-// 	ft_printf("\n\n%s\n", "-----Testing strings-----");
-// 	i = ft_printf(":%s:\n", test);
-// 	ft_printf("%d\n", i);
-// 	j = printf(":%s:\n", test);
-// 	printf("%d\n", j);
-// 	i = ft_printf(":%s:\n", "");
-// 	ft_printf("%d\n", i);
-// 	j = printf(":%s:\n", "");
-// 	printf("%d\n", j);
-// 	i = ft_printf(":%s:\n", "		I want to finish printf123#+!.");
-// 	ft_printf("%d\n", i);
-// 	j = printf(":%s:\n", "		I want to finish printf123#+!.");
-// 	printf("%d\n", j);
-// 	ft_printf("\n\n%s\n", "-----Testing decimal numbers-----");
-// 	i = ft_printf(":%i:%i:%i:\n", 0, INT_MAX, INT_MIN);
-// 	ft_printf("%d\n", i);
-// 	j = printf(":%i:%i:%i:\n",  0, INT_MAX, INT_MIN);
-// 	printf("%d\n", j);
-// 	i = ft_printf(":%d:%d:%d:\n",  0, INT_MAX, INT_MIN);
-// 	ft_printf("%d\n", i);
-// 	j = printf(":%d:%d:%d:\n",  0, INT_MAX, INT_MIN);
-// 	printf("%d\n", j);
-// 	ft_printf("\n\n%s\n", "-----Testing %-----");
-// 	i = ft_printf(":50%% & 100%%:\n");
-// 	ft_printf("%d\n", i);
-// 	j = printf(":50%% & 100%%:\n");
-// 	printf("%d\n", j);
-// 	ft_printf("\n\n%s\n", "-----Testing unsigned int-----");
-// 	i = ft_printf(":%u:%u:%u:\n", 0, INT_MAX, -1);
-// 	ft_printf("%d\n", i);
-// 	j = printf(":%u:%u:%u:\n", 0, INT_MAX, -1);
-// 	printf("%d\n", j);
-// 	ft_printf("\n\n%s\n", "-----Testing HEX-----");
-// 	i = ft_printf(":%x:%x:%x:\n", 0, INT_MAX, INT_MIN);
-// 	ft_printf("%d\n", i);
-// 	j = printf(":%x:%x:%x:\n", 0, INT_MAX, INT_MIN);
-// 	printf("%d\n", j);
-// 	i = ft_printf(":%X:%X:%X:\n", 0, INT_MAX, INT_MIN);
-// 	ft_printf("%d\n", i);
-// 	j = printf(":%X:%X:%X:\n", 0, INT_MAX, INT_MIN);
-// 	printf("%d\n", j);
-// 	ft_printf("\n\n%s\n", "-----Testing PTR-----");
-// 	ft_printf("%p\n", ptr);
-// 	printf("%p\n", ptr);
-// 	i = ft_printf("%p\n", NULL);
-// 	ft_printf("%d\n", i);
-// 	j = printf("%p\n", NULL);
-// 	printf("%d\n", j);
-// 	return (0);
-// }
-
-/*
-get rid of this undefined behaviour after eval:
-
-		if (__format[i] == '%' && !ft_strchr(convers, __format[i + 1]))
-				return (-1);
-*/
